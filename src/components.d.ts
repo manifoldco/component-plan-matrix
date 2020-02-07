@@ -10,7 +10,7 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface MyComponent {
+  interface MuiMyComponent {
     /**
     * The first name
     */
@@ -29,18 +29,18 @@ export namespace Components {
 declare global {
 
 
-  interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {}
-  var HTMLMyComponentElement: {
-    prototype: HTMLMyComponentElement;
-    new (): HTMLMyComponentElement;
+  interface HTMLMuiMyComponentElement extends Components.MuiMyComponent, HTMLStencilElement {}
+  var HTMLMuiMyComponentElement: {
+    prototype: HTMLMuiMyComponentElement;
+    new (): HTMLMuiMyComponentElement;
   };
   interface HTMLElementTagNameMap {
-    'my-component': HTMLMyComponentElement;
+    'mui-my-component': HTMLMuiMyComponentElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface MyComponent {
+  interface MuiMyComponent {
     /**
     * The first name
     */
@@ -56,7 +56,7 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
-    'my-component': MyComponent;
+    'mui-my-component': MuiMyComponent;
   }
 }
 
@@ -66,7 +66,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'my-component': LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+      'mui-my-component': LocalJSX.MuiMyComponent & JSXBase.HTMLAttributes<HTMLMuiMyComponentElement>;
     }
   }
 }

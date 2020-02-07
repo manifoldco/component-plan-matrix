@@ -2,9 +2,9 @@ import { Component, Prop, h } from '@stencil/core';
 import { format } from '../../utils/utils';
 
 @Component({
-  tag: 'my-component',
+  tag: 'mui-my-component',
   styleUrl: 'my-component.css',
-  shadow: true
+  shadow: true,
 })
 export class MyComponent {
   /**
@@ -27,6 +27,12 @@ export class MyComponent {
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <div>
+        <p>
+          Hello, World! I'm <span class="test">{this.getText()}</span>
+        </p>
+      </div>
+    );
   }
 }
