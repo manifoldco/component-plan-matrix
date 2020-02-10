@@ -35,6 +35,12 @@ npm install
 npm start
 ```
 
+To develop with storybook
+```bash
+npm install
+npm run dev
+```
+
 To build the component for production, run:
 
 ```bash
@@ -74,3 +80,4 @@ Instead, use a prefix that fits your company or any name for a group of related 
 - Run `npm install my-component --save`
 - Add an import to the npm packages `import my-component;`
 - Then you can use the element anywhere in your template, JSX, html etc
+
