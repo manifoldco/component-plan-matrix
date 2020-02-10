@@ -30,7 +30,7 @@ export class MyComponent {
     return (
       <div>
         <p>
-          Hello, World! I'm <span class="test">{this.getText()}</span>
+          Test Hello, World! I'm <span class="test">{this.getText()}</span>
         </p>
       </div>
     );
