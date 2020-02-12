@@ -1,0 +1,63 @@
+:root {
+  --manifold-c-white: #FFFFFF;
+  --manifold-c-grey: #8F8F95;
+  --manifold-c-grey-light: #C4C7CA;
+  --manifold-c-grey-lightest: #F7F7F8;
+
+  --manifold-table-spacing: 28px;
+
+  --manifold-table-plan-count: 3;
+}
+
+.manifold-pricing {
+  background: var(--manifold-c-white);
+  border: 1px solid var(--manifold-c-grey-light);
+  box-sizing: border-box;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.0699445);
+  border-radius: 6px;
+}
+
+.manifold-pricing--table {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(4, minmax(min-content, 1fr));
+  vertical-align: middle;
+  border-collapse: collapse;
+  flex-wrap: wrap;
+
+  & .manifold-pricing--cell {
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--manifold-table-spacing);
+    border-left: 1px solid var(--manifold-c-grey-light);
+  }
+
+  & .manifold-pricing--cell__body {
+    border-bottom: 1px dashed var(--manifold-c-grey-light);
+  }
+
+  & .manifold-pricing--cell__thead {
+    background: #F7F7F8;    box-sizing: border-box;
+    border-bottom: 1px solid var(--manifold-c-grey-light);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .manifold-pricing--table {
+    grid-template-columns: 1fr;
+  }
+  .manifold-pricing--mobile-hidden {
+    display: none;
+  }
+  .manifold-pricing--cell {
+    &:nth-child(4n + 2) {
+      order: 2;
+    }
+    &:nth-child(4n + 3) {
+      order: 3;
+    }
+    &:nth-child(4n + 4) {
+      order: 4;
+    }
+  }
+}

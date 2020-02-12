@@ -52,5 +52,8 @@
     "stylelint-config-standard": "^19.0.0",
     "wait-on": "^4.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@manifoldco/mercury": "0.0.3"
+  }
 }

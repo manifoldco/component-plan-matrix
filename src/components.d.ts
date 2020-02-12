@@ -10,53 +10,37 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface MuiMyComponent {
-    /**
-    * The first name
-    */
-    'first': string;
-    /**
-    * The last name
-    */
-    'last': string;
-    /**
-    * The middle name
-    */
-    'middle': string;
-  }
+  interface ManifoldCaption {}
+  interface ManifoldPricing {}
 }
 
 declare global {
 
 
-  interface HTMLMuiMyComponentElement extends Components.MuiMyComponent, HTMLStencilElement {}
-  var HTMLMuiMyComponentElement: {
-    prototype: HTMLMuiMyComponentElement;
-    new (): HTMLMuiMyComponentElement;
+  interface HTMLManifoldCaptionElement extends Components.ManifoldCaption, HTMLStencilElement {}
+  var HTMLManifoldCaptionElement: {
+    prototype: HTMLManifoldCaptionElement;
+    new (): HTMLManifoldCaptionElement;
+  };
+
+  interface HTMLManifoldPricingElement extends Components.ManifoldPricing, HTMLStencilElement {}
+  var HTMLManifoldPricingElement: {
+    prototype: HTMLManifoldPricingElement;
+    new (): HTMLManifoldPricingElement;
   };
   interface HTMLElementTagNameMap {
-    'mui-my-component': HTMLMuiMyComponentElement;
+    'manifold-caption': HTMLManifoldCaptionElement;
+    'manifold-pricing': HTMLManifoldPricingElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface MuiMyComponent {
-    /**
-    * The first name
-    */
-    'first'?: string;
-    /**
-    * The last name
-    */
-    'last'?: string;
-    /**
-    * The middle name
-    */
-    'middle'?: string;
-  }
+  interface ManifoldCaption {}
+  interface ManifoldPricing {}
 
   interface IntrinsicElements {
-    'mui-my-component': MuiMyComponent;
+    'manifold-caption': ManifoldCaption;
+    'manifold-pricing': ManifoldPricing;
   }
 }
 
@@ -66,7 +50,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'mui-my-component': LocalJSX.MuiMyComponent & JSXBase.HTMLAttributes<HTMLMuiMyComponentElement>;
+      'manifold-caption': LocalJSX.ManifoldCaption & JSXBase.HTMLAttributes<HTMLManifoldCaptionElement>;
+      'manifold-pricing': LocalJSX.ManifoldPricing & JSXBase.HTMLAttributes<HTMLManifoldPricingElement>;
     }
   }
 }
