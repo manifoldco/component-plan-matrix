@@ -10,17 +10,20 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface ManifoldCaption {}
+  interface ManifoldButton {
+    'href': string;
+    'text': string;
+  }
   interface ManifoldPricing {}
 }
 
 declare global {
 
 
-  interface HTMLManifoldCaptionElement extends Components.ManifoldCaption, HTMLStencilElement {}
-  var HTMLManifoldCaptionElement: {
-    prototype: HTMLManifoldCaptionElement;
-    new (): HTMLManifoldCaptionElement;
+  interface HTMLManifoldButtonElement extends Components.ManifoldButton, HTMLStencilElement {}
+  var HTMLManifoldButtonElement: {
+    prototype: HTMLManifoldButtonElement;
+    new (): HTMLManifoldButtonElement;
   };
 
   interface HTMLManifoldPricingElement extends Components.ManifoldPricing, HTMLStencilElement {}
@@ -29,17 +32,20 @@ declare global {
     new (): HTMLManifoldPricingElement;
   };
   interface HTMLElementTagNameMap {
-    'manifold-caption': HTMLManifoldCaptionElement;
+    'manifold-button': HTMLManifoldButtonElement;
     'manifold-pricing': HTMLManifoldPricingElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface ManifoldCaption {}
+  interface ManifoldButton {
+    'href'?: string;
+    'text'?: string;
+  }
   interface ManifoldPricing {}
 
   interface IntrinsicElements {
-    'manifold-caption': ManifoldCaption;
+    'manifold-button': ManifoldButton;
     'manifold-pricing': ManifoldPricing;
   }
 }
@@ -50,7 +56,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'manifold-caption': LocalJSX.ManifoldCaption & JSXBase.HTMLAttributes<HTMLManifoldCaptionElement>;
+      'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
       'manifold-pricing': LocalJSX.ManifoldPricing & JSXBase.HTMLAttributes<HTMLManifoldPricingElement>;
     }
   }

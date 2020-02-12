@@ -1,0 +1,29 @@
+manifold-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  & a {
+    color: white;
+    text-decoration: none;
+    padding: 6px;
+    width: 100%;
+    background: var(--manifold-c-red);
+    border-radius: var(--manifold-table-border-radius);
+    font-family: Barlow;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+
+    &:visited {
+      color: white;
+    }
+
+    &:hover {
+      background: var(--manifold-c-red);
+    }
+  }
+}
+
+

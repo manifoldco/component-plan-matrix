@@ -1,11 +1,13 @@
 :root {
-  --manifold-c-white: #FFFFFF;
-  --manifold-c-grey: #8F8F95;
-  --manifold-c-grey-light: #C4C7CA;
-  --manifold-c-grey-lightest: #F7F7F8;
+  --manifold-c-white: #ffffff;
+  --manifold-c-grey: #8f8f95;
+  --manifold-c-grey-light: #c4c7ca;
+  --manifold-c-grey-lightest: #f7f7f8;
+  --manifold-c-red: #DB0A5B;
 
   --manifold-table-spacing: 28px;
 
+  --manifold-table-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.0699445);
   --manifold-table-border-width: 1px;
   --manifold-table-border-radius: 6px;
   --manifold-table-solid-border: 1px solid var(--manifold-c-grey-light);
@@ -13,7 +15,7 @@
 }
 
 .manifold-pricing {
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.0699445);
+  box-shadow: var(--manifold-table-box-shadow);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 
@@ -48,8 +50,9 @@
   }
 
   & .mp--cell__thead {
-    background: #F7F7F8;    box-sizing: border-box;
+    background: #f7f7f8;
     border-top: var(--manifold-table-solid-border);
+    box-sizing: border-box;
   }
 
   & .mp--cell__bbs {
@@ -74,7 +77,7 @@
         border-radius: 0 0 0 var(--manifold-table-border-radius);
       }
     }
-    
+
     & .mp--column:last-child {
       & .mp--cell:first-child {
         border-radius: 0 var(--manifold-table-border-radius) 0 0;
@@ -92,7 +95,7 @@
     box-shadow: none;
 
     & .mp--column {
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.0699445);
+      box-shadow: var(--manifold-table-box-shadow);
 
       & .mp--cell:first-child {
         border-radius: var(--manifold-table-border-radius) var(--manifold-table-border-radius) 0 0;
@@ -100,7 +103,6 @@
       & .mp--cell:last-child {
         border-radius: 0 0 var(--manifold-table-border-radius) var(--manifold-table-border-radius);
       }
-
     }
 
     & .mp--cell {

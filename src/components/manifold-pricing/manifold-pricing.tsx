@@ -16,6 +16,7 @@ export class ManifoldPricing {
             .map((_, i) => (
               <div class="mp--cell mp--cell__thead">{dummy[i]}</div>
             ))}
+          <div class="mp--cell mp--cell__thead"></div>
         </div>
         {Array(3)
           .fill(0)
@@ -32,6 +33,9 @@ export class ManifoldPricing {
                     </div>
                   </div>
                 ))}
+              <div class="mp--cell mp--cell__body mp--cell__bbs">
+                <manifold-button text="Get Started" href="https://google.com"></manifold-button>
+              </div>
             </div>
           ))}
       </div>
