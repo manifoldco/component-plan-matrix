@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type     | Default     |
-| --------- | --------- | ----------- | -------- | ----------- |
-| `caption` | `caption` |             | `string` | `undefined` |
+| Property | Attribute | Description | Type     | Default     |
+| -------- | --------- | ----------- | -------- | ----------- |
+| `href`   | `href`    |             | `string` | `undefined` |
+| `text`   | `text`    |             | `string` | `undefined` |
 
 
 ## Dependencies
@@ -21,8 +22,8 @@
 ### Graph
 ```mermaid
 graph TD;
-  manifold-pricing --> manifold-caption
-  style manifold-caption fill:#f9f,stroke:#333,stroke-width:4px
+  manifold-pricing --> manifold-button
+  style manifold-button fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------

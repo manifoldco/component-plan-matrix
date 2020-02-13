@@ -3,11 +3,11 @@
   --manifold-c-grey: #8f8f95;
   --manifold-c-grey-light: #c4c7ca;
   --manifold-c-grey-lightest: #f7f7f8;
-  --manifold-c-red: #DB0A5B;
+  --manifold-c-red: #db0a5b;
 
   --manifold-table-spacing: 28px;
 
-  --manifold-table-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.0699445);
+  --manifold-table-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.0699445);
   --manifold-table-border-width: 1px;
   --manifold-table-border-radius: 6px;
   --manifold-table-solid-border: 1px solid var(--manifold-c-grey-light);
@@ -15,33 +15,23 @@
 }
 
 .manifold-pricing {
-  box-shadow: var(--manifold-table-box-shadow);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-
-  & .mp--column {
-    display: flex;
-    flex-direction: column;
-    border-collapse: collapse;
-
-    & .mp--cell:last-child {
-      border-bottom: var(--manifold-table-solid-border);
-    }
-  }
-
-  & .mp--column:last-child {
-    & .mp--cell {
-      border-right: var(--manifold-table-solid-border);
-    }
-  }
+  grid-template-columns: 200px repeat(var(--manifold-table-columns), minmax(200px, 300px));
+  overflow-x: auto;
+  box-shadow: var(--manifold-table-box-shadow);
 
   & .mp--cell {
-    flex: 1;
     box-sizing: border-box;
-    border-collapse: collapse;
     width: 100%;
     padding: var(--manifold-table-spacing);
-    border-left: var(--manifold-table-solid-border);
+    text-align: center;
+    border-right: var(--manifold-table-solid-border);
+    border-collapse: collapse;
+  }
+
+  & .mp--cell__sticky {
+    position: sticky;
+    left: 0;
   }
 
   & .mp--cell__body {
@@ -50,71 +40,50 @@
   }
 
   & .mp--cell__thead {
-    background: #f7f7f8;
-    border-top: var(--manifold-table-solid-border);
     box-sizing: border-box;
+    background: var(--manifold-c-grey-lightest);
+    border-bottom: var(--manifold-table-solid-border);
+  }
+
+  & .mp--cell__al {
+    text-align: left;
+  }
+
+  & .mp--cell__bts {
+    border-top: var(--manifold-table-solid-border);
   }
 
   & .mp--cell__bbs {
     border-bottom: var(--manifold-table-solid-border);
   }
 
-  & .mp--cell__brs {
-    border-right: var(--manifold-table-solid-border);
+  & .mp--cell__bls {
+    border-left: var(--manifold-table-solid-border);
   }
 
   & .mp--mobile-only {
     display: none;
   }
-}
-@media screen and (min-width: 600px) {
-  .manifold-pricing {
-    & .mp--column:first-child {
-      & .mp--cell:first-child {
-        border-radius: var(--manifold-table-border-radius) 0 0 0;
-      }
-      & .mp--cell:last-child {
-        border-radius: 0 0 0 var(--manifold-table-border-radius);
-      }
-    }
 
-    & .mp--column:last-child {
-      & .mp--cell:first-child {
-        border-radius: 0 var(--manifold-table-border-radius) 0 0;
-      }
-      & .mp--cell:last-child {
-        border-radius: 0 0 var(--manifold-table-border-radius) 0;
-      }
-    }
+  & .mp--cell__rounded-tl {
+    border-radius: var(--manifold-table-border-radius) 0 0 0;
+  }
+
+  & .mp--cell__rounded-bl {
+    border-radius: 0 0 0 var(--manifold-table-border-radius);
+  }
+
+  & .mp--cell__rounded-br {
+    border-radius: 0 0 var(--manifold-table-border-radius) 0;
+  }
+
+  & .mp--cell__rounded-tr {
+    border-radius: 0 var(--manifold-table-border-radius) 0 0;
   }
 }
 
 @media screen and (max-width: 600px) {
   .manifold-pricing {
-    grid-template-columns: 1fr;
-    box-shadow: none;
-
-    & .mp--column {
-      box-shadow: var(--manifold-table-box-shadow);
-
-      & .mp--cell:first-child {
-        border-radius: var(--manifold-table-border-radius) var(--manifold-table-border-radius) 0 0;
-      }
-      & .mp--cell:last-child {
-        border-radius: 0 0 var(--manifold-table-border-radius) var(--manifold-table-border-radius);
-      }
-    }
-
-    & .mp--cell {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border-right: var(--manifold-table-solid-border);
-    }
-
-    & .mp--cell:last-child {
-      margin-block-end: 3em;
-    }
-
     & .mp--mobile-hidden {
       display: none;
     }

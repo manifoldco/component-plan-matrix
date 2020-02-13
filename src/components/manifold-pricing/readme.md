@@ -9,14 +9,12 @@
 
 ### Depends on
 
-- [manifold-caption](../manifold-caption)
-- [manifold-th](../manifold-th)
+- [manifold-button](../manifold-button)
 
 ### Graph
 ```mermaid
 graph TD;
-  manifold-pricing --> manifold-caption
-  manifold-pricing --> manifold-th
+  manifold-pricing --> manifold-button
   style manifold-pricing fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
