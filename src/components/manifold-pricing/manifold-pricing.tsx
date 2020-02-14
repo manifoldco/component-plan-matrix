@@ -1,12 +1,5 @@
 import { Component, Element, h } from '@stencil/core';
 
-type gridStyle = {
-  'grid-column-start': string;
-  'grid-column-end': string;
-  'grid-row-start': string;
-  'grid-row-end': string;
-};
-
 type conditionalClassesObj = {
   [name: string]: boolean;
 };
@@ -17,16 +10,6 @@ type conditionalClassesObj = {
 })
 export class ManifoldPricing {
   @Element() el: HTMLElement;
-
-  // Position grid elements utility
-  gridCoords(x: number, y: number): gridStyle {
-    return {
-      'grid-column-start': `${x}`,
-      'grid-column-end': `${x}`,
-      'grid-row-start': `${y}`,
-      'grid-row-end': `${y}`,
-    };
-  }
 
   addClass(obj: conditionalClassesObj, baseClass = ''): string {
     const conditionalClasses = Object.keys(obj).map(cl => (obj[cl] ? cl : ''));
@@ -59,28 +42,21 @@ export class ManifoldPricing {
     const lables = Object.keys(plan);
     const plans = [plan, plan2, plan3, plan];
     const gridColumns = plans.length;
+    const gridRows = Object.keys(plans[0]).length + 1; // Extra row for the "Get Started" row
 
     // Pass column count into css grid
-    this.el.style.setProperty('--manifold-table-columns', `${gridColumns}`);
+    this.el.style.setProperty('--manifold-table-columns', `${gridColumns + 1}`);
+    this.el.style.setProperty('--manifold-table-rows', `${gridRows}`);
 
     return (
       <div class="manifold-pricing">
-        <div
-          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead mp--cell__bts mp--cell__rounded-tl"
-          style={this.gridCoords(1, 1)}
-        ></div>
-        {lables.slice(1, lables.length).map((label, i) => (
-          <div
-            class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead"
-            style={this.gridCoords(1, i + 2)}
-          >
+        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
+        {lables.slice(1, lables.length).map(label => (
+          <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead">
             {label}
           </div>
         ))}
-        <div
-          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead mp--cell__rounded-bl"
-          style={this.gridCoords(1, 6)}
-        ></div>
+        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead mp--cell__rounded-bl"></div>
         {plans.map((p, i) => [
           Object.values(p).map((value, ii) => (
             <div
@@ -91,7 +67,6 @@ export class ManifoldPricing {
                 },
                 'mp--cell mp--cell__body'
               )}
-              style={this.gridCoords(i + 2, ii + 1)}
             >
               <div>
                 {typeof value === 'boolean' ? (
@@ -115,7 +90,6 @@ export class ManifoldPricing {
               },
               'mp--cell mp--cell__body mp--cell__bbs'
             )}
-            style={this.gridCoords(i + 2, 6)}
           >
             <manifold-button href="https://google.com" text="Get Started"></manifold-button>
           </div>,
