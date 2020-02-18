@@ -14,6 +14,11 @@ export namespace Components {
     'href': string;
     'text': string;
   }
+  interface ManifoldCheckbox {
+    'checked': boolean;
+    'inputId': string;
+    'name': string;
+  }
   interface ManifoldPricing {}
 }
 
@@ -26,6 +31,12 @@ declare global {
     new (): HTMLManifoldButtonElement;
   };
 
+  interface HTMLManifoldCheckboxElement extends Components.ManifoldCheckbox, HTMLStencilElement {}
+  var HTMLManifoldCheckboxElement: {
+    prototype: HTMLManifoldCheckboxElement;
+    new (): HTMLManifoldCheckboxElement;
+  };
+
   interface HTMLManifoldPricingElement extends Components.ManifoldPricing, HTMLStencilElement {}
   var HTMLManifoldPricingElement: {
     prototype: HTMLManifoldPricingElement;
@@ -33,6 +44,7 @@ declare global {
   };
   interface HTMLElementTagNameMap {
     'manifold-button': HTMLManifoldButtonElement;
+    'manifold-checkbox': HTMLManifoldCheckboxElement;
     'manifold-pricing': HTMLManifoldPricingElement;
   }
 }
@@ -42,10 +54,16 @@ declare namespace LocalJSX {
     'href'?: string;
     'text'?: string;
   }
+  interface ManifoldCheckbox {
+    'checked'?: boolean;
+    'inputId'?: string;
+    'name'?: string;
+  }
   interface ManifoldPricing {}
 
   interface IntrinsicElements {
     'manifold-button': ManifoldButton;
+    'manifold-checkbox': ManifoldCheckbox;
     'manifold-pricing': ManifoldPricing;
   }
 }
@@ -57,6 +75,7 @@ declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
       'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
+      'manifold-checkbox': LocalJSX.ManifoldCheckbox & JSXBase.HTMLAttributes<HTMLManifoldCheckboxElement>;
       'manifold-pricing': LocalJSX.ManifoldPricing & JSXBase.HTMLAttributes<HTMLManifoldPricingElement>;
     }
   }

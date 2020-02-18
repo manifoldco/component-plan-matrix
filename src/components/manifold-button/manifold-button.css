@@ -1,12 +1,13 @@
 manifold-button {
   display: flex;
+  flex: 1;
   align-items: center;
   text-align: center;
 
   & a {
     width: 100%;
-    padding: 6px;
-    color: white;
+    padding: 13px;
+    color: var(--manifold-c-white);
     font-weight: 500;
     font-size: 16px;
     font-style: normal;
@@ -16,7 +17,7 @@ manifold-button {
     border-radius: var(--manifold-table-border-radius);
 
     &:visited {
-      color: white;
+      color: var(--manifold-c-white);
     }
 
     &:hover {
@@ -24,5 +25,3 @@ manifold-button {
     }
   }
 }
-
-

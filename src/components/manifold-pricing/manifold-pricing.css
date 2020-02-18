@@ -5,24 +5,36 @@
   --manifold-c-grey-lightest: #f7f7f8;
   --manifold-c-red: #db0a5b;
 
-  --manifold-table-spacing: 28px;
+  --manifold-table-spacing: 24px;
 
   --manifold-table-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.0699445);
   --manifold-table-border-width: 1px;
   --manifold-table-border-radius: 6px;
   --manifold-table-solid-border: 1px solid var(--manifold-c-grey-light);
   --manifold-table-dashed-border: 1px dashed var(--manifold-c-grey-light);
+
+  --manifold-table-f-body: -apple-system, BlinkMacSystemmanifold-tableont, 'Segoe UI', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --manifold-table-f-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+    monospace;
 }
 
 .manifold-pricing {
   display: grid;
   grid-auto-flow: column;
-  grid-template: repeat(var(--manifold-table-rows), min-content) / repeat(var(--manifold-table-columns), minmax(200px, 300px));
+  grid-template: repeat(var(--manifold-table-rows), min-content) / repeat(
+      var(--manifold-table-columns),
+      minmax(200px, 300px)
+    );
   overflow-x: auto;
+  font-family: var(--manifold-table-f-body);
   box-shadow: var(--manifold-table-box-shadow);
 }
 
 .mp--cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: 100%;
   padding: var(--manifold-table-spacing);
@@ -37,12 +49,28 @@
 }
 
 .mp--cell__body {
+  box-sizing: border-box;
+  background: var(--manifold-c-white);
+  border-bottom: var(--manifold-table-dashed-border);
+}
+
+.mp--cell__th {
+  box-sizing: border-box;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 20px;
+  letter-spacing: -0.0125em;
   background: var(--manifold-c-white);
   border-bottom: var(--manifold-table-dashed-border);
 }
 
 .mp--cell__thead {
-  box-sizing: border-box;
+  font-weight: 600;
+  font-size: 25px;
+  font-style: normal;
+  line-height: 30px;
+  letter-spacing: -0.0125em;
+  text-align: center;
   background: var(--manifold-c-grey-lightest);
   border-bottom: var(--manifold-table-solid-border);
 }

@@ -1,0 +1,33 @@
+manifold-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manifold-checkbox--check {
+  width: 24px;
+  fill: var(--manifold-c-red);
+}
+
+.manifold-checkbox--blank {
+  color: var(--manifold-c-grey);
+  font-size: 1.5rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.manifold-checkbox--input {
+  display: none;
+}
+
+.manifold-checkbox--input[type='checkbox'] ~ .manifold-checkbox--check {
+  display: none;
+}
+
+.manifold-checkbox--input[type='checkbox']:checked ~ .manifold-checkbox--check {
+  display: inline;
+}
+
+.manifold-checkbox--input[type='checkbox']:checked ~ .manifold-checkbox--blank {
+  display: none;
+}
