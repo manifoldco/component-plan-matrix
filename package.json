@@ -29,14 +29,14 @@
   },
   "devDependencies": {
     "@manifoldco/eslint-plugin-stencil": "^0.4.1",
-    "@stencil/core": "^1.8.4",
+    "@stencil/core": "^1.8.8",
     "@stencil/postcss": "^1.0.1",
-    "@storybook/addon-a11y": "^5.3.12",
-    "@storybook/addon-knobs": "^5.3.12",
-    "@storybook/addons": "^5.3.12",
-    "@storybook/html": "^5.3.12",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
-    "@typescript-eslint/parser": "^2.19.0",
+    "@storybook/addon-a11y": "^5.3.13",
+    "@storybook/addon-knobs": "^5.3.13",
+    "@storybook/addons": "^5.3.13",
+    "@storybook/html": "^5.3.13",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
     "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -46,11 +46,12 @@
     "eslint-plugin-prettier": "^3.1.2",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^1.19.1",
-    "stylelint": "^13.0.0",
+    "stylelint": "^13.1.0",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^19.0.0",
     "wait-on": "^4.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

@@ -10,53 +10,43 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface MuiMyComponent {
-    /**
-    * The first name
-    */
-    'first': string;
-    /**
-    * The last name
-    */
-    'last': string;
-    /**
-    * The middle name
-    */
-    'middle': string;
+  interface ManifoldButton {
+    'href': string;
+    'text': string;
   }
+  interface ManifoldPricing {}
 }
 
 declare global {
 
 
-  interface HTMLMuiMyComponentElement extends Components.MuiMyComponent, HTMLStencilElement {}
-  var HTMLMuiMyComponentElement: {
-    prototype: HTMLMuiMyComponentElement;
-    new (): HTMLMuiMyComponentElement;
+  interface HTMLManifoldButtonElement extends Components.ManifoldButton, HTMLStencilElement {}
+  var HTMLManifoldButtonElement: {
+    prototype: HTMLManifoldButtonElement;
+    new (): HTMLManifoldButtonElement;
+  };
+
+  interface HTMLManifoldPricingElement extends Components.ManifoldPricing, HTMLStencilElement {}
+  var HTMLManifoldPricingElement: {
+    prototype: HTMLManifoldPricingElement;
+    new (): HTMLManifoldPricingElement;
   };
   interface HTMLElementTagNameMap {
-    'mui-my-component': HTMLMuiMyComponentElement;
+    'manifold-button': HTMLManifoldButtonElement;
+    'manifold-pricing': HTMLManifoldPricingElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface MuiMyComponent {
-    /**
-    * The first name
-    */
-    'first'?: string;
-    /**
-    * The last name
-    */
-    'last'?: string;
-    /**
-    * The middle name
-    */
-    'middle'?: string;
+  interface ManifoldButton {
+    'href'?: string;
+    'text'?: string;
   }
+  interface ManifoldPricing {}
 
   interface IntrinsicElements {
-    'mui-my-component': MuiMyComponent;
+    'manifold-button': ManifoldButton;
+    'manifold-pricing': ManifoldPricing;
   }
 }
 
@@ -66,7 +56,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'mui-my-component': LocalJSX.MuiMyComponent & JSXBase.HTMLAttributes<HTMLMuiMyComponentElement>;
+      'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
+      'manifold-pricing': LocalJSX.ManifoldPricing & JSXBase.HTMLAttributes<HTMLManifoldPricingElement>;
     }
   }
 }

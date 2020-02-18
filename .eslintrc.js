@@ -28,7 +28,7 @@ module.exports = {
     },
   },
   rules: {
-    '@manifoldco/stencil/component-prefix': ['error', { prefix: 'mui-' }],
+    '@manifoldco/stencil/component-prefix': ['error', { prefix: 'manifold-' }],
     '@manifoldco/stencil/require-render-decorator': 'off',
     '@manifoldco/stencil/restrict-required-props': 'error',
     '@typescript-eslint/camelcase': 'off',
