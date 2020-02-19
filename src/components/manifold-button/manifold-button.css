@@ -3,25 +3,25 @@ manifold-button {
   flex: 1;
   align-items: center;
   text-align: center;
+}
 
-  & a {
-    width: 100%;
-    padding: 13px;
+.mp--button {
+  width: 100%;
+  padding: 13px;
+  color: var(--manifold-c-white);
+  font-weight: 500;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 19px;
+  text-decoration: none;
+  background: var(--manifold-c-red);
+  border-radius: var(--manifold-table-border-radius);
+
+  &:visited {
     color: var(--manifold-c-white);
-    font-weight: 500;
-    font-size: 16px;
-    font-style: normal;
-    line-height: 19px;
-    text-decoration: none;
+  }
+
+  &:hover {
     background: var(--manifold-c-red);
-    border-radius: var(--manifold-table-border-radius);
-
-    &:visited {
-      color: var(--manifold-c-white);
-    }
-
-    &:hover {
-      background: var(--manifold-c-red);
-    }
   }
 }

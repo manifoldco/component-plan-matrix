@@ -13,7 +13,7 @@ export class ManifoldCheckbox {
   render() {
     return [
       <input
-        class="manifold-checkbox--input"
+        class="mp--checkbox__input"
         type="checkbox"
         id={this.inputId}
         name={this.name}
@@ -21,14 +21,14 @@ export class ManifoldCheckbox {
         disabled
       />,
       <svg
-        class="manifold-checkbox--check"
+        class="mp--checkbox__check"
         viewBox="0 0 1024 1024"
         xmlns="http://www.w3.org/2000/svg"
         xmlns-x="http://www.w3.org/1999/xlink"
       >
         <path d={check} />
       </svg>,
-      <span class="manifold-checkbox--blank">•</span>,
+      <span class="mp--checkbox__blank">•</span>,
     ];
   }
 }

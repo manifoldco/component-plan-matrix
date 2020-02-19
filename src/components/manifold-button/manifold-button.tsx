@@ -9,6 +9,10 @@ export class ManifoldButton {
   @Prop() href: string;
 
   render() {
-    return <a href={this.href}>{this.text}</a>;
+    return (
+      <a class="mp--button" href={this.href}>
+        {this.text}
+      </a>
+    );
   }
 }

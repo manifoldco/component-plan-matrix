@@ -4,30 +4,30 @@ manifold-checkbox {
   justify-content: center;
 }
 
-.manifold-checkbox--check {
+.mp--checkbox__check {
   width: 24px;
   fill: var(--manifold-c-red);
 }
 
-.manifold-checkbox--blank {
+.mp--checkbox__blank {
   color: var(--manifold-c-grey);
   font-size: 1.5rem;
   line-height: 1.5;
   text-align: center;
 }
 
-.manifold-checkbox--input {
+.mp--checkbox__input {
   display: none;
 }
 
-.manifold-checkbox--input[type='checkbox'] ~ .manifold-checkbox--check {
+.mp--checkbox__input[type='checkbox'] ~ .mp--checkbox__check {
   display: none;
 }
 
-.manifold-checkbox--input[type='checkbox']:checked ~ .manifold-checkbox--check {
+.mp--checkbox__input[type='checkbox']:checked ~ .mp--checkbox__check {
   display: inline;
 }
 
-.manifold-checkbox--input[type='checkbox']:checked ~ .manifold-checkbox--blank {
+.mp--checkbox__input[type='checkbox']:checked ~ .mp--checkbox__blank {
   display: none;
 }
