@@ -5,8 +5,8 @@ type conditionalClassesObj = {
 };
 
 @Component({
-  tag: 'manifold-pricing',
-  styleUrl: 'manifold-pricing.css',
+  tag: 'manifold-plan-matrix',
+  styleUrl: 'manifold-plan-matrix.css',
 })
 export class ManifoldPricing {
   @Element() el: HTMLElement;

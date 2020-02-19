@@ -5,6 +5,6 @@ import { withA11y } from '@storybook/addon-a11y';
 storiesOf('Manifold Pricing', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
-  .add('manifold-pricing', () => {
-    return `<manifold-pricing></manifold-pricing>`;
+  .add('manifold-plan-matrix', () => {
+    return `<manifold-plan-matrix></manifold-plan-matrix>`;
   });
