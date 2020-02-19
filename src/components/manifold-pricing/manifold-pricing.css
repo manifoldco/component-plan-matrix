@@ -1,28 +1,51 @@
 :root {
-  --manifold-c-white: #ffffff;
-  --manifold-c-grey: #8f8f95;
-  --manifold-c-grey-light: #c4c7ca;
-  --manifold-c-grey-lightest: #f7f7f8;
-  --manifold-c-red: #db0a5b;
+  --manifold-c-black: 0, 0%, 0%;
+  --manifold-c-blue: 224, 76%, 49%;
+  --manifold-c-grey: 240, 3%, 57%;
+  --manifold-c-grey-darker: 210, 12%, 22%;
+  --manifold-c-grey-light: 210, 5%, 78%;
+  --manifold-c-grey-lighter: 240, 7%, 97%;
+  --manifold-c-grey-lightest: 240, 3%, 93%;
+  --manifold-c-white: 0, 0%, 100%;
 
-  --manifold-table-spacing: 28px;
+  --manifold-button-color: var(--manifold-c-blue);
+  --manifold-button-text-color: var(--manifold-c-white);
+  --manifold-check-color: var(--manifold-c-blue);
+  --manifold-empty-color: var(--manifold-c-grey);
 
-  --manifold-table-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.0699445);
+  --manifold-table-spacing: 9px;
+  --manifold-table-box-shadow: 0 2px 8px hsla(var(--manifold-c-black) 0.0699445);
   --manifold-table-border-width: 1px;
   --manifold-table-border-radius: 6px;
-  --manifold-table-solid-border: 1px solid var(--manifold-c-grey-light);
-  --manifold-table-dashed-border: 1px dashed var(--manifold-c-grey-light);
+  --manifold-table-solid-border: var(--manifold-table-border-width) solid hsl(var(--manifold-c-grey-light));
+  --manifold-table-dashed-border: var(--manifold-table-border-width) dashed hsl(var(--manifold-c-grey-lightest));
+
+  --manifold-table-f-body: -apple-system, BlinkMacSystemmanifold-tableont, 'Segoe UI', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --manifold-table-f-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+    monospace;
 }
 
-.manifold-pricing {
+.mp {
   display: grid;
   grid-auto-flow: column;
-  grid-template: repeat(var(--manifold-table-rows), min-content) / repeat(var(--manifold-table-columns), minmax(200px, 300px));
+  grid-template: repeat(var(--manifold-table-rows), min-content) / repeat(
+    var(--manifold-table-columns),
+    minmax(200px, 300px)
+    );
   overflow-x: auto;
+  color: hsl(var(--manifold-c-grey-darker));
+  font-size: 16px;
+  font-family: var(--manifold-table-f-body);
+  line-height: 19px;
   box-shadow: var(--manifold-table-box-shadow);
 }
 
 .mp--cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   width: 100%;
   padding: var(--manifold-table-spacing);
@@ -34,21 +57,41 @@
 .mp--cell__sticky {
   position: sticky;
   left: 0;
+  flex-direction: row;
+  color: hsl(var(--manifold-c-black));
 }
 
 .mp--cell__body {
-  background: var(--manifold-c-white);
+  box-sizing: border-box;
+  background: hsl(var(--manifold-c-white));
+  border-bottom: var(--manifold-table-dashed-border);
+}
+
+.mp--cell__th {
+  box-sizing: border-box;
+  padding: calc(var(--manifold-table-spacing) * 3);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.0125em;
+  background: hsl(var(--manifold-c-white));
   border-bottom: var(--manifold-table-dashed-border);
 }
 
 .mp--cell__thead {
-  box-sizing: border-box;
-  background: var(--manifold-c-grey-lightest);
+  justify-content: flex-start;
+  font-weight: 400;
+  font-size: 25px;
+  font-style: normal;
+  line-height: 30px;
+  letter-spacing: -0.0125em;
+  text-align: center;
+  background: hsl(var(--manifold-c-grey-lightest));
   border-bottom: var(--manifold-table-solid-border);
 }
 
 .mp--cell__al {
-  text-align: left;
+  justify-content: flex-start;
 }
 
 .mp--cell__bts {
@@ -61,10 +104,6 @@
 
 .mp--cell__bls {
   border-left: var(--manifold-table-solid-border);
-}
-
-.mp--mobile-only {
-  display: none;
 }
 
 .mp--cell__rounded-tl {
@@ -83,12 +122,18 @@
   border-radius: 0 var(--manifold-table-border-radius) 0 0;
 }
 
-@media screen and (max-width: 600px) {
-  .mp--mobile-hidden {
-    display: none;
-  }
+.mp--plan-cost {
+  margin: var(--manifold-table-spacing) 0 calc(var(--manifold-table-spacing) / 2) 0;
+  color: hsl(var(--manifold-c-grey-darker));
+  font-weight: 600;
+  font-size: 16px;
+  font-family: var(--manifold-table-f-body);
+  line-height: 19px;
+}
 
-  .mp--mobile-only {
-    display: block;
-  }
+.mp--subtext {
+  color: hsl(var(--manifold-c-grey));
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
 }

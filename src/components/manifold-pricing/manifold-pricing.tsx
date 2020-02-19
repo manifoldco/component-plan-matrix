@@ -49,38 +49,41 @@ export class ManifoldPricing {
     this.el.style.setProperty('--manifold-table-rows', `${gridRows}`);
 
     return (
-      <div class="manifold-pricing">
-        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
+      <div class="mp">
+        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
         {lables.slice(1, lables.length).map(label => (
-          <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead">
+          <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
             {label}
           </div>
         ))}
-        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__thead mp--cell__rounded-bl"></div>
+        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th mp--cell__rounded-bl"></div>
         {plans.map((p, i) => [
           Object.values(p).map((value, ii) => (
             <div
               class={this.addClass(
                 {
-                  'mp--cell__bts mp--cell__thead': ii === 0,
+                  'mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th': ii === 0,
                   'mp--cell__rounded-tr': ii === 0 && i === gridColumns - 1,
+                  'mp--cell__body': ii !== 0,
                 },
-                'mp--cell mp--cell__body'
+                'mp--cell'
               )}
             >
-              <div>
-                {typeof value === 'boolean' ? (
-                  <input
-                    type="checkbox"
-                    id={`${i}-${lables[ii]}`}
-                    name={lables[ii]}
-                    checked={value}
-                    disabled
-                  />
-                ) : (
-                  value
-                )}
-              </div>
+              {typeof value === 'boolean' ? (
+                <manifold-checkbox
+                  input-id={`${i}-${lables[ii]}`}
+                  name={lables[ii]}
+                  checked={value}
+                ></manifold-checkbox>
+              ) : (
+                value
+              )}
+              {ii === 0 && (
+                <p class="mp--plan-cost">
+                  $100<span class="mp--subtext">/mo</span>
+                </p>
+              )}
+              {ii === 0 && <span class="mp--subtext"> + metered use</span>}
             </div>
           )),
           <div
