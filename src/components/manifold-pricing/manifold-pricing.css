@@ -71,7 +71,7 @@
   box-sizing: border-box;
   padding: calc(var(--manifold-table-spacing) * 3);
   font-weight: 600;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 20px;
   letter-spacing: -0.0125em;
   background: hsl(var(--manifold-c-white));
@@ -86,7 +86,7 @@
   line-height: 30px;
   letter-spacing: -0.0125em;
   text-align: center;
-  background: hsl(var(--manifold-c-grey-lighter));
+  background: hsl(var(--manifold-c-grey-lightest));
   border-bottom: var(--manifold-table-solid-border);
 }
 
