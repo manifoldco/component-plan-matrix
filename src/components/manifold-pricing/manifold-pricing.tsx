@@ -49,7 +49,7 @@ export class ManifoldPricing {
     this.el.style.setProperty('--manifold-table-rows', `${gridRows}`);
 
     return (
-      <div class="manifold-pricing">
+      <div class="mp">
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
         {lables.slice(1, lables.length).map(label => (
           <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
@@ -78,6 +78,12 @@ export class ManifoldPricing {
               ) : (
                 value
               )}
+              {ii === 0 && (
+                <p class="mp--plan-cost">
+                  $100<span class="mp--subtext">/mo</span>
+                </p>
+              )}
+              {ii === 0 && <span class="mp--subtext"> + metered use</span>}
             </div>
           )),
           <div

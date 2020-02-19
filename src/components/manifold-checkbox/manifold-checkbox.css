@@ -6,11 +6,11 @@ manifold-checkbox {
 
 .mp--checkbox__check {
   width: 24px;
-  fill: var(--manifold-c-red);
+  fill: hsl(var(--manifold-check-color));
 }
 
 .mp--checkbox__blank {
-  color: var(--manifold-c-grey);
+  color: hsl(var(--manifold-empty-color));
   font-size: 1.5rem;
   line-height: 1.5;
   text-align: center;

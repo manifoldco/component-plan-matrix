@@ -2,26 +2,28 @@ manifold-button {
   display: flex;
   flex: 1;
   align-items: center;
+  width: 100%;
   text-align: center;
 }
 
 .mp--button {
-  width: 100%;
+  flex: 1;
   padding: 13px;
-  color: var(--manifold-c-white);
+  color: hsl(var(--manifold-button-text-color));
   font-weight: 500;
   font-size: 16px;
   font-style: normal;
   line-height: 19px;
   text-decoration: none;
-  background: var(--manifold-c-red);
+  background: hsl(var(--manifold-button-color));
   border-radius: var(--manifold-table-border-radius);
+  transition: background-color 0.3s ease;
 
   &:visited {
-    color: var(--manifold-c-white);
+    color: hsl(var(--manifold-button-text-color));
   }
 
   &:hover {
-    background: var(--manifold-c-red);
+    background: hsla(var(--manifold-button-color), 0.85);
   }
 }
