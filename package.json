@@ -10,7 +10,7 @@
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/mui-pricing-table/mui-pricing-table.js",
+  "unpkg": "dist/manifold-plan-matrix/manifold-plan-matrix.js",
   "license": "MIT",
   "files": [
     "dist/",
