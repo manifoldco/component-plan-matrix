@@ -1,6 +1,7 @@
 {
-  "name": "mui-pricing-table",
+  "name": "@manifoldco/component-plan-matrix",
   "version": "0.0.1",
+  "private": false,
   "description": "Stencil Component Starter",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -10,23 +11,27 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/mui-pricing-table/mui-pricing-table.js",
+  "license": "MIT",
   "files": [
     "dist/",
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build --docs",
+    "build": "stencil build",
     "build:watch": "stencil build --watch",
-    "start": "stencil build --dev --watch --serve",
     "dev": "npm run build:watch & rm -rf dist loader && wait-on loader/index.cjs.js && npm run storybook",
-    "test": "stencil test --spec --e2e",
-    "test:watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint 'src/**/*.css'",
     "lint:js": "eslint --ext .js,.ts,.tsx src",
-    "storybook": "start-storybook -p 6006"
+    "prepare": "node scripts/version-from-git",
+    "prepublishOnly": "npm run build",
+    "start": "stencil build --dev --watch --serve",
+    "storybook": "start-storybook -p 6006",
+    "test": "stencil test --spec --e2e",
+    "test:watch": "stencil test --spec --e2e --watchAll"
   },
+  "dependencies": {},
   "devDependencies": {
     "@manifoldco/eslint-plugin-stencil": "^0.4.1",
     "@stencil/core": "^1.8.8",
@@ -51,7 +56,5 @@
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^19.0.0",
     "wait-on": "^4.0.0"
-  },
-  "license": "MIT",
-  "dependencies": {}
+  }
 }
