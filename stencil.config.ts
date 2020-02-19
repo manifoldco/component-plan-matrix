@@ -3,14 +3,11 @@ import { postcss } from '@stencil/postcss';
 import postCSSPresetEnv from 'postcss-preset-env';
 
 export const config: Config = {
-  namespace: 'mui-pricing-table',
+  namespace: 'manifold-plan-matrix',
   outputTargets: [
     {
       type: 'dist',
       esmLoaderPath: '../loader',
-    },
-    {
-      type: 'docs-readme',
     },
     {
       type: 'www',

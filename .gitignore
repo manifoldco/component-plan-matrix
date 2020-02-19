@@ -1,32 +1,25 @@
-# System
 *~
 *.sw[mnpcod]
 *.log
 *.lock
 *.tmp
 *.tmp.*
-log.txt
-*.sublime-project
-*.sublime-workspace
 .DS_Store
-Thumbs.db
-UserInterfaceState.xcuserstate
 .env
-
-# Stencil
-!www/favicon.ico
 .idea/
 .sass-cache/
 .stencil/
 .versions/
 .vscode/
+*.sublime-project
+*.sublime-workspace
+$RECYCLE.BIN/
 coverage/
 dist/
-node_modules/
-pkg/
-www/
 loader/
-$RECYCLE.BIN/
-
-# Storybook
+log.txt
+node_modules/
 storybook-static
+Thumbs.db
+UserInterfaceState.xcuserstate
+www/
