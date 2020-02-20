@@ -7,20 +7,27 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  ProductQuery,
+} from 'types/graphql';
 
 export namespace Components {
   interface ManifoldButton {
-    'href': string;
+    'href'?: string;
   }
   interface ManifoldCheckbox {
-    'checked': boolean;
-    'inputId': string;
-    'name': string;
+    'checked'?: boolean;
+    'inputId'?: string;
+    'name'?: string;
   }
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
+    'productLabel'?: string;
+  }
+  interface ManifoldThead {
+    'plan'?: ProductQuery['product']['plans']['edges'][0];
+    'titleText'?: string;
   }
 }
 
@@ -44,10 +51,17 @@ declare global {
     prototype: HTMLManifoldPlanMatrixElement;
     new (): HTMLManifoldPlanMatrixElement;
   };
+
+  interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
+  var HTMLManifoldTheadElement: {
+    prototype: HTMLManifoldTheadElement;
+    new (): HTMLManifoldTheadElement;
+  };
   interface HTMLElementTagNameMap {
     'manifold-button': HTMLManifoldButtonElement;
     'manifold-checkbox': HTMLManifoldCheckboxElement;
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
+    'manifold-thead': HTMLManifoldTheadElement;
   }
 }
 
@@ -63,12 +77,18 @@ declare namespace LocalJSX {
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
+    'productLabel'?: string;
+  }
+  interface ManifoldThead {
+    'plan'?: ProductQuery['product']['plans']['edges'][0];
+    'titleText'?: string;
   }
 
   interface IntrinsicElements {
     'manifold-button': ManifoldButton;
     'manifold-checkbox': ManifoldCheckbox;
     'manifold-plan-matrix': ManifoldPlanMatrix;
+    'manifold-thead': ManifoldThead;
   }
 }
 
@@ -81,6 +101,7 @@ declare module "@stencil/core" {
       'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
       'manifold-checkbox': LocalJSX.ManifoldCheckbox & JSXBase.HTMLAttributes<HTMLManifoldCheckboxElement>;
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
+      'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }
   }
 }

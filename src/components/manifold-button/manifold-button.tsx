@@ -5,7 +5,7 @@ import { Component, Prop, h } from '@stencil/core';
   styleUrl: 'manifold-button.css',
 })
 export class ManifoldButton {
-  @Prop() href: string;
+  @Prop() href?: string = '';
 
   render() {
     return (

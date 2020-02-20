@@ -1,4 +1,8 @@
-import { Component, Element, h, Prop } from '@stencil/core';
+import { Component, Element, h, State, Prop } from '@stencil/core';
+import { ProductQueryVariables, ProductQuery } from 'types/graphql';
+import query from './product.graphql';
+
+const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 
 type conditionalClassesObj = {
   [name: string]: boolean;
@@ -9,85 +13,165 @@ type conditionalClassesObj = {
   styleUrl: 'manifold-plan-matrix.css',
 })
 export class ManifoldPricing {
+  // Used to apply css variables to root element
   @Element() el: HTMLElement;
+  // Passed product label to the graphql endpoint
+  @Prop() productLabel?: string = '';
+  // Base url for buttons
   @Prop() baseUrl?: string = '/signup';
+  // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
+  // Product data
+  @State() product?: ProductQuery['product'];
+  // Plans data
+  @State() plans: ProductQuery['product']['plans']['edges'];
+  // Table labels
+  @State() labels: string[] = [];
+  // Loading state
+  @State() loading = true;
+
+  componentWillLoad() {
+    const DEFAULT = 'ziggeo';
+    const variables: ProductQueryVariables = { label: this.productLabel || DEFAULT, first: 50 };
+    fetch(GRAPHQL_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(({ data }) => {
+        if (data.product) {
+          this.product = data.product;
+          this.createPlans();
+        }
+      });
+  }
+
+  createPlans() {
+    if (this.product) {
+      const plan = this.product.plans.edges.slice(0, 1).pop();
+      if (plan) {
+        const fixedFeatures = plan.node.fixedFeatures.edges.map(edge => edge.node.displayName);
+        // const meteredFeatures = plan.node.meteredFeatures.edges.map(edge => edge.node.displayName);
+        // const configurableFeatures = plan.node.configurableFeatures.edges.map(
+        //   edge => edge.node.displayName
+        // );
+
+        this.labels = [...fixedFeatures];
+        this.plans = this.product.plans.edges;
+        this.loading = false;
+      }
+    } else {
+      console.warn('There was a problem with the API');
+    }
+  }
 
   addClass(obj: conditionalClassesObj, baseClass = ''): string {
     const conditionalClasses = Object.keys(obj).map(cl => (obj[cl] ? cl : ''));
     return `${baseClass} ${conditionalClasses.join(' ')}`;
   }
 
+  fixedFeatures(displayValue: string, planIndex: number, rowIndex: number) {
+    if (displayValue === 'true' || displayValue === 'false') {
+      return (
+        <manifold-checkbox
+          input-id={`${planIndex}-${this.labels[rowIndex]}`}
+          name={this.labels[rowIndex]}
+          checked={displayValue === 'true'}
+        ></manifold-checkbox>
+      );
+    }
+    return displayValue;
+  }
+
+  meteredFeatures() {
+    return '';
+  }
+
+  configurableFeatures() {
+    return '';
+  }
+
   render() {
-    // Fake data
-    const plan = {
-      Name: 'Free',
-      Price: 'Free',
-      Users: '1',
-      'Live Streaming Tail': true,
-      'CLI Tail': false,
-    };
-    const plan2 = {
-      Name: 'Birch',
-      Price: '$1.50/GB',
-      Users: 'Up to 5',
-      'Live Streaming Tail': false,
-      'CLI Tail': false,
-    };
-    const plan3 = {
-      Name: 'Maple',
-      Price: '$2.00/GB',
-      Users: 'Up to 10',
-      'Live Streaming Tail': false,
-      'CLI Tail': false,
-    };
-    const lables = Object.keys(plan);
-    const plans = [plan, plan2, plan3, plan];
-    const gridColumns = plans.length;
-    const gridRows = Object.keys(plans[0]).length + 1; // Extra row for the "Get Started" row
+    if (this.loading) {
+      return <div>Loading...</div>;
+    }
+
+    if (this.product && !this.product.plans) {
+      return <div>error</div>;
+    }
+
+    const gridColumns = this.plans.length + 1;
+    const gridRows = this.labels.length + 2; // +1 for the "Get Started" row
 
     // Pass column count into css grid
-    this.el.style.setProperty('--manifold-table-columns', `${gridColumns + 1}`);
+    this.el.style.setProperty('--manifold-table-columns', `${gridColumns}`);
     this.el.style.setProperty('--manifold-table-rows', `${gridRows}`);
 
     return (
       <div class="mp">
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
-        {lables.slice(1, lables.length).map(label => (
-          <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
-            {label}
-          </div>
-        ))}
+        {this.labels.map(label => {
+          return (
+            <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
+              {label}
+            </div>
+          );
+        })}
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th mp--cell__rounded-bl"></div>
-        {plans.map((p, i) => [
-          Object.values(p).map((value, ii) => (
+        {this.plans.map((plan, i) => [
+          <div
+            class={this.addClass(
+              {
+                'mp--cell__rounded-tr': i === gridColumns - 2,
+              },
+              'mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th'
+            )}
+          >
+            <manifold-thead title-text={plan.node.displayName} plan={plan}></manifold-thead>
+          </div>,
+          plan.node.fixedFeatures.edges.map((value, ii) => (
             <div
               class={this.addClass(
                 {
-                  'mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th': ii === 0,
-                  'mp--cell__rounded-tr': ii === 0 && i === gridColumns - 1,
                   'mp--cell__body': ii !== 0,
                 },
                 'mp--cell'
               )}
             >
-              {typeof value === 'boolean' ? (
-                <manifold-checkbox
-                  input-id={`${i}-${lables[ii]}`}
-                  name={lables[ii]}
-                  checked={value}
-                ></manifold-checkbox>
-              ) : (
-                value
-              )}
-              {ii === 0 && (
-                <p class="mp--plan-cost">
-                  $100<span class="mp--subtext">/mo</span>
-                </p>
-              )}
-              {ii === 0 && <span class="mp--subtext"> + metered use</span>}
+              {this.fixedFeatures(value.node.displayValue, i, ii)}
             </div>
           )),
+          // TODO add metered and configurable features
+          // plan.node.meteredFeatures.edges.map((value, ii) => (
+          //   <div
+          //     class={this.addClass(
+          //       {
+          //         'mp--cell__body': ii !== 0,
+          //       },
+          //       'mp--cell'
+          //     )}
+          //   >
+          //     {this.meteredFeatures(value.node.displayValue, i, ii)}
+          //   </div>
+          // )),
+          // plan.node.configurableFeatures.edges.map((value, ii) => (
+          //   <div
+          //     class={this.addClass(
+          //       {
+          //         'mp--cell__body': ii !== 0,
+          //       },
+          //       'mp--cell'
+          //     )}
+          //   >
+          //     {this.configurableFeatures(value.node.displayValue, i, ii)}
+          //   </div>
+          // )),
           <div
             class={this.addClass(
               {

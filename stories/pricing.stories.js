@@ -6,8 +6,9 @@ storiesOf('Manifold Pricing', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
   .add('manifold-plan-matrix', () => {
+    const productLabel = text('Product Label', 'ziggeo');
     const cta = text('cta-text', 'Get Started');
     const baseUrl = text('base-url', '/signup');
 
-    return `<manifold-plan-matrix base-url="${baseUrl}" cta-text="${cta}"></manifold-plan-matrix>`;
+    return `<manifold-plan-matrix product-label="${productLabel}" base-url="${baseUrl}" cta-text="${cta}"></manifold-plan-matrix>`;
   });
