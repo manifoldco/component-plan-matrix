@@ -1,4 +1,8 @@
-import { Component, Element, h } from '@stencil/core';
+import { Component, Element, h, State, Prop } from '@stencil/core';
+import { ProductQueryVariables, Product } from 'types/graphql';
+import query from './product.graphql';
+
+const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 
 type conditionalClassesObj = {
   [name: string]: boolean;
@@ -9,40 +13,94 @@ type conditionalClassesObj = {
   styleUrl: 'manifold-pricing.css',
 })
 export class ManifoldPricing {
+  // Used to apply css variables to root element
   @Element() el: HTMLElement;
+  // Passed product label to the graphql endpoint
+  @Prop() productLabel: string;
+  // Url for price Edge cta
+  @Prop() actionUrl: string;
+  // Product data
+  @State() product: Product;
+  // Plans data
+  @State() plans: any[];
+  // Table labels
+  @State() labels: string[] = [];
+  // Loading state
+  @State() loading = true;
+
+  componentWillLoad() {
+    const variables: ProductQueryVariables = { label: this.productLabel, first: 50 };
+    fetch(GRAPHQL_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(({ data }) => {
+        this.product = data.product;
+        this.createPlans();
+      });
+  }
+
+  createPlans() {
+    if (this.product.plans && Array.isArray(this.product.plans.edges)) {
+      const plans = this.product.plans.edges.map(({ node }) => {
+        return { ...node };
+      });
+
+      this.labels = Object.keys(plans[0]);
+      this.plans = plans;
+      this.loading = false;
+    } else {
+      console.warn('There was a problem with the API');
+    }
+  }
 
   addClass(obj: conditionalClassesObj, baseClass = ''): string {
     const conditionalClasses = Object.keys(obj).map(cl => (obj[cl] ? cl : ''));
     return `${baseClass} ${conditionalClasses.join(' ')}`;
   }
 
+  cellSelect(val: any, planIndex: number, rowIndex: number) {
+    if (rowIndex === 0 && this.product.plans && typeof val === 'string') {
+      return (
+        <manifold-thead
+          title-text={val}
+          plan={this.product.plans.edges[planIndex]}
+        ></manifold-thead>
+      );
+    }
+
+    switch (val) {
+      case typeof val === 'boolean':
+        return (
+          <manifold-checkbox
+            input-id={`${planIndex}-${this.labels[rowIndex]}`}
+            name={this.labels[rowIndex]}
+            checked={val}
+          ></manifold-checkbox>
+        );
+      default:
+        return val;
+    }
+  }
+
   render() {
-    // Fake data
-    const plan = {
-      Name: 'Free',
-      Price: 'Free',
-      Users: '1',
-      'Live Streaming Tail': true,
-      'CLI Tail': false,
-    };
-    const plan2 = {
-      Name: 'Birch',
-      Price: '$1.50/GB',
-      Users: 'Up to 5',
-      'Live Streaming Tail': false,
-      'CLI Tail': false,
-    };
-    const plan3 = {
-      Name: 'Maple',
-      Price: '$2.00/GB',
-      Users: 'Up to 10',
-      'Live Streaming Tail': false,
-      'CLI Tail': false,
-    };
-    const lables = Object.keys(plan);
-    const plans = [plan, plan2, plan3, plan];
-    const gridColumns = plans.length;
-    const gridRows = Object.keys(plans[0]).length + 1; // Extra row for the "Get Started" row
+    if (this.loading) {
+      return <div>Loading...</div>;
+    }
+
+    if (!this.product.plans) {
+      return <div>error</div>;
+    }
+
+    const gridColumns = this.plans.length || 1;
+    const gridRows = this.labels.length + 1; // +1 for the "Get Started" row
 
     // Pass column count into css grid
     this.el.style.setProperty('--manifold-table-columns', `${gridColumns + 1}`);
@@ -51,13 +109,13 @@ export class ManifoldPricing {
     return (
       <div class="mp">
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
-        {lables.slice(1, lables.length).map(label => (
+        {this.labels.slice(1, this.labels.length).map(label => (
           <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
             {label}
           </div>
         ))}
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th mp--cell__rounded-bl"></div>
-        {plans.map((p, i) => [
+        {this.plans.map((p, i) => [
           Object.values(p).map((value, ii) => (
             <div
               class={this.addClass(
@@ -69,21 +127,7 @@ export class ManifoldPricing {
                 'mp--cell'
               )}
             >
-              {typeof value === 'boolean' ? (
-                <manifold-checkbox
-                  input-id={`${i}-${lables[ii]}`}
-                  name={lables[ii]}
-                  checked={value}
-                ></manifold-checkbox>
-              ) : (
-                value
-              )}
-              {ii === 0 && (
-                <p class="mp--plan-cost">
-                  $100<span class="mp--subtext">/mo</span>
-                </p>
-              )}
-              {ii === 0 && <span class="mp--subtext"> + metered use</span>}
+              {this.cellSelect(value, i, ii)}
             </div>
           )),
           <div
@@ -94,7 +138,7 @@ export class ManifoldPricing {
               'mp--cell mp--cell__body mp--cell__bbs'
             )}
           >
-            <manifold-button href="https://google.com" text="Get Started"></manifold-button>
+            <manifold-button href={this.actionUrl} text="Get Started"></manifold-button>
           </div>,
         ])}
       </div>

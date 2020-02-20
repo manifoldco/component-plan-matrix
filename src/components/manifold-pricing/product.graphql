@@ -1,0 +1,59 @@
+query PRODUCT($first: Int!, $label: String!) {
+  product(label: $label) {
+    plans(first: $first) {
+      edges {
+        node {
+          displayName
+          cost
+          fixedFeatures(first: $first) {
+            edges {
+              node {
+                displayName
+                displayValue
+              }
+            }
+          }
+          meteredFeatures(first: $first) {
+            edges {
+              node {
+                displayName
+                numericDetails {
+                  unit
+                  costTiers {
+                    limit
+                    cost
+                  }
+                }
+              }
+            }
+          }
+          configurableFeatures(first: $first) {
+            edges {
+              node {
+                displayName
+                type
+                upgradable
+                downgradable
+                featureOptions {
+                  displayName
+                  cost
+                  value
+                }
+                numericDetails {
+                  increment
+                  min
+                  max
+                  unit
+                  costTiers {
+                    limit
+                    cost
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

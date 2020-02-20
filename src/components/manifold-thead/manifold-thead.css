@@ -1,0 +1,15 @@
+.mp--plan-cost {
+  margin: var(--manifold-table-spacing) 0 calc(var(--manifold-table-spacing) / 2) 0;
+  color: hsl(var(--manifold-c-grey-darker));
+  font-weight: 600;
+  font-size: 16px;
+  font-family: var(--manifold-table-f-body);
+  line-height: 19px;
+}
+
+.mp--subtext {
+  color: hsl(var(--manifold-c-grey));
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}

@@ -7,7 +7,9 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-
+import {
+  PlanEdge,
+} from 'types/graphql';
 
 export namespace Components {
   interface ManifoldButton {
@@ -19,7 +21,14 @@ export namespace Components {
     'inputId': string;
     'name': string;
   }
-  interface ManifoldPricing {}
+  interface ManifoldPricing {
+    'actionUrl': string;
+    'productLabel': string;
+  }
+  interface ManifoldThead {
+    'plan'?: PlanEdge;
+    'titleText': string;
+  }
 }
 
 declare global {
@@ -42,10 +51,17 @@ declare global {
     prototype: HTMLManifoldPricingElement;
     new (): HTMLManifoldPricingElement;
   };
+
+  interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
+  var HTMLManifoldTheadElement: {
+    prototype: HTMLManifoldTheadElement;
+    new (): HTMLManifoldTheadElement;
+  };
   interface HTMLElementTagNameMap {
     'manifold-button': HTMLManifoldButtonElement;
     'manifold-checkbox': HTMLManifoldCheckboxElement;
     'manifold-pricing': HTMLManifoldPricingElement;
+    'manifold-thead': HTMLManifoldTheadElement;
   }
 }
 
@@ -59,12 +75,20 @@ declare namespace LocalJSX {
     'inputId'?: string;
     'name'?: string;
   }
-  interface ManifoldPricing {}
+  interface ManifoldPricing {
+    'actionUrl'?: string;
+    'productLabel'?: string;
+  }
+  interface ManifoldThead {
+    'plan'?: PlanEdge;
+    'titleText'?: string;
+  }
 
   interface IntrinsicElements {
     'manifold-button': ManifoldButton;
     'manifold-checkbox': ManifoldCheckbox;
     'manifold-pricing': ManifoldPricing;
+    'manifold-thead': ManifoldThead;
   }
 }
 
@@ -77,6 +101,7 @@ declare module "@stencil/core" {
       'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
       'manifold-checkbox': LocalJSX.ManifoldCheckbox & JSXBase.HTMLAttributes<HTMLManifoldCheckboxElement>;
       'manifold-pricing': LocalJSX.ManifoldPricing & JSXBase.HTMLAttributes<HTMLManifoldPricingElement>;
+      'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }
   }
 }
