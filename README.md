@@ -49,5 +49,36 @@ import('@manifoldco/component-plan-matrix/loader').then(({ defineCustomElements 
 This libary is built using [Stencil][stencil]. For more information about integrating with your
 site, please refer to the latest [framework docs][stencil-framework].
 
+## Using in TypeScript + JSX
+
+This Web Component works in all frameworks & environments, but if you’re using within a React &
+TypeScript setup, you’ll also need the following config.
+
+Create a `custom-elements.d.ts` file anywhere in your project that’s within `tsconfig.json`’s
+[includes][tsconfig-includes] property:
+
+```ts
+import { Components, JSX as LocalJSX } from '@manifoldco/component-plan-matrix/loader';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
+
+type StencilProps<T> = {
+  [P in keyof T]?: Omit<T[P], 'ref'>;
+};
+
+type ReactProps<T> = {
+  [P in keyof T]?: DetailedHTMLProps<HTMLAttributes<T[P]>, T[P]>;
+};
+
+type StencilToReact<T = LocalJSX.IntrinsicElements, U = HTMLElementTagNameMap> = StencilProps<T> &
+  ReactProps<U>;
+
+declare global {
+  export namespace JSX {
+    interface IntrinsicElements extends StencilToReact {}
+  }
+}
+```
+
 [stencil]: https://stenciljs.com/docs/introduction
 [stencil-framework]: https://stenciljs.com/docs/overview
+[tsconfig-includes]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#examples

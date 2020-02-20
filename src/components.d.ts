@@ -21,7 +21,7 @@ export namespace Components {
     'inputId': string;
     'name': string;
   }
-  interface ManifoldPricing {
+  interface ManifoldPlanMatrix {
     'actionUrl': string;
     'productLabel': string;
   }
@@ -46,10 +46,10 @@ declare global {
     new (): HTMLManifoldCheckboxElement;
   };
 
-  interface HTMLManifoldPricingElement extends Components.ManifoldPricing, HTMLStencilElement {}
-  var HTMLManifoldPricingElement: {
-    prototype: HTMLManifoldPricingElement;
-    new (): HTMLManifoldPricingElement;
+  interface HTMLManifoldPlanMatrixElement extends Components.ManifoldPlanMatrix, HTMLStencilElement {}
+  var HTMLManifoldPlanMatrixElement: {
+    prototype: HTMLManifoldPlanMatrixElement;
+    new (): HTMLManifoldPlanMatrixElement;
   };
 
   interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
@@ -60,7 +60,7 @@ declare global {
   interface HTMLElementTagNameMap {
     'manifold-button': HTMLManifoldButtonElement;
     'manifold-checkbox': HTMLManifoldCheckboxElement;
-    'manifold-pricing': HTMLManifoldPricingElement;
+    'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
     'manifold-thead': HTMLManifoldTheadElement;
   }
 }
@@ -75,7 +75,7 @@ declare namespace LocalJSX {
     'inputId'?: string;
     'name'?: string;
   }
-  interface ManifoldPricing {
+  interface ManifoldPlanMatrix {
     'actionUrl'?: string;
     'productLabel'?: string;
   }
@@ -87,7 +87,7 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'manifold-button': ManifoldButton;
     'manifold-checkbox': ManifoldCheckbox;
-    'manifold-pricing': ManifoldPricing;
+    'manifold-plan-matrix': ManifoldPlanMatrix;
     'manifold-thead': ManifoldThead;
   }
 }
@@ -100,7 +100,7 @@ declare module "@stencil/core" {
     interface IntrinsicElements {
       'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
       'manifold-checkbox': LocalJSX.ManifoldCheckbox & JSXBase.HTMLAttributes<HTMLManifoldCheckboxElement>;
-      'manifold-pricing': LocalJSX.ManifoldPricing & JSXBase.HTMLAttributes<HTMLManifoldPricingElement>;
+      'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
       'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }
   }

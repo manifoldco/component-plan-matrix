@@ -5,8 +5,9 @@ import { withA11y } from '@storybook/addon-a11y';
 storiesOf('Manifold Pricing', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
-  .add('manifold-pricing', () => {
+  .add('manifold-plan-matrix', () => {
     const productLabel = text('Product Label', 'ziggeo');
     const actionUrl = text('Action Url', 'https://google.com');
-    return `<manifold-pricing product-label="${productLabel}" action-url="${actionUrl}"></manifold-pricing>`;
+
+    return `<manifold-plan-matrix product-label="${productLabel}" action-url="${actionUrl}"></manifold-plan-matrix>`;
   });
