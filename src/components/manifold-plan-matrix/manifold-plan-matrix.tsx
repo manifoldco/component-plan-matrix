@@ -16,9 +16,9 @@ export class ManifoldPricing {
   // Used to apply css variables to root element
   @Element() el: HTMLElement;
   // Passed product label to the graphql endpoint
-  @Prop() productLabel?: string;
+  @Prop() productLabel?: string = '';
   // Url for price Edge cta
-  @Prop() actionUrl?: string;
+  @Prop() actionUrl?: string = '';
   // Product data
   @State() product?: ProductQuery['product'];
   // Plans data

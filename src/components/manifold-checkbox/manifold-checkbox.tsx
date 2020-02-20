@@ -6,9 +6,9 @@ import { check } from '@manifoldco/icons';
   styleUrl: 'manifold-checkbox.css',
 })
 export class ManifoldCheckbox {
-  @Prop() inputId: string;
-  @Prop() name: string;
-  @Prop() checked: boolean;
+  @Prop() inputId?: string = '';
+  @Prop() name?: string = '';
+  @Prop() checked?: boolean = false;
 
   render() {
     return [

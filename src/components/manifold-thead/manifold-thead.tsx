@@ -6,7 +6,7 @@ import { ProductQuery } from 'types/graphql';
   styleUrl: 'manifold-thead.css',
 })
 export class ManifoldThead {
-  @Prop() titleText: string;
+  @Prop() titleText?: string = '';
   @Prop() plan?: ProductQuery['product']['plans']['edges'][0];
 
   render() {
