@@ -1,5 +1,5 @@
 import { Component, Prop, h } from '@stencil/core';
-import { PlanEdge } from 'types/graphql';
+import { ProductQuery } from 'types/graphql';
 
 @Component({
   tag: 'manifold-thead',
@@ -7,7 +7,7 @@ import { PlanEdge } from 'types/graphql';
 })
 export class ManifoldThead {
   @Prop() titleText: string;
-  @Prop() plan?: PlanEdge;
+  @Prop() plan?: ProductQuery['product']['plans']['edges'][0];
 
   render() {
     if (!this.plan) {
@@ -17,7 +17,7 @@ export class ManifoldThead {
     return [
       this.titleText,
       <p class="mp--plan-cost">
-        ${this.plan.node.cost}
+        ${this.plan.node.cost / 100}
         <span class="mp--subtext">/mo</span>
       </p>,
       this.plan.node.meteredFeatures && <span class="mp--subtext"> + metered use</span>,

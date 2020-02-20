@@ -8,7 +8,7 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  PlanEdge,
+  ProductQuery,
 } from 'types/graphql';
 
 export namespace Components {
@@ -22,11 +22,11 @@ export namespace Components {
     'name': string;
   }
   interface ManifoldPlanMatrix {
-    'actionUrl': string;
-    'productLabel': string;
+    'actionUrl'?: string;
+    'productLabel'?: string;
   }
   interface ManifoldThead {
-    'plan'?: PlanEdge;
+    'plan'?: ProductQuery['product']['plans']['edges'][0];
     'titleText': string;
   }
 }
@@ -80,7 +80,7 @@ declare namespace LocalJSX {
     'productLabel'?: string;
   }
   interface ManifoldThead {
-    'plan'?: PlanEdge;
+    'plan'?: ProductQuery['product']['plans']['edges'][0];
     'titleText'?: string;
   }
 
