@@ -13,21 +13,21 @@ import {
 
 export namespace Components {
   interface ManifoldButton {
-    'href': string;
-    'text': string;
+    'href'?: string;
   }
   interface ManifoldCheckbox {
-    'checked': boolean;
-    'inputId': string;
-    'name': string;
+    'checked'?: boolean;
+    'inputId'?: string;
+    'name'?: string;
   }
   interface ManifoldPlanMatrix {
-    'actionUrl'?: string;
+    'baseUrl'?: string;
+    'ctaText'?: string;
     'productLabel'?: string;
   }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
-    'titleText': string;
+    'titleText'?: string;
   }
 }
 
@@ -68,7 +68,6 @@ declare global {
 declare namespace LocalJSX {
   interface ManifoldButton {
     'href'?: string;
-    'text'?: string;
   }
   interface ManifoldCheckbox {
     'checked'?: boolean;
@@ -76,7 +75,8 @@ declare namespace LocalJSX {
     'name'?: string;
   }
   interface ManifoldPlanMatrix {
-    'actionUrl'?: string;
+    'baseUrl'?: string;
+    'ctaText'?: string;
     'productLabel'?: string;
   }
   interface ManifoldThead {

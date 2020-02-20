@@ -17,8 +17,10 @@ export class ManifoldPricing {
   @Element() el: HTMLElement;
   // Passed product label to the graphql endpoint
   @Prop() productLabel?: string = '';
-  // Url for price Edge cta
-  @Prop() actionUrl?: string = '';
+  // Base url for buttons
+  @Prop() baseUrl?: string = '/signup';
+  // CTA Text for buttons
+  @Prop() ctaText?: string = 'Get Started';
   // Product data
   @State() product?: ProductQuery['product'];
   // Plans data
@@ -178,7 +180,7 @@ export class ManifoldPricing {
               'mp--cell mp--cell__body mp--cell__bbs'
             )}
           >
-            <manifold-button href={this.actionUrl || ''} text="Get Started"></manifold-button>
+            <manifold-button href={this.baseUrl}>{this.ctaText}</manifold-button>
           </div>,
         ])}
       </div>
