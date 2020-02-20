@@ -1,4 +1,4 @@
-import { Component, Element, h } from '@stencil/core';
+import { Component, Element, h, Prop } from '@stencil/core';
 
 type conditionalClassesObj = {
   [name: string]: boolean;
@@ -10,6 +10,8 @@ type conditionalClassesObj = {
 })
 export class ManifoldPricing {
   @Element() el: HTMLElement;
+  @Prop() baseUrl?: string = '/signup';
+  @Prop() ctaText?: string = 'Get Started';
 
   addClass(obj: conditionalClassesObj, baseClass = ''): string {
     const conditionalClasses = Object.keys(obj).map(cl => (obj[cl] ? cl : ''));
@@ -94,7 +96,7 @@ export class ManifoldPricing {
               'mp--cell mp--cell__body mp--cell__bbs'
             )}
           >
-            <manifold-button href="https://google.com" text="Get Started"></manifold-button>
+            <manifold-button href={this.baseUrl}>{this.ctaText}</manifold-button>
           </div>,
         ])}
       </div>

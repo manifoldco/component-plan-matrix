@@ -12,14 +12,16 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
   interface ManifoldButton {
     'href': string;
-    'text': string;
   }
   interface ManifoldCheckbox {
     'checked': boolean;
     'inputId': string;
     'name': string;
   }
-  interface ManifoldPlanMatrix {}
+  interface ManifoldPlanMatrix {
+    'baseUrl'?: string;
+    'ctaText'?: string;
+  }
 }
 
 declare global {
@@ -52,14 +54,16 @@ declare global {
 declare namespace LocalJSX {
   interface ManifoldButton {
     'href'?: string;
-    'text'?: string;
   }
   interface ManifoldCheckbox {
     'checked'?: boolean;
     'inputId'?: string;
     'name'?: string;
   }
-  interface ManifoldPlanMatrix {}
+  interface ManifoldPlanMatrix {
+    'baseUrl'?: string;
+    'ctaText'?: string;
+  }
 
   interface IntrinsicElements {
     'manifold-button': ManifoldButton;
