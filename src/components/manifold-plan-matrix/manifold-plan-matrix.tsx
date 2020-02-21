@@ -124,65 +124,46 @@ export class ManifoldPricing {
           );
         })}
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th mp--cell__rounded-bl"></div>
-        {this.plans.map((plan, i) => [
-          <div
-            class={this.addClass(
-              {
-                'mp--cell__rounded-tr': i === gridColumns - 2,
-              },
-              'mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th'
-            )}
-          >
-            <manifold-thead title-text={plan.node.displayName} plan={plan}></manifold-thead>
-          </div>,
-          plan.node.fixedFeatures.edges.map((value, ii) => (
+        {this.plans
+          .sort((a, b) => a.node.cost - b.node.cost)
+          .map((plan, i) => [
             <div
               class={this.addClass(
                 {
-                  'mp--cell__body': ii !== 0,
+                  'mp--cell__rounded-tr': i === gridColumns - 2,
                 },
-                'mp--cell'
+                'mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th'
               )}
             >
-              {this.fixedFeatures(value.node.displayValue, i, ii)}
-            </div>
-          )),
-          // TODO add metered and configurable features
-          // plan.node.meteredFeatures.edges.map((value, ii) => (
-          //   <div
-          //     class={this.addClass(
-          //       {
-          //         'mp--cell__body': ii !== 0,
-          //       },
-          //       'mp--cell'
-          //     )}
-          //   >
-          //     {this.meteredFeatures(value.node.displayValue, i, ii)}
-          //   </div>
-          // )),
-          // plan.node.configurableFeatures.edges.map((value, ii) => (
-          //   <div
-          //     class={this.addClass(
-          //       {
-          //         'mp--cell__body': ii !== 0,
-          //       },
-          //       'mp--cell'
-          //     )}
-          //   >
-          //     {this.configurableFeatures(value.node.displayValue, i, ii)}
-          //   </div>
-          // )),
-          <div
-            class={this.addClass(
-              {
-                'mp--cell__brs mp--cell__rounded-br': i === gridColumns - 1,
-              },
-              'mp--cell mp--cell__body mp--cell__bbs'
-            )}
-          >
-            <manifold-button href={this.baseUrl}>{this.ctaText}</manifold-button>
-          </div>,
-        ])}
+              <manifold-thead title-text={plan.node.displayName} plan={plan}></manifold-thead>
+            </div>,
+            plan.node.fixedFeatures.edges.map((value, ii) => (
+              <div class="mp--cell mp--cell__body">
+                {this.fixedFeatures(value.node.displayValue, i, ii)}
+              </div>
+            )),
+            // TODO add metered and configurable features
+            // plan.node.meteredFeatures.edges.map((value, ii) => (
+            // <div class="mp--cell mp--cell__body">
+            //     {this.meteredFeatures(value.node.displayValue, i, ii)}
+            //   </div>
+            // )),
+            // plan.node.configurableFeatures.edges.map((value, ii) => (
+            // <div class="mp--cell mp--cell__body">
+            //     {this.configurableFeatures(value.node.displayValue, i, ii)}
+            //   </div>
+            // )),
+            <div
+              class={this.addClass(
+                {
+                  'mp--cell__brs mp--cell__rounded-br': i === gridColumns - 2,
+                },
+                'mp--cell mp--cell__body mp--cell__bbs'
+              )}
+            >
+              <manifold-button href={this.baseUrl}>{this.ctaText}</manifold-button>
+            </div>,
+          ])}
       </div>
     );
   }
