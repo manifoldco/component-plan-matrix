@@ -1,8 +1,23 @@
 import { Component, Element, h, State, Prop } from '@stencil/core';
 import { ProductQueryVariables, ProductQuery } from 'types/graphql';
+import { Connection, InitDetail } from '@manifoldco/mui-core-types/v0';
 import query from './product.graphql';
 
-const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
+function initialize(el: HTMLElement): Promise<Connection> {
+  return new Promise((resolve, reject) => {
+    el.dispatchEvent(
+      new CustomEvent<InitDetail>('mui-initialize', {
+        bubbles: true,
+        detail: {
+          resolve,
+          reject,
+          version: 0,
+          componentVersion: '<@NPM_PACKAGE_VERSION@>',
+        },
+      })
+    );
+  });
+}
 
 type conditionalClassesObj = {
   [name: string]: boolean;
@@ -30,26 +45,23 @@ export class ManifoldPricing {
   // Loading state
   @State() loading = true;
 
-  componentWillLoad() {
+  @State() connection: Connection;
+
+  async componentWillLoad() {
+    this.connection = await initialize(this.el);
+
     const DEFAULT = 'ziggeo';
     const variables: ProductQueryVariables = { label: this.productLabel || DEFAULT, first: 50 };
-    fetch(GRAPHQL_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query,
-        variables,
-      }),
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(({ data }) => {
-        if (data.product) {
-          this.product = data.product;
-          this.createPlans();
-        }
-      });
+
+    const { data } = await this.connection.graphqlFetch<ProductQuery>({
+      query,
+      variables,
+    });
+
+    if (data?.product) {
+      this.product = data.product;
+      this.createPlans();
+    }
   }
 
   createPlans() {
