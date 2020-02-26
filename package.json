@@ -1,6 +1,6 @@
 {
   "name": "@manifoldco/component-plan-matrix",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "private": false,
   "description": "Stencil Component Starter",
   "main": "dist/index.js",

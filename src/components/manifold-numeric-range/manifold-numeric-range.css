@@ -1,0 +1,16 @@
+.mp--numeric-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: var(--manifold-c-grey-darker);
+  font-size: 14px;
+  line-height: 17px;
+  border-top: var(--manifold-table-metered-border);
+}
+
+.mp--numeric-range__text {
+  margin: 6px 0;
+}
+
+.mp--numeric-range__last {
+  text-align: right;
+}

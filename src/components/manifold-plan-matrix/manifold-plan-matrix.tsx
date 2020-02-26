@@ -8,6 +8,7 @@ type conditionalClassesObj = {
   [name: string]: boolean;
 };
 
+type NumericDetails = ProductQuery['product']['plans']['edges'][0]['node']['meteredFeatures']['edges'][0]['node']['numericDetails'];
 @Component({
   tag: 'manifold-plan-matrix',
   styleUrl: 'manifold-plan-matrix.css',
@@ -57,12 +58,12 @@ export class ManifoldPricing {
       const plan = this.product.plans.edges.slice(0, 1).pop();
       if (plan) {
         const fixedFeatures = plan.node.fixedFeatures.edges.map(edge => edge.node.displayName);
-        // const meteredFeatures = plan.node.meteredFeatures.edges.map(edge => edge.node.displayName);
+        const meteredFeatures = plan.node.meteredFeatures.edges.map(edge => edge.node.displayName);
         // const configurableFeatures = plan.node.configurableFeatures.edges.map(
         //   edge => edge.node.displayName
         // );
 
-        this.labels = [...fixedFeatures];
+        this.labels = [...fixedFeatures, ...meteredFeatures];
         this.plans = this.product.plans.edges;
         this.loading = false;
       }
@@ -79,22 +80,53 @@ export class ManifoldPricing {
   fixedFeatures(displayValue: string, planIndex: number, rowIndex: number) {
     if (displayValue === 'true' || displayValue === 'false') {
       return (
-        <manifold-checkbox
-          input-id={`${planIndex}-${this.labels[rowIndex]}`}
-          name={this.labels[rowIndex]}
-          checked={displayValue === 'true'}
-        ></manifold-checkbox>
+        <div class="mp--cell mp--cell__body">
+          <manifold-checkbox
+            input-id={`${planIndex}-${this.labels[rowIndex]}`}
+            name={this.labels[rowIndex]}
+            checked={displayValue === 'true'}
+          ></manifold-checkbox>
+        </div>
       );
     }
-    return displayValue;
+    return <div class="mp--cell mp--cell__body">{displayValue}</div>;
   }
 
-  meteredFeatures() {
-    return '';
+  meteredFeatures(numericDetails: NumericDetails) {
+    if (numericDetails.costTiers.length === 0) {
+      return (
+        <div class="mp--cell mp--cell__body">
+          <manifold-empty-cell></manifold-empty-cell>
+        </div>
+      );
+    }
+
+    return (
+      <div class="mp--cell mp--cell__body mp--cell__block">
+        <manifold-metered>
+          {numericDetails.costTiers.map(({ limit, cost }, i) => {
+            const previous = numericDetails.costTiers[i - 1];
+            const min = previous?.limit ? previous.limit : 0;
+            return (
+              <manifold-numeric-range
+                min-limit={min}
+                max-limit={limit}
+                cost={cost}
+                unit={numericDetails.unit}
+              ></manifold-numeric-range>
+            );
+          })}
+        </manifold-metered>
+      </div>
+    );
   }
 
   configurableFeatures() {
-    return '';
+    return (
+      <div class="mp--cell mp--cell__body">
+        <manifold-empty-cell></manifold-empty-cell>
+      </div>
+    );
   }
 
   render() {
@@ -137,22 +169,13 @@ export class ManifoldPricing {
             >
               <manifold-thead title-text={plan.node.displayName} plan={plan}></manifold-thead>
             </div>,
-            plan.node.fixedFeatures.edges.map((value, ii) => (
-              <div class="mp--cell mp--cell__body">
-                {this.fixedFeatures(value.node.displayValue, i, ii)}
-              </div>
-            )),
-            // TODO add metered and configurable features
-            // plan.node.meteredFeatures.edges.map((value, ii) => (
-            // <div class="mp--cell mp--cell__body">
-            //     {this.meteredFeatures(value.node.displayValue, i, ii)}
-            //   </div>
-            // )),
-            // plan.node.configurableFeatures.edges.map((value, ii) => (
-            // <div class="mp--cell mp--cell__body">
-            //     {this.configurableFeatures(value.node.displayValue, i, ii)}
-            //   </div>
-            // )),
+            plan.node.fixedFeatures.edges.map((value, ii) =>
+              this.fixedFeatures(value.node.displayValue, i, ii)
+            ),
+            plan.node.meteredFeatures.edges.map(value =>
+              this.meteredFeatures(value.node.numericDetails)
+            ),
+            // plan.node.configurableFeatures.edges.map(() => this.configurableFeatures()),
             <div
               class={this.addClass(
                 {

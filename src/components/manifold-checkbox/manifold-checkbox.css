@@ -9,13 +9,6 @@ manifold-checkbox {
   fill: hsl(var(--manifold-check-color));
 }
 
-.mp--checkbox__blank {
-  color: hsl(var(--manifold-empty-color));
-  font-size: 1.5rem;
-  line-height: 1.5;
-  text-align: center;
-}
-
 .mp--checkbox__input {
   display: none;
 }
@@ -28,6 +21,6 @@ manifold-checkbox {
   display: inline;
 }
 
-.mp--checkbox__input[type='checkbox']:checked ~ .mp--checkbox__blank {
+.mp--checkbox__input[type='checkbox']:checked ~ manifold-empty-cell {
   display: none;
 }
