@@ -20,14 +20,14 @@ export namespace Components {
     'inputId'?: string;
     'name'?: string;
   }
-  interface ManifoldEmptyCell {}
-  interface ManifoldMetered {}
-  interface ManifoldNumericRange {
+  interface ManifoldCostTiers {
     'cost'?: number;
     'maxLimit'?: number;
     'minLimit'?: number;
     'unit'?: string;
   }
+  interface ManifoldEmptyCell {}
+  interface ManifoldMetered {}
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
@@ -54,6 +54,12 @@ declare global {
     new (): HTMLManifoldCheckboxElement;
   };
 
+  interface HTMLManifoldCostTiersElement extends Components.ManifoldCostTiers, HTMLStencilElement {}
+  var HTMLManifoldCostTiersElement: {
+    prototype: HTMLManifoldCostTiersElement;
+    new (): HTMLManifoldCostTiersElement;
+  };
+
   interface HTMLManifoldEmptyCellElement extends Components.ManifoldEmptyCell, HTMLStencilElement {}
   var HTMLManifoldEmptyCellElement: {
     prototype: HTMLManifoldEmptyCellElement;
@@ -64,12 +70,6 @@ declare global {
   var HTMLManifoldMeteredElement: {
     prototype: HTMLManifoldMeteredElement;
     new (): HTMLManifoldMeteredElement;
-  };
-
-  interface HTMLManifoldNumericRangeElement extends Components.ManifoldNumericRange, HTMLStencilElement {}
-  var HTMLManifoldNumericRangeElement: {
-    prototype: HTMLManifoldNumericRangeElement;
-    new (): HTMLManifoldNumericRangeElement;
   };
 
   interface HTMLManifoldPlanMatrixElement extends Components.ManifoldPlanMatrix, HTMLStencilElement {}
@@ -86,9 +86,9 @@ declare global {
   interface HTMLElementTagNameMap {
     'manifold-button': HTMLManifoldButtonElement;
     'manifold-checkbox': HTMLManifoldCheckboxElement;
+    'manifold-cost-tiers': HTMLManifoldCostTiersElement;
     'manifold-empty-cell': HTMLManifoldEmptyCellElement;
     'manifold-metered': HTMLManifoldMeteredElement;
-    'manifold-numeric-range': HTMLManifoldNumericRangeElement;
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
     'manifold-thead': HTMLManifoldTheadElement;
   }
@@ -103,14 +103,14 @@ declare namespace LocalJSX {
     'inputId'?: string;
     'name'?: string;
   }
-  interface ManifoldEmptyCell {}
-  interface ManifoldMetered {}
-  interface ManifoldNumericRange {
+  interface ManifoldCostTiers {
     'cost'?: number;
     'maxLimit'?: number;
     'minLimit'?: number;
     'unit'?: string;
   }
+  interface ManifoldEmptyCell {}
+  interface ManifoldMetered {}
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
@@ -124,9 +124,9 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'manifold-button': ManifoldButton;
     'manifold-checkbox': ManifoldCheckbox;
+    'manifold-cost-tiers': ManifoldCostTiers;
     'manifold-empty-cell': ManifoldEmptyCell;
     'manifold-metered': ManifoldMetered;
-    'manifold-numeric-range': ManifoldNumericRange;
     'manifold-plan-matrix': ManifoldPlanMatrix;
     'manifold-thead': ManifoldThead;
   }
@@ -140,9 +140,9 @@ declare module "@stencil/core" {
     interface IntrinsicElements {
       'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
       'manifold-checkbox': LocalJSX.ManifoldCheckbox & JSXBase.HTMLAttributes<HTMLManifoldCheckboxElement>;
+      'manifold-cost-tiers': LocalJSX.ManifoldCostTiers & JSXBase.HTMLAttributes<HTMLManifoldCostTiersElement>;
       'manifold-empty-cell': LocalJSX.ManifoldEmptyCell & JSXBase.HTMLAttributes<HTMLManifoldEmptyCellElement>;
       'manifold-metered': LocalJSX.ManifoldMetered & JSXBase.HTMLAttributes<HTMLManifoldMeteredElement>;
-      'manifold-numeric-range': LocalJSX.ManifoldNumericRange & JSXBase.HTMLAttributes<HTMLManifoldNumericRangeElement>;
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
       'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }

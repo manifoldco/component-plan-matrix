@@ -1,4 +1,4 @@
-.mp--numeric-range {
+.mp--cost-tiers {
   display: grid;
   grid-template-columns: 1fr 1fr;
   color: var(--manifold-c-grey-darker);
@@ -7,10 +7,10 @@
   border-top: var(--manifold-table-metered-border);
 }
 
-.mp--numeric-range__text {
+.mp--cost-tiers__text {
   margin: 6px 0;
 }
 
-.mp--numeric-range__last {
+.mp--cost-tiers__last {
   text-align: right;
 }

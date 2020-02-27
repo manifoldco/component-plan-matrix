@@ -108,12 +108,12 @@ export class ManifoldPricing {
             const previous = numericDetails.costTiers[i - 1];
             const min = previous?.limit ? previous.limit : 0;
             return (
-              <manifold-numeric-range
+              <manifold-cost-tiers
                 min-limit={min}
                 max-limit={limit}
                 cost={cost}
                 unit={numericDetails.unit}
-              ></manifold-numeric-range>
+              ></manifold-cost-tiers>
             );
           })}
         </manifold-metered>
