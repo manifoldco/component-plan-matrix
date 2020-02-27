@@ -605,6 +605,7 @@ export type ProductBooleanConfigurableFeature = ProductConfigurableFeature & {
    __typename?: 'ProductBooleanConfigurableFeature',
   label: Scalars['String'],
   displayName: Scalars['String'],
+  featureOptions?: Maybe<Array<ProductConfigurableFeatureOption>>,
 };
 
 export type ProductConfigurableFeature = {
@@ -626,6 +627,9 @@ export type ProductConfigurableFeatureEdge = {
 
 export type ProductConfigurableFeatureNumericDetails = {
    __typename?: 'ProductConfigurableFeatureNumericDetails',
+  increment: Scalars['Int'],
+  min: Scalars['Int'],
+  max: Scalars['Int'],
   unit: Scalars['String'],
   costTiers: Array<ProductFeatureCostTier>,
 };
@@ -641,6 +645,7 @@ export type ProductConfigurableFeatureOption = {
    __typename?: 'ProductConfigurableFeatureOption',
   value: Scalars['String'],
   displayName: Scalars['String'],
+  cost: Scalars['Int'],
 };
 
 export type ProductConfigurableFeaturesOrderBy = {
@@ -1167,7 +1172,7 @@ export type WithUsage = {
 
 export type ProductQueryVariables = {
   first: Scalars['Int'],
-  label: Scalars['String']
+  id: Scalars['ID']
 };
 
 

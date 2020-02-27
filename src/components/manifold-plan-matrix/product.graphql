@@ -1,5 +1,5 @@
-query PRODUCT($first: Int!, $label: String!) {
-  product(label: $label) {
+query PRODUCT($first: Int!, $id: ID!) {
+  product(id: $id) {
     plans(first: $first) {
       edges {
         node {
