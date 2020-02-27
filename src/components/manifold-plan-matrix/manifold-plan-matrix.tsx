@@ -1,5 +1,5 @@
 import { Component, Element, h, State, Prop } from '@stencil/core';
-import { ProductQueryVariables, ProductQuery } from 'types/graphql';
+import { ProductQueryVariables, ProductQuery } from '../../types/graphql';
 import query from './product.graphql';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
