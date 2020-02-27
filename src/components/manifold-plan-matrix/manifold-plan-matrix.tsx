@@ -16,8 +16,8 @@ type NumericDetails = ProductQuery['product']['plans']['edges'][0]['node']['mete
 export class ManifoldPricing {
   // Used to apply css variables to root element
   @Element() el: HTMLElement;
-  // Passed product label to the graphql endpoint
-  @Prop() productLabel?: string = '';
+  // Passed product ID to the graphql endpoint
+  @Prop() productId?: string = '';
   // Base url for buttons
   @Prop() baseUrl?: string = '/signup';
   // CTA Text for buttons
@@ -35,7 +35,7 @@ export class ManifoldPricing {
 
   componentWillLoad() {
     const DEFAULT = 'ziggeo';
-    const variables: ProductQueryVariables = { label: this.productLabel || DEFAULT, first: 50 };
+    const variables: ProductQueryVariables = { id: this.productId || DEFAULT, first: 50 };
     fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

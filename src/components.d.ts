@@ -32,7 +32,7 @@ export namespace Components {
     'baseUrl'?: string;
     'ctaText'?: string;
     'graphqlUrl'?: string;
-    'productLabel'?: string;
+    'productId'?: string;
   }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
@@ -116,7 +116,7 @@ declare namespace LocalJSX {
     'baseUrl'?: string;
     'ctaText'?: string;
     'graphqlUrl'?: string;
-    'productLabel'?: string;
+    'productId'?: string;
   }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
