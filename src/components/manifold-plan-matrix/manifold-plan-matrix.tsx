@@ -22,6 +22,8 @@ export class ManifoldPricing {
   @Prop() baseUrl?: string = '/signup';
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
+  // Graphql enpoint (TEMP)
+  @Prop() graphqlUrl?: string = GRAPHQL_ENDPOINT;
   // Product data
   @State() product?: ProductQuery['product'];
   // Plans data
@@ -34,7 +36,7 @@ export class ManifoldPricing {
   componentWillLoad() {
     const DEFAULT = 'ziggeo';
     const variables: ProductQueryVariables = { label: this.productLabel || DEFAULT, first: 50 };
-    fetch(GRAPHQL_ENDPOINT, {
+    fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

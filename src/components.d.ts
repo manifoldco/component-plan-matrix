@@ -31,6 +31,7 @@ export namespace Components {
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
+    'graphqlUrl'?: string;
     'productLabel'?: string;
   }
   interface ManifoldThead {
@@ -114,6 +115,7 @@ declare namespace LocalJSX {
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
+    'graphqlUrl'?: string;
     'productLabel'?: string;
   }
   interface ManifoldThead {
