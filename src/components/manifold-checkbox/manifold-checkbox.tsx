@@ -28,7 +28,7 @@ export class ManifoldCheckbox {
       >
         <path d={check} />
       </svg>,
-      <span class="mp--checkbox__blank">•</span>,
+      <manifold-empty-cell></manifold-empty-cell>,
     ];
   }
 }

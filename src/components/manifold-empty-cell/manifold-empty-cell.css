@@ -1,0 +1,6 @@
+.mp--empty-cell {
+  color: hsl(var(--manifold-empty-color));
+  font-size: 1.5rem;
+  line-height: 1.5;
+  text-align: center;
+}
