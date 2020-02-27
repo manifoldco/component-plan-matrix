@@ -9,7 +9,7 @@
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
   ProductQuery,
-} from 'types/graphql';
+} from './types/graphql';
 
 export namespace Components {
   interface ManifoldButton {

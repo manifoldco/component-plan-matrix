@@ -1,5 +1,5 @@
 import { Component, Prop, h } from '@stencil/core';
-import { ProductQuery } from 'types/graphql';
+import { ProductQuery } from '../../types/graphql';
 
 @Component({
   tag: 'manifold-thead',
