@@ -8,6 +8,7 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  PlanConfigurableFeatureOption,
   ProductQuery,
 } from './types/graphql';
 
@@ -33,6 +34,9 @@ export namespace Components {
     'ctaText'?: string;
     'graphqlUrl'?: string;
     'productId'?: string;
+  }
+  interface ManifoldSelect {
+    'options'?: PlanConfigurableFeatureOption[];
   }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
@@ -79,6 +83,12 @@ declare global {
     new (): HTMLManifoldPlanMatrixElement;
   };
 
+  interface HTMLManifoldSelectElement extends Components.ManifoldSelect, HTMLStencilElement {}
+  var HTMLManifoldSelectElement: {
+    prototype: HTMLManifoldSelectElement;
+    new (): HTMLManifoldSelectElement;
+  };
+
   interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
   var HTMLManifoldTheadElement: {
     prototype: HTMLManifoldTheadElement;
@@ -91,6 +101,7 @@ declare global {
     'manifold-empty-cell': HTMLManifoldEmptyCellElement;
     'manifold-metered': HTMLManifoldMeteredElement;
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
+    'manifold-select': HTMLManifoldSelectElement;
     'manifold-thead': HTMLManifoldTheadElement;
   }
 }
@@ -118,6 +129,9 @@ declare namespace LocalJSX {
     'graphqlUrl'?: string;
     'productId'?: string;
   }
+  interface ManifoldSelect {
+    'options'?: PlanConfigurableFeatureOption[];
+  }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
     'titleText'?: string;
@@ -130,6 +144,7 @@ declare namespace LocalJSX {
     'manifold-empty-cell': ManifoldEmptyCell;
     'manifold-metered': ManifoldMetered;
     'manifold-plan-matrix': ManifoldPlanMatrix;
+    'manifold-select': ManifoldSelect;
     'manifold-thead': ManifoldThead;
   }
 }
@@ -146,6 +161,7 @@ declare module "@stencil/core" {
       'manifold-empty-cell': LocalJSX.ManifoldEmptyCell & JSXBase.HTMLAttributes<HTMLManifoldEmptyCellElement>;
       'manifold-metered': LocalJSX.ManifoldMetered & JSXBase.HTMLAttributes<HTMLManifoldMeteredElement>;
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
+      'manifold-select': LocalJSX.ManifoldSelect & JSXBase.HTMLAttributes<HTMLManifoldSelectElement>;
       'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }
   }

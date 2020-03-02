@@ -4,13 +4,14 @@ import {
   ProductQuery,
   PlanFeatureType,
   PlanConfigurableFeatureOption,
-  PlanConfigurableFeatureNumericDetails,
+  // PlanConfigurableFeatureNumericDetails,
+  PlanFixedFeature,
 } from '../../types/graphql';
 import query from './product.graphql';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 
-type conditionalClassesObj = {
+type ConditionalClassesObj = {
   [name: string]: boolean;
 };
 type tierLabel = { tierLabel: string };
@@ -131,12 +132,12 @@ export class ManifoldPricing {
     }
   }
 
-  addClass(obj: conditionalClassesObj, baseClass = ''): string {
+  addClass(obj: ConditionalClassesObj, baseClass = ''): string {
     const conditionalClasses = Object.keys(obj).map(cl => (obj[cl] ? cl : ''));
     return `${baseClass} ${conditionalClasses.join(' ')}`;
   }
 
-  fixedFeatures(displayValue: string, planIndex: number) {
+  fixedFeatures(displayValue: PlanFixedFeature['displayName'], planIndex: number) {
     if (displayValue === 'true' || displayValue === 'false') {
       return (
         <div class="mp--cell mp--cell__body">
@@ -182,13 +183,18 @@ export class ManifoldPricing {
 
   configurableFeatures(
     type: PlanFeatureType,
-    numericDetails?: PlanConfigurableFeatureNumericDetails,
+    // numericDetails?: PlanConfigurableFeatureNumericDetails,
     featureOptions?: PlanConfigurableFeatureOption[]
   ) {
     switch (type) {
-      case PlanFeatureType.Boolean:
-      case PlanFeatureType.Number:
       case PlanFeatureType.String:
+        return (
+          <div class="mp--cell mp--cell__body">
+            <manifold-select options={featureOptions}></manifold-select>
+          </div>
+        );
+      case PlanFeatureType.Number:
+      case PlanFeatureType.Boolean:
       default:
         return (
           <div class="mp--cell mp--cell__body">
@@ -266,10 +272,9 @@ export class ManifoldPricing {
               }
 
               if (configurableFeaturesMatch) {
-                console.log(configurableFeaturesMatch.node.displayName);
                 return this.configurableFeatures(
                   configurableFeaturesMatch.node.type,
-                  configurableFeaturesMatch.node.numericDetails,
+                  // configurableFeaturesMatch.node.numericDetails,
                   configurableFeaturesMatch.node.featureOptions
                 );
               }
