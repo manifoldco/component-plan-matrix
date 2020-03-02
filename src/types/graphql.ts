@@ -1193,7 +1193,7 @@ export type ProductQuery = (
               { __typename?: 'PlanFixedFeatureEdge' }
               & { node: (
                 { __typename?: 'PlanFixedFeature' }
-                & Pick<PlanFixedFeature, 'displayName' | 'displayValue'>
+                & Pick<PlanFixedFeature, 'label' | 'displayName' | 'displayValue'>
               ) }
             )> }
           )>, meteredFeatures: Maybe<(
@@ -1202,7 +1202,7 @@ export type ProductQuery = (
               { __typename?: 'PlanMeteredFeatureEdge' }
               & { node: (
                 { __typename?: 'PlanMeteredFeature' }
-                & Pick<PlanMeteredFeature, 'displayName'>
+                & Pick<PlanMeteredFeature, 'label' | 'displayName'>
                 & { numericDetails: (
                   { __typename?: 'PlanMeteredFeatureNumericDetails' }
                   & Pick<PlanMeteredFeatureNumericDetails, 'unit'>
@@ -1219,7 +1219,7 @@ export type ProductQuery = (
               { __typename?: 'PlanConfigurableFeatureEdge' }
               & { node: (
                 { __typename?: 'PlanConfigurableFeature' }
-                & Pick<PlanConfigurableFeature, 'displayName' | 'type' | 'upgradable' | 'downgradable'>
+                & Pick<PlanConfigurableFeature, 'label' | 'displayName' | 'type' | 'upgradable' | 'downgradable'>
                 & { featureOptions: Maybe<Array<(
                   { __typename?: 'PlanConfigurableFeatureOption' }
                   & Pick<PlanConfigurableFeatureOption, 'displayName' | 'cost' | 'value'>

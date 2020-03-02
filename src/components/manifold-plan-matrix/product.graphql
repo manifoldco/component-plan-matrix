@@ -8,6 +8,7 @@ query PRODUCT($first: Int!, $id: ID!) {
           fixedFeatures(first: $first) {
             edges {
               node {
+                label
                 displayName
                 displayValue
               }
@@ -16,6 +17,7 @@ query PRODUCT($first: Int!, $id: ID!) {
           meteredFeatures(first: $first) {
             edges {
               node {
+                label
                 displayName
                 numericDetails {
                   unit
@@ -30,6 +32,7 @@ query PRODUCT($first: Int!, $id: ID!) {
           configurableFeatures(first: $first) {
             edges {
               node {
+                label
                 displayName
                 type
                 upgradable

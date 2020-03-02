@@ -7,8 +7,9 @@ const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 type conditionalClassesObj = {
   [name: string]: boolean;
 };
+type tierLabel = { tierLabel: string };
 type TableRef = {
-  [key: string]: { label: string };
+  [key: string]: tierLabel;
 };
 type NumericDetails = ProductQuery['product']['plans']['edges'][0]['node']['meteredFeatures']['edges'][0]['node']['numericDetails'];
 @Component({
@@ -70,8 +71,8 @@ export class ManifoldPricing {
             }
             // Add new key
             return {
-              [n.displayName]: {
-                label: n.displayName,
+              [n.label]: {
+                tierLabel: n.displayName,
               },
               ...fixedAccumulator,
             };
@@ -83,13 +84,13 @@ export class ManifoldPricing {
         const meteredFeatures = node?.meteredFeatures?.edges.reduce(
           (meteredAccumulator: TableRef, { node: n }) => {
             // Check if key exists
-            if (meteredAccumulator[n.displayName]) {
+            if (meteredAccumulator[n.label]) {
               return meteredAccumulator;
             }
             // Add new key
             return {
-              [n.displayName]: {
-                label: n.displayName,
+              [n.label]: {
+                tierLabel: n.displayName,
               },
               ...meteredAccumulator,
             };
@@ -103,8 +104,8 @@ export class ManifoldPricing {
         //       return fixedAccumulator;
         //     }
         //     return {
-        //       [n.displayName]: {
-        //         label: n.displayName,
+        //       [n.label]: {
+        //         tierLabel: n.displayName,
         //       },
         //       ...fixedAccumulator,
         //     };
@@ -114,7 +115,9 @@ export class ManifoldPricing {
 
         return { ...fixedFeatures, ...meteredFeatures, ...acc };
       }, {});
-      this.labels = (features && Object.keys(features)) || [];
+      const tierLabels =
+        (features && Object.values(features).map((feature: tierLabel) => feature.tierLabel)) || [];
+      this.labels = tierLabels;
       this.plans = this.product?.plans?.edges;
       this.loading = false;
     } else {
