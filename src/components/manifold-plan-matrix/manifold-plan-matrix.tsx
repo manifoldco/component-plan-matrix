@@ -7,8 +7,9 @@ const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 type conditionalClassesObj = {
   [name: string]: boolean;
 };
+type tierLabel = { tierLabel: string };
 type TableRef = {
-  [key: string]: { label: string; index: number };
+  [key: string]: tierLabel;
 };
 type NumericDetails = ProductQuery['product']['plans']['edges'][0]['node']['meteredFeatures']['edges'][0]['node']['numericDetails'];
 @Component({
@@ -31,7 +32,7 @@ export class ManifoldPricing {
   // Plans data
   @State() plans: ProductQuery['product']['plans']['edges'];
   // Table tableRef
-  @State() tableRef: TableRef;
+  @State() labels: string[];
   // Loading state
   @State() loading = true;
 
@@ -63,16 +64,15 @@ export class ManifoldPricing {
       const features = this?.product?.plans?.edges.reduce((acc, { node }) => {
         // Grab unique fixed
         const fixedFeatures = node?.fixedFeatures?.edges.reduce(
-          (fixedAccumulator: TableRef, { node: fixedFeature }) => {
+          (fixedAccumulator: TableRef, { node: n }) => {
             // Check if key exists
-            if (fixedAccumulator[fixedFeature.displayName]) {
+            if (fixedAccumulator[n.displayName]) {
               return fixedAccumulator;
             }
             // Add new key
             return {
-              [fixedFeature.displayName]: {
-                label: fixedFeature.displayName,
-                index: Object.keys(fixedAccumulator).length + 1,
+              [n.label]: {
+                tierLabel: n.displayName,
               },
               ...fixedAccumulator,
             };
@@ -82,16 +82,15 @@ export class ManifoldPricing {
 
         // Grab unique metered
         const meteredFeatures = node?.meteredFeatures?.edges.reduce(
-          (meteredAccumulator: TableRef, { node: meteredFeature }) => {
+          (meteredAccumulator: TableRef, { node: n }) => {
             // Check if key exists
-            if (meteredAccumulator[meteredFeature.displayName]) {
+            if (meteredAccumulator[n.label]) {
               return meteredAccumulator;
             }
             // Add new key
             return {
-              [meteredFeature.displayName]: {
-                label: meteredFeature.displayName,
-                index: Object.keys(meteredFeature).length + 1,
+              [n.label]: {
+                tierLabel: n.displayName,
               },
               ...meteredAccumulator,
             };
@@ -100,14 +99,13 @@ export class ManifoldPricing {
         );
 
         // const meteredFeatures = node?.meteredFeatures?.edges.reduce(
-        //   (fixedAccumulator: TableRef, { node: meteredFeatures }) => {
-        //     if (fixedAccumulator[meteredFeatures.displayName]) {
+        //   (fixedAccumulator: TableRef, { node: n }) => {
+        //     if (fixedAccumulator[n.displayName]) {
         //       return fixedAccumulator;
         //     }
         //     return {
-        //       [meteredFeatures.displayName]: {
-        //         label: meteredFeatures.displayName,
-        //         index: Object.keys(fixedAccumulator).length + 1,
+        //       [n.label]: {
+        //         tierLabel: n.displayName,
         //       },
         //       ...fixedAccumulator,
         //     };
@@ -117,7 +115,9 @@ export class ManifoldPricing {
 
         return { ...fixedFeatures, ...meteredFeatures, ...acc };
       }, {});
-      this.tableRef = features || {};
+      const tierLabels =
+        (features && Object.values(features).map((feature: tierLabel) => feature.tierLabel)) || [];
+      this.labels = tierLabels;
       this.plans = this.product?.plans?.edges;
       this.loading = false;
     } else {
@@ -191,9 +191,8 @@ export class ManifoldPricing {
       return <div>error</div>;
     }
 
-    const labels = Object.keys(this.tableRef);
     const gridColumns = this.plans.length + 1;
-    const gridRows = labels.length + 2; // +1 for the "Get Started" row
+    const gridRows = this.labels.length + 2; // +1 for the "Get Started" row
 
     // Pass column count into css grid
     this.el.style.setProperty('--manifold-table-columns', `${gridColumns}`);
@@ -202,7 +201,7 @@ export class ManifoldPricing {
     return (
       <div class="mp">
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
-        {labels.map(label => {
+        {this.labels.map(label => {
           return (
             <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
               {label}
@@ -223,7 +222,7 @@ export class ManifoldPricing {
             >
               <manifold-thead title-text={plan.node.displayName} plan={plan}></manifold-thead>
             </div>,
-            Object.values(this.tableRef).map(({ label }, ii) => {
+            this.labels.map((label, ii) => {
               const fixedFeatureMatch = plan.node.fixedFeatures.edges.find(
                 ({ node: { displayName } }) => {
                   return label === displayName;
