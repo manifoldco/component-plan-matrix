@@ -19,13 +19,13 @@ Next place the following at the very beginning of the `<body>` tag:
 <!-- modern browsers -->
 <script type="module">
   import(
-    'https://cdn.js.manifold.co/@manifoldco/component-plan-matrix@0.0.1/loader'
+    'https://js.cdn.manifold.co/@manifoldco/component-plan-matrix/loader/index.mjs'
   ).then(({ defineCustomElements }) => defineCustomElements(window));
 </script>
 <!-- legacy browsers -->
 <script
   nomodule
-  src="https://cdn.js.manifold.co/@manifoldco/component-plan-matrix@0.0.1//dist/test-components.js"
+  src="https://js.cdn.manifold.co/@manifoldco/component-plan-matrix/dist/manifold-plan-matrix.js"
 ></script>
 ```
 
