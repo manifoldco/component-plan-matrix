@@ -1,5 +1,11 @@
 import { Component, Element, h, State, Prop } from '@stencil/core';
-import { ProductQueryVariables, ProductQuery } from '../../types/graphql';
+import {
+  ProductQueryVariables,
+  ProductQuery,
+  PlanFeatureType,
+  PlanConfigurableFeatureOption,
+  PlanConfigurableFeatureNumericDetails,
+} from '../../types/graphql';
 import query from './product.graphql';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
@@ -98,22 +104,22 @@ export class ManifoldPricing {
           {}
         );
 
-        // const meteredFeatures = node?.meteredFeatures?.edges.reduce(
-        //   (fixedAccumulator: TableRef, { node: n }) => {
-        //     if (fixedAccumulator[n.displayName]) {
-        //       return fixedAccumulator;
-        //     }
-        //     return {
-        //       [n.label]: {
-        //         tierLabel: n.displayName,
-        //       },
-        //       ...fixedAccumulator,
-        //     };
-        //   },
-        //   {}
-        // );
+        const configurableFeatures = node?.configurableFeatures?.edges.reduce(
+          (fixedAccumulator: TableRef, { node: n }) => {
+            if (fixedAccumulator[n.displayName]) {
+              return fixedAccumulator;
+            }
+            return {
+              [n.label]: {
+                tierLabel: n.displayName,
+              },
+              ...fixedAccumulator,
+            };
+          },
+          {}
+        );
 
-        return { ...fixedFeatures, ...meteredFeatures, ...acc };
+        return { ...fixedFeatures, ...meteredFeatures, ...configurableFeatures, ...acc };
       }, {});
       const tierLabels =
         (features && Object.values(features).map((feature: tierLabel) => feature.tierLabel)) || [];
@@ -174,12 +180,22 @@ export class ManifoldPricing {
     );
   }
 
-  configurableFeatures() {
-    return (
-      <div class="mp--cell mp--cell__body">
-        <manifold-empty-cell></manifold-empty-cell>
-      </div>
-    );
+  configurableFeatures(
+    type: PlanFeatureType,
+    numericDetails?: PlanConfigurableFeatureNumericDetails,
+    featureOptions?: PlanConfigurableFeatureOption[]
+  ) {
+    switch (type) {
+      case PlanFeatureType.Boolean:
+      case PlanFeatureType.Number:
+      case PlanFeatureType.String:
+      default:
+        return (
+          <div class="mp--cell mp--cell__body">
+            <manifold-empty-cell></manifold-empty-cell>
+          </div>
+        );
+    }
   }
 
   render() {
@@ -235,12 +251,27 @@ export class ManifoldPricing {
                 }
               );
 
+              const configurableFeaturesMatch = plan.node.configurableFeatures.edges.find(
+                ({ node: { displayName } }) => {
+                  return label === displayName;
+                }
+              );
+
               if (fixedFeatureMatch) {
                 return this.fixedFeatures(fixedFeatureMatch.node.displayValue, ii);
               }
 
               if (meteredFeaturesMatch) {
                 return this.meteredFeatures(meteredFeaturesMatch.node.numericDetails);
+              }
+
+              if (configurableFeaturesMatch) {
+                console.log(configurableFeaturesMatch.node.displayName);
+                return this.configurableFeatures(
+                  configurableFeaturesMatch.node.type,
+                  configurableFeaturesMatch.node.numericDetails,
+                  configurableFeaturesMatch.node.featureOptions
+                );
               }
 
               return (
