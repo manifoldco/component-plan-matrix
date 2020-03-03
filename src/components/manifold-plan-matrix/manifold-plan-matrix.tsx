@@ -4,7 +4,7 @@ import {
   ProductQuery,
   PlanFeatureType,
   PlanConfigurableFeatureOption,
-  // PlanConfigurableFeatureNumericDetails,
+  PlanConfigurableFeatureNumericDetails,
   PlanFixedFeature,
 } from '../../types/graphql';
 import query from './product.graphql';
@@ -39,7 +39,7 @@ export class ManifoldPricing {
   // Plans data
   @State() plans: ProductQuery['product']['plans']['edges'];
   // Table tableRef
-  @State() labels: string[];
+  @State() labels: TableRef;
   // Loading state
   @State() loading = true;
 
@@ -122,9 +122,8 @@ export class ManifoldPricing {
 
         return { ...fixedFeatures, ...meteredFeatures, ...configurableFeatures, ...acc };
       }, {});
-      const tierLabels =
-        (features && Object.values(features).map((feature: tierLabel) => feature.tierLabel)) || [];
-      this.labels = tierLabels;
+
+      this.labels = features || {};
       this.plans = this.product?.plans?.edges;
       this.loading = false;
     } else {
@@ -183,7 +182,7 @@ export class ManifoldPricing {
 
   configurableFeatures(
     type: PlanFeatureType,
-    // numericDetails?: PlanConfigurableFeatureNumericDetails,
+    numericDetails?: PlanConfigurableFeatureNumericDetails,
     featureOptions?: PlanConfigurableFeatureOption[]
   ) {
     switch (type) {
@@ -194,7 +193,22 @@ export class ManifoldPricing {
           </div>
         );
       case PlanFeatureType.Number:
+        return (
+          <div class="mp--cell mp--cell__body">
+            <manifold-numeric-input
+              min={numericDetails?.min}
+              max={numericDetails?.max}
+              increment={numericDetails?.increment}
+              unit={numericDetails?.unit}
+            ></manifold-numeric-input>
+          </div>
+        );
       case PlanFeatureType.Boolean:
+        return (
+          <div class="mp--cell mp--cell__body">
+            <manifold-empty-cell></manifold-empty-cell>
+          </div>
+        );
       default:
         return (
           <div class="mp--cell mp--cell__body">
@@ -212,9 +226,11 @@ export class ManifoldPricing {
     if (this.product && !this.product.plans) {
       return <div>error</div>;
     }
-
+    const tierLabels =
+      (this.labels && Object.values(this.labels).map((feature: tierLabel) => feature.tierLabel)) ||
+      [];
     const gridColumns = this.plans.length + 1;
-    const gridRows = this.labels.length + 2; // +1 for the "Get Started" row
+    const gridRows = tierLabels.length + 2; // +1 for the "Get Started" row
 
     // Pass column count into css grid
     this.el.style.setProperty('--manifold-table-columns', `${gridColumns}`);
@@ -223,7 +239,7 @@ export class ManifoldPricing {
     return (
       <div class="mp">
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
-        {this.labels.map(label => {
+        {tierLabels.map(label => {
           return (
             <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
               {label}
@@ -244,22 +260,22 @@ export class ManifoldPricing {
             >
               <manifold-thead title-text={plan.node.displayName} plan={plan}></manifold-thead>
             </div>,
-            this.labels.map((label, ii) => {
+            Object.keys(this.labels).map((label, ii) => {
               const fixedFeatureMatch = plan.node.fixedFeatures.edges.find(
-                ({ node: { displayName } }) => {
-                  return label === displayName;
+                ({ node: { label: l } }) => {
+                  return label === l;
                 }
               );
 
               const meteredFeaturesMatch = plan.node.meteredFeatures.edges.find(
-                ({ node: { displayName } }) => {
-                  return label === displayName;
+                ({ node: { label: l } }) => {
+                  return label === l;
                 }
               );
 
               const configurableFeaturesMatch = plan.node.configurableFeatures.edges.find(
-                ({ node: { displayName } }) => {
-                  return label === displayName;
+                ({ node: { label: l } }) => {
+                  return label === l;
                 }
               );
 
@@ -274,7 +290,7 @@ export class ManifoldPricing {
               if (configurableFeaturesMatch) {
                 return this.configurableFeatures(
                   configurableFeaturesMatch.node.type,
-                  // configurableFeaturesMatch.node.numericDetails,
+                  configurableFeaturesMatch.node.numericDetails,
                   configurableFeaturesMatch.node.featureOptions
                 );
               }

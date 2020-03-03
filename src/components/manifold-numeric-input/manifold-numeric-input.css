@@ -1,0 +1,34 @@
+manifold-numeric-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.mp--numeric-range__desc {
+  color: hsl(var(--manifold-c-grey));
+  font-size: 12px;
+}
+
+.mp--numeric-range {
+  box-sizing: border-box;
+  min-width: 100%;
+  padding: 0.5em;
+  color: inherit;
+  font-size: 14px;
+  background: hsl(var(--manifold-c-white));
+  border: 1px solid hsl(var(--manifold-c-grey));
+  border-radius: 3px;
+  transition: border-color 150ms linear, color 150ms linear;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    display: none;
+  }
+
+  &:focus,
+  &:hover {
+    color: hsl(var(--manifold-c-blue));
+    border-color: hsl(var(--manifold-c-blue));
+  }
+}
