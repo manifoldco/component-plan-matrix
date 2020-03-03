@@ -1,6 +1,7 @@
 :root {
   --manifold-c-black: 0, 0%, 0%;
   --manifold-c-blue: 224, 76%, 49%;
+  --manifold-c-muted-blue: 218, 94%, 93%;
   --manifold-c-grey: 240, 3%, 57%;
   --manifold-c-grey-darker: 210, 12%, 22%;
   --manifold-c-grey-light: 210, 5%, 78%;
@@ -10,7 +11,6 @@
 
   --manifold-button-color: var(--manifold-c-blue);
   --manifold-button-text-color: var(--manifold-c-white);
-  --manifold-check-color: var(--manifold-c-blue);
   --manifold-empty-color: var(--manifold-c-grey);
 
   --manifold-table-spacing: 9px;

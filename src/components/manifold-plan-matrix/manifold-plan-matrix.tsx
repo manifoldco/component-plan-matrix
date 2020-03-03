@@ -204,6 +204,14 @@ export class ManifoldPricing {
           </div>
         );
       case PlanFeatureType.Boolean:
+        if (Array.isArray(featureOptions)) {
+          const [on, off] = featureOptions;
+          return (
+            <div class="mp--cell mp--cell__body">
+              <manifold-toggle on={on.cost} off={off.cost}></manifold-toggle>
+            </div>
+          );
+        }
         return (
           <div class="mp--cell mp--cell__body">
             <manifold-empty-cell></manifold-empty-cell>

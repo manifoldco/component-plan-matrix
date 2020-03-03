@@ -48,6 +48,10 @@ export namespace Components {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
     'titleText'?: string;
   }
+  interface ManifoldToggle {
+    'off': number;
+    'on': number;
+  }
 }
 
 declare global {
@@ -106,6 +110,12 @@ declare global {
     prototype: HTMLManifoldTheadElement;
     new (): HTMLManifoldTheadElement;
   };
+
+  interface HTMLManifoldToggleElement extends Components.ManifoldToggle, HTMLStencilElement {}
+  var HTMLManifoldToggleElement: {
+    prototype: HTMLManifoldToggleElement;
+    new (): HTMLManifoldToggleElement;
+  };
   interface HTMLElementTagNameMap {
     'manifold-button': HTMLManifoldButtonElement;
     'manifold-checkbox': HTMLManifoldCheckboxElement;
@@ -116,6 +126,7 @@ declare global {
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
     'manifold-select': HTMLManifoldSelectElement;
     'manifold-thead': HTMLManifoldTheadElement;
+    'manifold-toggle': HTMLManifoldToggleElement;
   }
 }
 
@@ -155,6 +166,10 @@ declare namespace LocalJSX {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
     'titleText'?: string;
   }
+  interface ManifoldToggle {
+    'off'?: number;
+    'on'?: number;
+  }
 
   interface IntrinsicElements {
     'manifold-button': ManifoldButton;
@@ -166,6 +181,7 @@ declare namespace LocalJSX {
     'manifold-plan-matrix': ManifoldPlanMatrix;
     'manifold-select': ManifoldSelect;
     'manifold-thead': ManifoldThead;
+    'manifold-toggle': ManifoldToggle;
   }
 }
 
@@ -184,6 +200,7 @@ declare module "@stencil/core" {
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
       'manifold-select': LocalJSX.ManifoldSelect & JSXBase.HTMLAttributes<HTMLManifoldSelectElement>;
       'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
+      'manifold-toggle': LocalJSX.ManifoldToggle & JSXBase.HTMLAttributes<HTMLManifoldToggleElement>;
     }
   }
 }
