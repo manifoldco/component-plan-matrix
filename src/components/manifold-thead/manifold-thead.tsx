@@ -20,7 +20,9 @@ export class ManifoldThead {
         ${this.plan.node.cost / 100}
         <span class="mp--subtext">/mo</span>
       </p>,
-      this.plan.node.meteredFeatures && <span class="mp--subtext"> + metered use</span>,
+      this.plan.node.meteredFeatures.edges.length > 0 && (
+        <span class="mp--subtext"> + metered use</span>
+      ),
     ];
   }
 }

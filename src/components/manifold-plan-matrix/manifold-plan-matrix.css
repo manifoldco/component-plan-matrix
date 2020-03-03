@@ -33,7 +33,7 @@
   grid-auto-flow: column;
   grid-template: repeat(var(--manifold-table-rows), min-content) / repeat(
     var(--manifold-table-columns),
-    minmax(200px, 250px)
+    minmax(220px, 250px)
     );
   overflow-x: auto;
   color: hsl(var(--manifold-c-grey-darker));
@@ -59,6 +59,7 @@
 .mp--cell__sticky {
   position: sticky;
   left: 0;
+  z-index: 1;
   flex-direction: row;
   color: hsl(var(--manifold-c-black));
   text-align: left;

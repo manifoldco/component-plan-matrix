@@ -1,10 +1,17 @@
 import { Component, Element, h, State, Prop } from '@stencil/core';
-import { ProductQueryVariables, ProductQuery } from '../../types/graphql';
+import {
+  ProductQueryVariables,
+  ProductQuery,
+  PlanFeatureType,
+  PlanConfigurableFeatureOption,
+  // PlanConfigurableFeatureNumericDetails,
+  PlanFixedFeature,
+} from '../../types/graphql';
 import query from './product.graphql';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 
-type conditionalClassesObj = {
+type ConditionalClassesObj = {
   [name: string]: boolean;
 };
 type tierLabel = { tierLabel: string };
@@ -98,22 +105,22 @@ export class ManifoldPricing {
           {}
         );
 
-        // const meteredFeatures = node?.meteredFeatures?.edges.reduce(
-        //   (fixedAccumulator: TableRef, { node: n }) => {
-        //     if (fixedAccumulator[n.displayName]) {
-        //       return fixedAccumulator;
-        //     }
-        //     return {
-        //       [n.label]: {
-        //         tierLabel: n.displayName,
-        //       },
-        //       ...fixedAccumulator,
-        //     };
-        //   },
-        //   {}
-        // );
+        const configurableFeatures = node?.configurableFeatures?.edges.reduce(
+          (fixedAccumulator: TableRef, { node: n }) => {
+            if (fixedAccumulator[n.displayName]) {
+              return fixedAccumulator;
+            }
+            return {
+              [n.label]: {
+                tierLabel: n.displayName,
+              },
+              ...fixedAccumulator,
+            };
+          },
+          {}
+        );
 
-        return { ...fixedFeatures, ...meteredFeatures, ...acc };
+        return { ...fixedFeatures, ...meteredFeatures, ...configurableFeatures, ...acc };
       }, {});
       const tierLabels =
         (features && Object.values(features).map((feature: tierLabel) => feature.tierLabel)) || [];
@@ -125,12 +132,12 @@ export class ManifoldPricing {
     }
   }
 
-  addClass(obj: conditionalClassesObj, baseClass = ''): string {
+  addClass(obj: ConditionalClassesObj, baseClass = ''): string {
     const conditionalClasses = Object.keys(obj).map(cl => (obj[cl] ? cl : ''));
     return `${baseClass} ${conditionalClasses.join(' ')}`;
   }
 
-  fixedFeatures(displayValue: string, planIndex: number) {
+  fixedFeatures(displayValue: PlanFixedFeature['displayName'], planIndex: number) {
     if (displayValue === 'true' || displayValue === 'false') {
       return (
         <div class="mp--cell mp--cell__body">
@@ -174,12 +181,27 @@ export class ManifoldPricing {
     );
   }
 
-  configurableFeatures() {
-    return (
-      <div class="mp--cell mp--cell__body">
-        <manifold-empty-cell></manifold-empty-cell>
-      </div>
-    );
+  configurableFeatures(
+    type: PlanFeatureType,
+    // numericDetails?: PlanConfigurableFeatureNumericDetails,
+    featureOptions?: PlanConfigurableFeatureOption[]
+  ) {
+    switch (type) {
+      case PlanFeatureType.String:
+        return (
+          <div class="mp--cell mp--cell__body">
+            <manifold-select options={featureOptions}></manifold-select>
+          </div>
+        );
+      case PlanFeatureType.Number:
+      case PlanFeatureType.Boolean:
+      default:
+        return (
+          <div class="mp--cell mp--cell__body">
+            <manifold-empty-cell></manifold-empty-cell>
+          </div>
+        );
+    }
   }
 
   render() {
@@ -235,12 +257,26 @@ export class ManifoldPricing {
                 }
               );
 
+              const configurableFeaturesMatch = plan.node.configurableFeatures.edges.find(
+                ({ node: { displayName } }) => {
+                  return label === displayName;
+                }
+              );
+
               if (fixedFeatureMatch) {
                 return this.fixedFeatures(fixedFeatureMatch.node.displayValue, ii);
               }
 
               if (meteredFeaturesMatch) {
                 return this.meteredFeatures(meteredFeaturesMatch.node.numericDetails);
+              }
+
+              if (configurableFeaturesMatch) {
+                return this.configurableFeatures(
+                  configurableFeaturesMatch.node.type,
+                  // configurableFeaturesMatch.node.numericDetails,
+                  configurableFeaturesMatch.node.featureOptions
+                );
               }
 
               return (

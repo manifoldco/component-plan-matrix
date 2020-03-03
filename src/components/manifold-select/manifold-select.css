@@ -1,0 +1,68 @@
+manifold-select {
+  --default-color: 240, 1%, 87%;
+  --selected-color: var(--manifold-c-blue);
+  --default-chevron-color: 210, 4%, 36%;
+  --transition: 150ms linear;
+  
+  display: flex;
+  align-items: center;
+  min-width: 100%;
+}
+
+.mp--select__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 2rem;
+  color: hsl(var(--default-color));
+  font-size: 14px;
+  background: hsl(var(--manifold-c-white));
+  border-radius: 3px;
+
+  &:focus-within {
+    color: hsl(var(--selected-color));
+  }
+}
+
+.mp--select__chevron {
+  width: 20px;
+  padding: 0 4px;
+  border-left: 1px solid currentColor;
+  transition: fill var(--transition), border-color var(--transition);
+  fill: var(--default-chevron-color);
+}
+
+.mp--select__border {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  transition: border-color var(--transition);
+  pointer-events: none;
+}
+
+.mp--select__select {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  padding: 0 0 0 0.75rem;
+  font-size: 1em;
+  text-indent: 0;
+  background: transparent;
+  border: none;
+  appearance: none;
+  
+  &:focus {
+    outline: none;
+
+    & ~ .mp--select__chevron {
+      fill: hsl(var(--selected-color));
+    }
+  }
+}
