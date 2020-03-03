@@ -8,7 +8,6 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  PlanConfigurableFeatureOption,
   ProductQuery,
 } from './types/graphql';
 
@@ -29,14 +28,17 @@ export namespace Components {
   }
   interface ManifoldEmptyCell {}
   interface ManifoldMetered {}
+  interface ManifoldNumericInput {
+    'increment'?: number;
+    'max'?: number;
+    'min'?: number;
+    'unit'?: string;
+  }
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
     'graphqlUrl'?: string;
     'productId'?: string;
-  }
-  interface ManifoldSelect {
-    'options'?: PlanConfigurableFeatureOption[];
   }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
@@ -77,16 +79,16 @@ declare global {
     new (): HTMLManifoldMeteredElement;
   };
 
+  interface HTMLManifoldNumericInputElement extends Components.ManifoldNumericInput, HTMLStencilElement {}
+  var HTMLManifoldNumericInputElement: {
+    prototype: HTMLManifoldNumericInputElement;
+    new (): HTMLManifoldNumericInputElement;
+  };
+
   interface HTMLManifoldPlanMatrixElement extends Components.ManifoldPlanMatrix, HTMLStencilElement {}
   var HTMLManifoldPlanMatrixElement: {
     prototype: HTMLManifoldPlanMatrixElement;
     new (): HTMLManifoldPlanMatrixElement;
-  };
-
-  interface HTMLManifoldSelectElement extends Components.ManifoldSelect, HTMLStencilElement {}
-  var HTMLManifoldSelectElement: {
-    prototype: HTMLManifoldSelectElement;
-    new (): HTMLManifoldSelectElement;
   };
 
   interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
@@ -100,8 +102,8 @@ declare global {
     'manifold-cost-tiers': HTMLManifoldCostTiersElement;
     'manifold-empty-cell': HTMLManifoldEmptyCellElement;
     'manifold-metered': HTMLManifoldMeteredElement;
+    'manifold-numeric-input': HTMLManifoldNumericInputElement;
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
-    'manifold-select': HTMLManifoldSelectElement;
     'manifold-thead': HTMLManifoldTheadElement;
   }
 }
@@ -123,14 +125,17 @@ declare namespace LocalJSX {
   }
   interface ManifoldEmptyCell {}
   interface ManifoldMetered {}
+  interface ManifoldNumericInput {
+    'increment'?: number;
+    'max'?: number;
+    'min'?: number;
+    'unit'?: string;
+  }
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'ctaText'?: string;
     'graphqlUrl'?: string;
     'productId'?: string;
-  }
-  interface ManifoldSelect {
-    'options'?: PlanConfigurableFeatureOption[];
   }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
@@ -143,8 +148,8 @@ declare namespace LocalJSX {
     'manifold-cost-tiers': ManifoldCostTiers;
     'manifold-empty-cell': ManifoldEmptyCell;
     'manifold-metered': ManifoldMetered;
+    'manifold-numeric-input': ManifoldNumericInput;
     'manifold-plan-matrix': ManifoldPlanMatrix;
-    'manifold-select': ManifoldSelect;
     'manifold-thead': ManifoldThead;
   }
 }
@@ -160,8 +165,8 @@ declare module "@stencil/core" {
       'manifold-cost-tiers': LocalJSX.ManifoldCostTiers & JSXBase.HTMLAttributes<HTMLManifoldCostTiersElement>;
       'manifold-empty-cell': LocalJSX.ManifoldEmptyCell & JSXBase.HTMLAttributes<HTMLManifoldEmptyCellElement>;
       'manifold-metered': LocalJSX.ManifoldMetered & JSXBase.HTMLAttributes<HTMLManifoldMeteredElement>;
+      'manifold-numeric-input': LocalJSX.ManifoldNumericInput & JSXBase.HTMLAttributes<HTMLManifoldNumericInputElement>;
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
-      'manifold-select': LocalJSX.ManifoldSelect & JSXBase.HTMLAttributes<HTMLManifoldSelectElement>;
       'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }
   }

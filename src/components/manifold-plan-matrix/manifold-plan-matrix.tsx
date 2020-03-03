@@ -4,7 +4,7 @@ import {
   ProductQuery,
   PlanFeatureType,
   PlanConfigurableFeatureOption,
-  // PlanConfigurableFeatureNumericDetails,
+  PlanConfigurableFeatureNumericDetails,
   PlanFixedFeature,
 } from '../../types/graphql';
 import query from './product.graphql';
@@ -183,7 +183,7 @@ export class ManifoldPricing {
 
   configurableFeatures(
     type: PlanFeatureType,
-    // numericDetails?: PlanConfigurableFeatureNumericDetails,
+    numericDetails?: PlanConfigurableFeatureNumericDetails,
     featureOptions?: PlanConfigurableFeatureOption[]
   ) {
     switch (type) {
@@ -194,6 +194,16 @@ export class ManifoldPricing {
           </div>
         );
       case PlanFeatureType.Number:
+        return (
+          <div class="mp--cell mp--cell__body">
+            <manifold-numeric-input
+              min={numericDetails?.min}
+              max={numericDetails?.max}
+              increment={numericDetails?.increment}
+              unit={numericDetails?.unit}
+            ></manifold-numeric-input>
+          </div>
+        );
       case PlanFeatureType.Boolean:
       default:
         return (
@@ -274,7 +284,7 @@ export class ManifoldPricing {
               if (configurableFeaturesMatch) {
                 return this.configurableFeatures(
                   configurableFeaturesMatch.node.type,
-                  // configurableFeaturesMatch.node.numericDetails,
+                  configurableFeaturesMatch.node.numericDetails,
                   configurableFeaturesMatch.node.featureOptions
                 );
               }
