@@ -8,6 +8,7 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  PlanConfigurableFeatureOption,
   ProductQuery,
 } from './types/graphql';
 
@@ -39,6 +40,9 @@ export namespace Components {
     'ctaText'?: string;
     'graphqlUrl'?: string;
     'productId'?: string;
+  }
+  interface ManifoldSelect {
+    'options'?: PlanConfigurableFeatureOption[];
   }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
@@ -91,6 +95,12 @@ declare global {
     new (): HTMLManifoldPlanMatrixElement;
   };
 
+  interface HTMLManifoldSelectElement extends Components.ManifoldSelect, HTMLStencilElement {}
+  var HTMLManifoldSelectElement: {
+    prototype: HTMLManifoldSelectElement;
+    new (): HTMLManifoldSelectElement;
+  };
+
   interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
   var HTMLManifoldTheadElement: {
     prototype: HTMLManifoldTheadElement;
@@ -104,6 +114,7 @@ declare global {
     'manifold-metered': HTMLManifoldMeteredElement;
     'manifold-numeric-input': HTMLManifoldNumericInputElement;
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
+    'manifold-select': HTMLManifoldSelectElement;
     'manifold-thead': HTMLManifoldTheadElement;
   }
 }
@@ -137,6 +148,9 @@ declare namespace LocalJSX {
     'graphqlUrl'?: string;
     'productId'?: string;
   }
+  interface ManifoldSelect {
+    'options'?: PlanConfigurableFeatureOption[];
+  }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0];
     'titleText'?: string;
@@ -150,6 +164,7 @@ declare namespace LocalJSX {
     'manifold-metered': ManifoldMetered;
     'manifold-numeric-input': ManifoldNumericInput;
     'manifold-plan-matrix': ManifoldPlanMatrix;
+    'manifold-select': ManifoldSelect;
     'manifold-thead': ManifoldThead;
   }
 }
@@ -167,6 +182,7 @@ declare module "@stencil/core" {
       'manifold-metered': LocalJSX.ManifoldMetered & JSXBase.HTMLAttributes<HTMLManifoldMeteredElement>;
       'manifold-numeric-input': LocalJSX.ManifoldNumericInput & JSXBase.HTMLAttributes<HTMLManifoldNumericInputElement>;
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
+      'manifold-select': LocalJSX.ManifoldSelect & JSXBase.HTMLAttributes<HTMLManifoldSelectElement>;
       'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }
   }

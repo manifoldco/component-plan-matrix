@@ -7,7 +7,7 @@ import { Component, Prop, h } from '@stencil/core';
 export class ManifoldNumericInput {
   @Prop() min?: number = 0;
   @Prop() max?: number = 0;
-  @Prop() increment?: number = 0;
+  @Prop() increment?: number = 1;
   @Prop() unit?: string = '';
 
   render() {
