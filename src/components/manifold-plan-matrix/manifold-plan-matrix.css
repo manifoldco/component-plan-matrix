@@ -5,8 +5,8 @@
   --manifold-c-grey: 240, 3%, 57%;
   --manifold-c-grey-darker: 210, 12%, 22%;
   --manifold-c-grey-light: 210, 5%, 78%;
-  --manifold-c-grey-lighter: 240, 7%, 97%;
-  --manifold-c-grey-lightest: 240, 3%, 93%;
+  --manifold-c-grey-lighter: 240, 7%, 93%;
+  --manifold-c-grey-lightest: 240, 3%, 97%;
   --manifold-c-white: 0, 0%, 100%;
 
   --manifold-button-color: var(--manifold-c-blue);
@@ -19,8 +19,10 @@
   --manifold-table-box-shadow: 0 2px 8px hsla(var(--manifold-c-black) 0.0699445);
   --manifold-table-border-width: 1px;
   --manifold-table-border-radius: 6px;
-  --manifold-table-solid-border: var(--manifold-table-border-width) solid hsl(var(--manifold-c-grey-light));
-  --manifold-table-dashed-border: var(--manifold-table-border-width) dashed hsl(var(--manifold-c-grey-lightest));
+  --manifold-table-solid-border: var(--manifold-table-border-width) solid
+    hsl(var(--manifold-c-grey-light));
+  --manifold-table-dashed-border: var(--manifold-table-border-width) dashed
+    hsl(var(--manifold-c-grey-lightest));
   --manifold-table-metered-border: var(--manifold-table-border-width) solid hsl(240, 1%, 87%);
 
   --manifold-table-f-body: -apple-system, BlinkMacSystemmanifold-tableont, 'Segoe UI', Helvetica,
@@ -33,8 +35,8 @@
   display: grid;
   grid-auto-flow: column;
   grid-template: repeat(var(--manifold-table-rows), min-content) / repeat(
-    var(--manifold-table-columns),
-    minmax(220px, 250px)
+      var(--manifold-table-columns),
+      minmax(220px, 250px)
     );
   overflow-x: auto;
   color: hsl(var(--manifold-c-grey-darker));
