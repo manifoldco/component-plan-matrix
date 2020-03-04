@@ -1,4 +1,4 @@
-import { Component, Element, h, State, Prop } from '@stencil/core';
+import { Component, Element, h, State, Prop, Watch } from '@stencil/core';
 import {
   ProductQueryVariables,
   ProductQuery,
@@ -29,7 +29,7 @@ export class ManifoldPricing {
   // Used to apply css variables to root element
   @Element() el: HTMLElement;
   // Passed product ID to the graphql endpoint
-  @Prop() productId?: string = '';
+  @Prop() productId?: string;
   // Passed client ID header to the graphql calls
   @Prop() clientId?: string = '';
   // Base url for buttons
@@ -46,13 +46,24 @@ export class ManifoldPricing {
   @State() labels: TableRef;
   // Loading state
   @State() loading = true;
+  @Watch('productId') refetchProduct(newVal?: string) {
+    if (newVal) {
+      this.fetchProduct(newVal);
+    }
+  }
 
   componentWillLoad() {
-    const DEFAULT = 'ziggeo';
-    const variables: ProductQueryVariables = { id: this.productId || DEFAULT, first: 50 };
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
     }
+    if (this.productId) {
+      // Note: we could warn here if product-id is missing, but let’s not. In some front-end frameworks it may be set a half-second after it loads
+      this.fetchProduct(this.productId);
+    }
+  }
+
+  fetchProduct(productID: string) {
+    const variables: ProductQueryVariables = { id: productID, first: 50 };
     fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: {
