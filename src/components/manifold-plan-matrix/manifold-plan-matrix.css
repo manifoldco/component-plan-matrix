@@ -12,6 +12,7 @@
   --manifold-button-color: var(--manifold-c-blue);
   --manifold-button-text-color: var(--manifold-c-white);
   --manifold-empty-color: var(--manifold-c-grey);
+  --manifold-check-color: var(--manifold-c-blue);
 
   --manifold-table-spacing: 9px;
   --manifold-table-block-spacing: 12px;

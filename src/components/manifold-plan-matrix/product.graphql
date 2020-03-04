@@ -5,6 +5,7 @@ query PRODUCT($first: Int!, $id: ID!) {
         node {
           displayName
           cost
+          id
           fixedFeatures(first: $first) {
             edges {
               node {

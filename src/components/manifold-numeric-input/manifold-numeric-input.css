@@ -1,4 +1,5 @@
 manifold-numeric-input {
+  --default-color: 240, 1%, 87%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +19,7 @@ manifold-numeric-input {
   color: inherit;
   font-size: 14px;
   background: hsl(var(--manifold-c-white));
-  border: 1px solid hsl(var(--manifold-c-grey));
+  border: 1px solid hsl(var(--default-color));
   border-radius: 3px;
   transition: border-color 150ms linear, color 150ms linear;
   &::-webkit-inner-spin-button,

@@ -1186,7 +1186,7 @@ export type ProductQuery = (
         { __typename?: 'PlanEdge' }
         & { node: (
           { __typename?: 'Plan' }
-          & Pick<Plan, 'displayName' | 'cost'>
+          & Pick<Plan, 'displayName' | 'cost' | 'id'>
           & { fixedFeatures: Maybe<(
             { __typename?: 'PlanFixedFeatureConnection' }
             & { edges: Array<(
