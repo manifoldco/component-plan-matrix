@@ -8,14 +8,10 @@ import {
   PlanFixedFeature,
 } from '../../types/graphql';
 import query from './product.graphql';
-import { CLIENT_ID_WARNING } from './warning'
+import { CLIENT_ID_WARNING } from './warning';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
-
-type Headers = {
-  [name: string]: string;
-};
 
 type ConditionalClassesObj = {
   [name: string]: boolean;
@@ -54,15 +50,16 @@ export class ManifoldPricing {
   componentWillLoad() {
     const DEFAULT = 'ziggeo';
     const variables: ProductQueryVariables = { id: this.productId || DEFAULT, first: 50 };
-    const headers: Headers = { 'Content-Type': 'application/json' };
-    if (this.clientId) {
-      headers[MANIFOLD_CLIENT_ID] = this.clientId;
-    } else {
+    if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
     }
     fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
       method: 'POST',
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Connection: 'keep-alive',
+        ...(this.clientId ? { [MANIFOLD_CLIENT_ID]: this.clientId } : {}),
+      },
       body: JSON.stringify({
         query,
         variables,
