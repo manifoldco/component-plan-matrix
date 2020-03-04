@@ -8,8 +8,14 @@ import {
   PlanFixedFeature,
 } from '../../types/graphql';
 import query from './product.graphql';
+import { CLIENT_ID_WARNING } from './warning'
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
+const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
+
+type Headers = {
+  [name: string]: string;
+};
 
 type ConditionalClassesObj = {
   [name: string]: boolean;
@@ -28,6 +34,8 @@ export class ManifoldPricing {
   @Element() el: HTMLElement;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string = '';
+  // Passed client ID header to the graphql calls
+  @Prop() clientId?: string = '';
   // Base url for buttons
   @Prop() baseUrl?: string = '/signup';
   // CTA Text for buttons
@@ -46,9 +54,15 @@ export class ManifoldPricing {
   componentWillLoad() {
     const DEFAULT = 'ziggeo';
     const variables: ProductQueryVariables = { id: this.productId || DEFAULT, first: 50 };
+    const headers: Headers = { 'Content-Type': 'application/json' };
+    if (this.clientId) {
+      headers[MANIFOLD_CLIENT_ID] = this.clientId;
+    } else {
+      console.warn(CLIENT_ID_WARNING);
+    }
     fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({
         query,
         variables,

@@ -40,6 +40,12 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
+  testing: {
+    testPathIgnorePatterns: ['/node_modules/'],
+    transform: {
+      '\\.graphql$': './jest-transform-graphql',
+    },
+  },
   plugins: [
     gql(),
     postcss({
