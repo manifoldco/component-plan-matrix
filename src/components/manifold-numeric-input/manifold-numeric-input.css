@@ -1,5 +1,6 @@
 manifold-numeric-input {
   --default-color: 240, 1%, 87%;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
