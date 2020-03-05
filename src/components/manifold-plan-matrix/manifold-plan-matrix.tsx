@@ -279,7 +279,7 @@ export class ManifoldPricing {
         <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th mp--cell__rounded-bl"></div>
         {this.plans
           .sort((a, b) => a.node.cost - b.node.cost)
-          .map((plan, i) => [
+          .map(({ node: plan }, i) => [
             <div
               class={this.addClass(
                 {
@@ -288,22 +288,20 @@ export class ManifoldPricing {
                 'mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th'
               )}
             >
-              <manifold-thead title-text={plan.node.displayName} plan={plan}></manifold-thead>
+              <manifold-thead title-text={plan.displayName} plan={plan}></manifold-thead>
             </div>,
             Object.keys(this.labels).map((label, ii) => {
-              const fixedFeatureMatch = plan.node.fixedFeatures.edges.find(
+              const fixedFeatureMatch = plan.fixedFeatures.edges.find(({ node: { label: l } }) => {
+                return label === l;
+              });
+
+              const meteredFeaturesMatch = plan.meteredFeatures.edges.find(
                 ({ node: { label: l } }) => {
                   return label === l;
                 }
               );
 
-              const meteredFeaturesMatch = plan.node.meteredFeatures.edges.find(
-                ({ node: { label: l } }) => {
-                  return label === l;
-                }
-              );
-
-              const configurableFeaturesMatch = plan.node.configurableFeatures.edges.find(
+              const configurableFeaturesMatch = plan.configurableFeatures.edges.find(
                 ({ node: { label: l } }) => {
                   return label === l;
                 }
@@ -339,7 +337,9 @@ export class ManifoldPricing {
                 'mp--cell mp--cell__body mp--cell__bbs'
               )}
             >
-              <manifold-button href={this.baseUrl}>{this.ctaText}</manifold-button>
+              <a class="mp--button" id={`manifold-cta-plan-${plan.id}`} href={this.baseUrl}>
+                {this.ctaText}
+              </a>
             </div>,
           ])}
       </div>
