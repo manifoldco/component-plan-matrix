@@ -30,6 +30,7 @@ function gql(opts: Options = {}) {
 
 export const config: Config = {
   namespace: 'manifold-plan-matrix',
+  excludeSrc: ['**/*-happo.*'],
   outputTargets: [
     {
       type: 'dist',

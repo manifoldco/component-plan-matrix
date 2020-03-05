@@ -11,7 +11,7 @@ import { connections } from '../../utils/connections';
 })
 export class ManifoldThead {
   @Prop() titleText?: string = '';
-  @Prop() plan?: ProductQuery['product']['plans']['edges'][0];
+  @Prop() plan?: ProductQuery['product']['plans']['edges'][0]['node'];
   @State() loading = true;
   @State() controller?: AbortController;
   @State() cost?: { cost: number; currency: string };
@@ -23,7 +23,7 @@ export class ManifoldThead {
   });
 
   componentWillLoad() {
-    if (this.plan && this.plan?.node?.configurableFeatures?.edges.length > 0) {
+    if (this.plan && this.plan?.configurableFeatures?.edges.length > 0) {
       this.fetchCustomPrice();
     }
   }
@@ -34,11 +34,11 @@ export class ManifoldThead {
     } // If a request is in flight, cancel it
     this.controller = new AbortController();
 
-    if (this.plan && this.plan?.node?.configurableFeatures?.edges.length > 0) {
-      const features = this.plan?.node?.configurableFeatures?.edges;
+    if (this.plan && this.plan?.configurableFeatures?.edges.length > 0) {
+      const features = this.plan?.configurableFeatures?.edges;
       // planId get cost
       planCost(this.restFetch, {
-        planID: this.plan.node.id,
+        planID: this.plan.id,
         features: configurableFeatureDefaults(features as PlanConfigurableFeatureEdge[]),
         init: { signal: this.controller.signal },
       }).then(data => {
@@ -55,7 +55,7 @@ export class ManifoldThead {
       return header;
     }
 
-    if (this.plan.node.configurableFeatures.edges.length > 0) {
+    if (this.plan.configurableFeatures.edges.length > 0) {
       if (this.loading) {
         header.push(<p class="mp--subtext">Calculating cost...</p>);
         return header;
@@ -75,12 +75,12 @@ export class ManifoldThead {
     // Manual cost calc
     header.push(
       <p class="mp--plan-cost">
-        {toUSD(this.plan.node.cost)}
+        {toUSD(this.plan.cost)}
         <span class="mp--subtext">/mo</span>
       </p>
     );
 
-    if (this.plan.node.meteredFeatures.edges.length > 0) {
+    if (this.plan.meteredFeatures.edges.length > 0) {
       header.push(<span class="mp--subtext"> + metered use</span>);
     }
 

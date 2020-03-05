@@ -13,9 +13,6 @@ import {
 } from './types/graphql';
 
 export namespace Components {
-  interface ManifoldButton {
-    'href'?: string;
-  }
   interface ManifoldCheckbox {
     'checked'?: boolean;
     'inputId'?: string;
@@ -46,7 +43,7 @@ export namespace Components {
     'options'?: PlanConfigurableFeatureOption[];
   }
   interface ManifoldThead {
-    'plan'?: ProductQuery['product']['plans']['edges'][0];
+    'plan'?: ProductQuery['product']['plans']['edges'][0]['node'];
     'titleText'?: string;
   }
   interface ManifoldToggle {
@@ -57,12 +54,6 @@ export namespace Components {
 
 declare global {
 
-
-  interface HTMLManifoldButtonElement extends Components.ManifoldButton, HTMLStencilElement {}
-  var HTMLManifoldButtonElement: {
-    prototype: HTMLManifoldButtonElement;
-    new (): HTMLManifoldButtonElement;
-  };
 
   interface HTMLManifoldCheckboxElement extends Components.ManifoldCheckbox, HTMLStencilElement {}
   var HTMLManifoldCheckboxElement: {
@@ -118,7 +109,6 @@ declare global {
     new (): HTMLManifoldToggleElement;
   };
   interface HTMLElementTagNameMap {
-    'manifold-button': HTMLManifoldButtonElement;
     'manifold-checkbox': HTMLManifoldCheckboxElement;
     'manifold-cost-tiers': HTMLManifoldCostTiersElement;
     'manifold-empty-cell': HTMLManifoldEmptyCellElement;
@@ -132,9 +122,6 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface ManifoldButton {
-    'href'?: string;
-  }
   interface ManifoldCheckbox {
     'checked'?: boolean;
     'inputId'?: string;
@@ -165,7 +152,7 @@ declare namespace LocalJSX {
     'options'?: PlanConfigurableFeatureOption[];
   }
   interface ManifoldThead {
-    'plan'?: ProductQuery['product']['plans']['edges'][0];
+    'plan'?: ProductQuery['product']['plans']['edges'][0]['node'];
     'titleText'?: string;
   }
   interface ManifoldToggle {
@@ -174,7 +161,6 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
-    'manifold-button': ManifoldButton;
     'manifold-checkbox': ManifoldCheckbox;
     'manifold-cost-tiers': ManifoldCostTiers;
     'manifold-empty-cell': ManifoldEmptyCell;
@@ -193,7 +179,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'manifold-button': LocalJSX.ManifoldButton & JSXBase.HTMLAttributes<HTMLManifoldButtonElement>;
       'manifold-checkbox': LocalJSX.ManifoldCheckbox & JSXBase.HTMLAttributes<HTMLManifoldCheckboxElement>;
       'manifold-cost-tiers': LocalJSX.ManifoldCostTiers & JSXBase.HTMLAttributes<HTMLManifoldCostTiersElement>;
       'manifold-empty-cell': LocalJSX.ManifoldEmptyCell & JSXBase.HTMLAttributes<HTMLManifoldEmptyCellElement>;
