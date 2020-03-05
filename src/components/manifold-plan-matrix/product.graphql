@@ -1,12 +1,90 @@
-query PRODUCT($first: Int!, $id: ID!) {
+query PRODUCT($id: ID!) {
   product(id: $id) {
-    plans(first: $first) {
+    id
+    displayName
+
+    fixedFeatures(first: 25) {
       edges {
         node {
+          label
           displayName
+          featureOptions {
+            value
+            displayName
+          }
+        }
+      }
+    }
+
+    meteredFeatures(first: 25) {
+      edges {
+        node {
+          label
+          displayName
+          numericOptions {
+            label
+            displayName
+            numericDetails {
+              unit
+              costTiers {
+                cost
+                limit
+              }
+            }
+          }
+        }
+      }
+    }
+
+    configurableFeatures(first: 25) {
+      edges {
+        node {
+          label
+          displayName
+
+          ... on ProductStringConfigurableFeature {
+            featureOptions {
+              cost
+              displayName
+              value
+            }
+          }
+
+          ... on ProductBooleanConfigurableFeature {
+            featureOptions {
+              cost
+              displayName
+              value
+            }
+          }
+
+          ... on ProductNumberConfigurableFeature {
+            numericOptions {
+              label
+              displayName
+              numericDetails {
+                increment
+                max
+                min
+                unit
+                costTiers {
+                  cost
+                  limit
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    plans(first: 25, orderBy: { field: COST, direction: ASC }) {
+      edges {
+        node {
           cost
+          displayName
           id
-          fixedFeatures(first: $first) {
+          fixedFeatures(first: 25) {
             edges {
               node {
                 label
@@ -15,7 +93,7 @@ query PRODUCT($first: Int!, $id: ID!) {
               }
             }
           }
-          meteredFeatures(first: $first) {
+          meteredFeatures(first: 25) {
             edges {
               node {
                 label
@@ -23,14 +101,14 @@ query PRODUCT($first: Int!, $id: ID!) {
                 numericDetails {
                   unit
                   costTiers {
-                    limit
                     cost
+                    limit
                   }
                 }
               }
             }
           }
-          configurableFeatures(first: $first) {
+          configurableFeatures(first: 25) {
             edges {
               node {
                 label

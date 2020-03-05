@@ -6,7 +6,7 @@ storiesOf('Manifold Pricing', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
   .add('manifold-plan-matrix', () => {
-    const productId = text('Product Label', '234yycr3mf5f2hrw045vuxeatnd50'); // ziggeo
+    const productId = text('Product ID', '234w1jyaum5j0aqe3g3bmbqjgf20p'); // Jaws DB
     const clientId = text('Client ID', '234a33rd2pxfzq9qfk0v5qdrykhcp'); // ziggeo provider id
     const cta = text('cta-text', 'Get Started');
     const baseUrl = text('base-url', '/signup');

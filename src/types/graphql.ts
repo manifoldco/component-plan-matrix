@@ -1171,7 +1171,6 @@ export type WithUsage = {
 };
 
 export type ProductQueryVariables = {
-  first: Scalars['Int'],
   id: Scalars['ID']
 };
 
@@ -1180,13 +1179,83 @@ export type ProductQuery = (
   { __typename?: 'Query' }
   & { product: Maybe<(
     { __typename?: 'Product' }
-    & { plans: Maybe<(
+    & Pick<Product, 'id' | 'displayName'>
+    & { fixedFeatures: Maybe<(
+      { __typename?: 'ProductFixedFeatureConnection' }
+      & { edges: Array<(
+        { __typename?: 'ProductFixedFeatureEdge' }
+        & { node: (
+          { __typename?: 'ProductFixedFeature' }
+          & Pick<ProductFixedFeature, 'label' | 'displayName'>
+          & { featureOptions: Maybe<Array<(
+            { __typename?: 'ProductFixedFeatureOption' }
+            & Pick<ProductFixedFeatureOption, 'value' | 'displayName'>
+          )>> }
+        ) }
+      )> }
+    )>, meteredFeatures: Maybe<(
+      { __typename?: 'ProductMeteredFeatureConnection' }
+      & { edges: Array<(
+        { __typename?: 'ProductMeteredFeatureEdge' }
+        & { node: (
+          { __typename?: 'ProductMeteredFeature' }
+          & Pick<ProductMeteredFeature, 'label' | 'displayName'>
+          & { numericOptions: Maybe<Array<(
+            { __typename?: 'ProductMeteredFeatureNumericOptions' }
+            & Pick<ProductMeteredFeatureNumericOptions, 'label' | 'displayName'>
+            & { numericDetails: (
+              { __typename?: 'ProductMeteredFeatureNumericDetails' }
+              & Pick<ProductMeteredFeatureNumericDetails, 'unit'>
+              & { costTiers: Array<(
+                { __typename?: 'ProductFeatureCostTier' }
+                & Pick<ProductFeatureCostTier, 'cost' | 'limit'>
+              )> }
+            ) }
+          )>> }
+        ) }
+      )> }
+    )>, configurableFeatures: Maybe<(
+      { __typename?: 'ProductConfigurableFeatureConnection' }
+      & { edges: Array<(
+        { __typename?: 'ProductConfigurableFeatureEdge' }
+        & { node: (
+          { __typename?: 'ProductNumberConfigurableFeature' }
+          & Pick<ProductNumberConfigurableFeature, 'label' | 'displayName'>
+          & { numericOptions: Maybe<Array<(
+            { __typename?: 'ProductConfigurableFeatureNumericOptions' }
+            & Pick<ProductConfigurableFeatureNumericOptions, 'label' | 'displayName'>
+            & { numericDetails: (
+              { __typename?: 'ProductConfigurableFeatureNumericDetails' }
+              & Pick<ProductConfigurableFeatureNumericDetails, 'increment' | 'max' | 'min' | 'unit'>
+              & { costTiers: Array<(
+                { __typename?: 'ProductFeatureCostTier' }
+                & Pick<ProductFeatureCostTier, 'cost' | 'limit'>
+              )> }
+            ) }
+          )>> }
+        ) | (
+          { __typename?: 'ProductStringConfigurableFeature' }
+          & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
+          & { featureOptions: Maybe<Array<(
+            { __typename?: 'ProductConfigurableFeatureOption' }
+            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
+          )>> }
+        ) | (
+          { __typename?: 'ProductBooleanConfigurableFeature' }
+          & Pick<ProductBooleanConfigurableFeature, 'label' | 'displayName'>
+          & { featureOptions: Maybe<Array<(
+            { __typename?: 'ProductConfigurableFeatureOption' }
+            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
+          )>> }
+        ) }
+      )> }
+    )>, plans: Maybe<(
       { __typename?: 'PlanConnection' }
       & { edges: Array<(
         { __typename?: 'PlanEdge' }
         & { node: (
           { __typename?: 'Plan' }
-          & Pick<Plan, 'displayName' | 'cost' | 'id'>
+          & Pick<Plan, 'cost' | 'displayName' | 'id'>
           & { fixedFeatures: Maybe<(
             { __typename?: 'PlanFixedFeatureConnection' }
             & { edges: Array<(
@@ -1208,7 +1277,7 @@ export type ProductQuery = (
                   & Pick<PlanMeteredFeatureNumericDetails, 'unit'>
                   & { costTiers: Maybe<Array<(
                     { __typename?: 'PlanFeatureCostTier' }
-                    & Pick<PlanFeatureCostTier, 'limit' | 'cost'>
+                    & Pick<PlanFeatureCostTier, 'cost' | 'limit'>
                   )>> }
                 ) }
               ) }

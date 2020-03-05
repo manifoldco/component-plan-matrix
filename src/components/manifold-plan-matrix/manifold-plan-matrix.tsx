@@ -1,33 +1,46 @@
-import { Component, Element, h, State, Prop, Watch } from '@stencil/core';
-import {
-  ProductQueryVariables,
-  ProductQuery,
-  PlanFeatureType,
-  PlanConfigurableFeatureOption,
-  PlanConfigurableFeatureNumericDetails,
-  PlanFixedFeature,
-} from '../../types/graphql';
-import query from './product.graphql';
+import { Component, h, State, Prop, Watch } from '@stencil/core';
+import { check, chevron_up_down } from '@manifoldco/icons';
+import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
+import { toUSD } from '../../utils/cost';
 import { CLIENT_ID_WARNING } from './warning';
+import query from './product.graphql';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
 
-type ConditionalClassesObj = {
-  [name: string]: boolean;
-};
-type tierLabel = { tierLabel: string };
-type TableRef = {
-  [key: string]: tierLabel;
-};
-type NumericDetails = ProductQuery['product']['plans']['edges'][0]['node']['meteredFeatures']['edges'][0]['node']['numericDetails'];
+interface ProductFeatures {
+  fixed: {
+    [label: string]: ProductQuery['product']['fixedFeatures']['edges'][0]['node'];
+  };
+  metered: {
+    [label: string]: ProductQuery['product']['meteredFeatures']['edges'][0]['node'];
+  };
+  configurable: {
+    [label: string]: ProductQuery['product']['configurableFeatures']['edges'][0]['node'];
+  };
+}
+type ProductPlan = ProductQuery['product']['plans']['edges'][0]['node'];
+type PlanFixedFeature = ProductPlan['fixedFeatures']['edges'][0]['node'];
+type PlanMeteredFeature = ProductPlan['meteredFeatures']['edges'][0]['node'];
+type PlanConfigurableFeature = ProductPlan['configurableFeatures']['edges'][0]['node'];
+interface PlanFeatures {
+  [planID: string]: {
+    [featureLabel: string]:
+      | PlanFixedFeature
+      | PlanMeteredFeature
+      | PlanConfigurableFeature
+      | undefined;
+  };
+}
+
+const DEFAULT_PLANS = 3;
+const DEFAULT_FEATURES = 5;
+
 @Component({
   tag: 'manifold-plan-matrix',
   styleUrl: 'manifold-plan-matrix.css',
 })
 export class ManifoldPricing {
-  // Used to apply css variables to root element
-  @Element() el: HTMLElement;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string;
   // Passed client ID header to the graphql calls
@@ -40,12 +53,10 @@ export class ManifoldPricing {
   @Prop() graphqlUrl?: string = GRAPHQL_ENDPOINT;
   // Product data
   @State() product?: ProductQuery['product'];
-  // Plans data
-  @State() plans: ProductQuery['product']['plans']['edges'];
-  // Table tableRef
-  @State() labels: TableRef;
-  // Loading state
-  @State() loading = true;
+  // Product features
+  @State() productFeatures: ProductFeatures = { fixed: {}, metered: {}, configurable: {} };
+  // Plan features
+  @State() planFeatures: PlanFeatures = {};
   @Watch('productId') refetchProduct(newVal?: string) {
     if (newVal) {
       this.fetchProduct(newVal);
@@ -63,7 +74,7 @@ export class ManifoldPricing {
   }
 
   fetchProduct(productID: string) {
-    const variables: ProductQueryVariables = { id: productID, first: 50 };
+    const variables: ProductQueryVariables = { id: productID };
     fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -71,121 +82,100 @@ export class ManifoldPricing {
         Connection: 'keep-alive',
         ...(this.clientId ? { [MANIFOLD_CLIENT_ID]: this.clientId } : {}),
       },
-      body: JSON.stringify({
-        query,
-        variables,
-      }),
+      body: JSON.stringify({ query, variables }),
     })
       .then(res => {
         return res.json();
       })
-      .then(({ data }) => {
-        if (data.product) {
+      .then(({ data }: { data?: ProductQuery }) => {
+        if (data) {
           this.product = data.product;
-          this.createPlans();
+          // create map of plan features by type
+          const fixed = data.product.fixedFeatures.edges.reduce(
+            (features, { node }) => ({ ...features, [node.label]: node }),
+            {}
+          );
+          const metered = data.product.meteredFeatures.edges.reduce(
+            (features, { node }) => ({ ...features, [node.label]: node }),
+            {}
+          );
+          const configurable = data.product.configurableFeatures.edges.reduce(
+            (features, { node }) => ({ ...features, [node.label]: node }),
+            {}
+          );
+          this.productFeatures = { fixed, metered, configurable };
+          // create map of plan features
+          const featureLabels = Object.keys({ ...fixed, ...metered, ...configurable });
+          this.planFeatures = data.product.plans.edges.reduce(
+            (plans, { node: plan }) => ({
+              ...plans,
+              [plan.id]: featureLabels.reduce((labels, label) => {
+                const planHasFeature = [
+                  ...plan.fixedFeatures.edges,
+                  ...plan.meteredFeatures.edges,
+                  ...plan.configurableFeatures.edges,
+                ].find(({ node: feature }) => feature.label === label);
+                return {
+                  ...labels,
+                  [label]: planHasFeature ? planHasFeature.node : undefined,
+                };
+              }, {}),
+            }),
+            {}
+          );
         }
       });
   }
 
-  createPlans() {
-    if (this.product) {
-      // Knarley set of reducers to generate a TabelRef object containing a label (DisplayName) and an index to populate the correct cell.
-      const features = this?.product?.plans?.edges.reduce((acc, { node }) => {
-        // Grab unique fixed
-        const fixedFeatures = node?.fixedFeatures?.edges.reduce(
-          (fixedAccumulator: TableRef, { node: n }) => {
-            // Check if key exists
-            if (fixedAccumulator[n.displayName]) {
-              return fixedAccumulator;
-            }
-            // Add new key
-            return {
-              [n.label]: {
-                tierLabel: n.displayName,
-              },
-              ...fixedAccumulator,
-            };
-          },
-          {}
-        );
-
-        // Grab unique metered
-        const meteredFeatures = node?.meteredFeatures?.edges.reduce(
-          (meteredAccumulator: TableRef, { node: n }) => {
-            // Check if key exists
-            if (meteredAccumulator[n.label]) {
-              return meteredAccumulator;
-            }
-            // Add new key
-            return {
-              [n.label]: {
-                tierLabel: n.displayName,
-              },
-              ...meteredAccumulator,
-            };
-          },
-          {}
-        );
-
-        const configurableFeatures = node?.configurableFeatures?.edges.reduce(
-          (fixedAccumulator: TableRef, { node: n }) => {
-            if (fixedAccumulator[n.displayName]) {
-              return fixedAccumulator;
-            }
-            return {
-              [n.label]: {
-                tierLabel: n.displayName,
-              },
-              ...fixedAccumulator,
-            };
-          },
-          {}
-        );
-
-        return { ...fixedFeatures, ...meteredFeatures, ...configurableFeatures, ...acc };
-      }, {});
-
-      this.labels = features || {};
-      this.plans = this.product?.plans?.edges;
-      this.loading = false;
-    } else {
-      console.warn('There was a problem with the API');
-    }
-  }
-
-  addClass(obj: ConditionalClassesObj, baseClass = ''): string {
-    const conditionalClasses = Object.keys(obj).map(cl => (obj[cl] ? cl : ''));
-    return `${baseClass} ${conditionalClasses.join(' ')}`;
-  }
-
-  fixedFeatures(displayValue: PlanFixedFeature['displayName'], planIndex: number) {
-    if (displayValue === 'true' || displayValue === 'false') {
+  displayFixed(displayValue: string) {
+    if (['yes', 'true'].includes(displayValue.toLowerCase())) {
       return (
         <div class="mp--cell mp--cell__body">
-          <manifold-checkbox
-            input-id={`${planIndex}-${displayValue}`}
-            name={displayValue}
-            checked={displayValue === 'true'}
-          ></manifold-checkbox>
+          <svg
+            class="mp--check"
+            viewBox="0 0 1024 1024"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns-x="http://www.w3.org/1999/xlink"
+          >
+            <path d={check} />
+          </svg>
+        </div>
+      );
+    }
+    if (displayValue.toLowerCase() === 'false') {
+      return (
+        <div class="mp--cell mp--cell__body">
+          <span class="mp--empty-cell">•</span>
         </div>
       );
     }
     return <div class="mp--cell mp--cell__body">{displayValue}</div>;
   }
 
-  meteredFeatures(numericDetails: NumericDetails) {
-    if (numericDetails.costTiers.length === 0) {
+  displayMetered(feature: ProductPlan['meteredFeatures']['edges'][0]['node']) {
+    const { numericDetails } = feature;
+    if (!numericDetails.costTiers) {
       return (
         <div class="mp--cell mp--cell__body">
-          <manifold-empty-cell></manifold-empty-cell>
+          <span class="mp--empty-cell">•</span>
         </div>
       );
     }
 
+    const { costTiers = [] } = numericDetails;
+
+    if (costTiers.length === 0) {
+      return <div class="mp--cell mp--cell__body">Free</div>;
+    }
+
     return (
       <div class="mp--cell mp--cell__body mp--cell__block">
-        <manifold-metered>
-          {numericDetails.costTiers.map(({ limit, cost }, i) => {
+        <div class="mp--metered">
+          <div class="mp--metered__header">
+            <p class="mp--metered__header-text">cost</p>
+            <p class="mp--metered__header-text mp--metered__header-tar">usage range</p>
+          </div>
+          {costTiers.map(({ limit, cost }, i) => {
             const previous = numericDetails.costTiers[i - 1];
             const min = previous?.limit ? previous.limit : 0;
             return (
@@ -197,151 +187,167 @@ export class ManifoldPricing {
               ></manifold-cost-tiers>
             );
           })}
-        </manifold-metered>
+        </div>
       </div>
     );
   }
 
-  configurableFeatures(
-    type: PlanFeatureType,
-    numericDetails?: PlanConfigurableFeatureNumericDetails,
-    featureOptions?: PlanConfigurableFeatureOption[]
-  ) {
-    switch (type) {
+  displayConfigurable(feature: ProductPlan['configurableFeatures']['edges'][0]['node']) {
+    switch (feature.type) {
       case PlanFeatureType.String:
         return (
           <div class="mp--cell mp--cell__body">
-            <manifold-select options={featureOptions}></manifold-select>
-          </div>
-        );
-      case PlanFeatureType.Number:
-        return (
-          <div class="mp--cell mp--cell__body">
-            <manifold-numeric-input
-              min={numericDetails?.min}
-              max={numericDetails?.max}
-              increment={numericDetails?.increment}
-              unit={numericDetails?.unit}
-            ></manifold-numeric-input>
-          </div>
-        );
-      case PlanFeatureType.Boolean:
-        if (Array.isArray(featureOptions)) {
-          const [on, off] = featureOptions;
-          return (
-            <div class="mp--cell mp--cell__body">
-              <manifold-toggle on={on.cost} off={off.cost}></manifold-toggle>
+            <div class="mp--select">
+              <select class="mp--select__input">
+                {(feature.featureOptions || []).map((option, i) => (
+                  <option value={option.cost} selected={i === 0}>
+                    <span>{option.displayName}</span>
+                    <span> ({toUSD(option.cost)})</span>
+                  </option>
+                ))}
+              </select>
+              <svg
+                class="mp--select__chevron"
+                viewBox="0 0 1024 1024"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns-x="http://www.w3.org/1999/xlink"
+              >
+                <path d={chevron_up_down} />
+              </svg>
+              <div class="mp--select__border"></div>
             </div>
-          );
-        }
-        return (
-          <div class="mp--cell mp--cell__body">
-            <manifold-empty-cell></manifold-empty-cell>
           </div>
         );
+      case PlanFeatureType.Number: {
+        const {
+          numericDetails: { max, min, increment, unit },
+        } = feature;
+        return (
+          <div class="mp--cell mp--cell__body">
+            <label class="mp--numeric-range">
+              <input
+                class="mp--numeric-range__input"
+                inputmode="numeric"
+                max={max}
+                min={min}
+                name="numericRange"
+                pattern="[0-9]*"
+                step={increment}
+                type="number"
+                value={min}
+              />
+              <span class="mp--numeric-range__desc">
+                {min} – {max} {unit}
+              </span>
+            </label>
+          </div>
+        );
+      }
+      case PlanFeatureType.Boolean: {
+        return (
+          <div class="mp--cell mp--cell__body">
+            <label class="mp--toggle">
+              <input class="mp--toggle__input" type="checkbox" />
+              <div class="mp--toggle__toggle"></div>
+            </label>
+          </div>
+        );
+      }
       default:
-        return (
-          <div class="mp--cell mp--cell__body">
-            <manifold-empty-cell></manifold-empty-cell>
-          </div>
-        );
+        return null;
     }
   }
 
   render() {
-    if (this.loading) {
+    if (!this.product) {
       return <div>Loading...</div>;
     }
 
     if (this.product && !this.product.plans) {
       return <div>error</div>;
     }
-    const tierLabels =
-      (this.labels && Object.values(this.labels).map((feature: tierLabel) => feature.tierLabel)) ||
-      [];
-    const gridColumns = this.plans.length + 1;
-    const gridRows = tierLabels.length + 2; // +1 for the "Get Started" row
 
-    // Pass column count into css grid
-    this.el.style.setProperty('--manifold-table-columns', `${gridColumns}`);
-    this.el.style.setProperty('--manifold-table-rows', `${gridRows}`);
+    const gridColumns = ((this.product && this.product.plans.edges.length) || DEFAULT_PLANS) + 1; // +1 for features column
+    const gridRows =
+      (Object.keys({
+        ...this.productFeatures.fixed,
+        ...this.productFeatures.metered,
+        ...this.productFeatures.configurable,
+      }).length || DEFAULT_FEATURES) + 2; // +1 for the "Get Started" row
 
     return (
-      <div class="mp">
-        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts mp--cell__rounded-tl"></div>
-        {tierLabels.map(label => {
-          return (
-            <div class="mp--cell  mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
-              {label}
-            </div>
-          );
-        })}
-        <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th mp--cell__rounded-bl"></div>
-        {this.plans
-          .sort((a, b) => a.node.cost - b.node.cost)
-          .map(({ node: plan }, i) => [
-            <div
-              class={this.addClass(
-                {
-                  'mp--cell__rounded-tr': i === gridColumns - 2,
-                },
-                'mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th'
-              )}
-            >
-              <manifold-thead title-text={plan.displayName} plan={plan}></manifold-thead>
-            </div>,
-            Object.keys(this.labels).map((label, ii) => {
-              const fixedFeatureMatch = plan.fixedFeatures.edges.find(({ node: { label: l } }) => {
-                return label === l;
-              });
+      <div
+        class="mp"
+        style={{ '--table-columns': `${gridColumns}`, '--table-rows': `${gridRows}` }}
+      >
+        <div
+          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts"
+          data-column-first
+          data-row-first
+        ></div>
+        {Object.values({
+          ...this.productFeatures.fixed,
+          ...this.productFeatures.metered,
+          ...this.productFeatures.configurable,
+        }).map(feature => (
+          <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
+            {feature.displayName}
+          </div>
+        ))}
+        <div
+          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th"
+          data-column-first
+          data-row-last
+        ></div>
+        {this.product &&
+          this.product.plans.edges.map(({ node: plan }, i) => {
+            const lastColumn = i === gridColumns - 2 || undefined;
 
-              const meteredFeaturesMatch = plan.meteredFeatures.edges.find(
-                ({ node: { label: l } }) => {
-                  return label === l;
+            return [
+              <div
+                class="mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th"
+                data-row-first
+                data-column-last={lastColumn}
+              >
+                <manifold-thead title-text={plan.displayName} plan={plan}></manifold-thead>
+              </div>,
+              Object.values(this.planFeatures[plan.id]).map(feature => {
+                // fixed feature
+                if (feature && this.productFeatures.fixed[feature.label]) {
+                  const fixedFeature = feature as PlanFixedFeature;
+                  return this.displayFixed(fixedFeature.displayValue);
                 }
-              );
 
-              const configurableFeaturesMatch = plan.configurableFeatures.edges.find(
-                ({ node: { label: l } }) => {
-                  return label === l;
+                // metered feature
+                if (feature && this.productFeatures.metered[feature.label]) {
+                  const meteredFeature = feature as PlanMeteredFeature;
+                  return this.displayMetered(meteredFeature);
                 }
-              );
 
-              if (fixedFeatureMatch) {
-                return this.fixedFeatures(fixedFeatureMatch.node.displayValue, ii);
-              }
+                // configurable
+                if (feature && this.productFeatures.configurable[feature.label]) {
+                  const configurableFeature = feature as PlanConfigurableFeature;
+                  return this.displayConfigurable(configurableFeature);
+                }
 
-              if (meteredFeaturesMatch) {
-                return this.meteredFeatures(meteredFeaturesMatch.node.numericDetails);
-              }
-
-              if (configurableFeaturesMatch) {
-                return this.configurableFeatures(
-                  configurableFeaturesMatch.node.type,
-                  configurableFeaturesMatch.node.numericDetails,
-                  configurableFeaturesMatch.node.featureOptions
+                // undefined / disabled feature
+                return (
+                  <div class="mp--cell mp--cell__body">
+                    <span class="mp--empty-cell">•</span>
+                  </div>
                 );
-              }
-
-              return (
-                <div class="mp--cell mp--cell__body">
-                  <manifold-empty-cell></manifold-empty-cell>
-                </div>
-              );
-            }),
-            <div
-              class={this.addClass(
-                {
-                  'mp--cell__brs mp--cell__rounded-br': i === gridColumns - 2,
-                },
-                'mp--cell mp--cell__body mp--cell__bbs'
-              )}
-            >
-              <a class="mp--button" id={`manifold-cta-plan-${plan.id}`} href={this.baseUrl}>
-                {this.ctaText}
-              </a>
-            </div>,
-          ])}
+              }),
+              <div
+                class="mp--cell mp--cell__body mp--cell__bbs"
+                data-row-last
+                data-column-last={lastColumn}
+              >
+                <a class="mp--button" id={`manifold-cta-plan-${plan.id}`} href={this.baseUrl}>
+                  {this.ctaText}
+                </a>
+              </div>,
+            ];
+          })}
       </div>
     );
   }

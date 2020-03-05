@@ -27,7 +27,7 @@ module.exports = {
       typescript: {},
     },
   },
-  ignorePatterns: ["src/types/gateway.ts"],
+  ignorePatterns: ['src/types/gateway.ts'],
   rules: {
     '@manifoldco/stencil/component-prefix': ['error', { prefix: 'manifold-' }],
     '@manifoldco/stencil/require-render-decorator': 'off',
@@ -60,6 +60,7 @@ module.exports = {
     'lines-between-class-members': 'off', // class members don’t need that space!
     'max-len': 'off', // let Prettier decide
     'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-fallthrough': 'off',
     'no-irregular-whitespace': 'off',
     'object-curly-newline': 'off', // let Prettier decide,
     'prettier/prettier': 'error',

@@ -8,28 +8,14 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
-  PlanConfigurableFeatureOption,
   ProductQuery,
 } from './types/graphql';
 
 export namespace Components {
-  interface ManifoldCheckbox {
-    'checked'?: boolean;
-    'inputId'?: string;
-    'name'?: string;
-  }
   interface ManifoldCostTiers {
     'cost'?: number;
     'maxLimit'?: number;
     'minLimit'?: number;
-    'unit'?: string;
-  }
-  interface ManifoldEmptyCell {}
-  interface ManifoldMetered {}
-  interface ManifoldNumericInput {
-    'increment'?: number;
-    'max'?: number;
-    'min'?: number;
     'unit'?: string;
   }
   interface ManifoldPlanMatrix {
@@ -39,50 +25,19 @@ export namespace Components {
     'graphqlUrl'?: string;
     'productId'?: string;
   }
-  interface ManifoldSelect {
-    'options'?: PlanConfigurableFeatureOption[];
-  }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0]['node'];
     'titleText'?: string;
-  }
-  interface ManifoldToggle {
-    'off': number;
-    'on': number;
   }
 }
 
 declare global {
 
 
-  interface HTMLManifoldCheckboxElement extends Components.ManifoldCheckbox, HTMLStencilElement {}
-  var HTMLManifoldCheckboxElement: {
-    prototype: HTMLManifoldCheckboxElement;
-    new (): HTMLManifoldCheckboxElement;
-  };
-
   interface HTMLManifoldCostTiersElement extends Components.ManifoldCostTiers, HTMLStencilElement {}
   var HTMLManifoldCostTiersElement: {
     prototype: HTMLManifoldCostTiersElement;
     new (): HTMLManifoldCostTiersElement;
-  };
-
-  interface HTMLManifoldEmptyCellElement extends Components.ManifoldEmptyCell, HTMLStencilElement {}
-  var HTMLManifoldEmptyCellElement: {
-    prototype: HTMLManifoldEmptyCellElement;
-    new (): HTMLManifoldEmptyCellElement;
-  };
-
-  interface HTMLManifoldMeteredElement extends Components.ManifoldMetered, HTMLStencilElement {}
-  var HTMLManifoldMeteredElement: {
-    prototype: HTMLManifoldMeteredElement;
-    new (): HTMLManifoldMeteredElement;
-  };
-
-  interface HTMLManifoldNumericInputElement extends Components.ManifoldNumericInput, HTMLStencilElement {}
-  var HTMLManifoldNumericInputElement: {
-    prototype: HTMLManifoldNumericInputElement;
-    new (): HTMLManifoldNumericInputElement;
   };
 
   interface HTMLManifoldPlanMatrixElement extends Components.ManifoldPlanMatrix, HTMLStencilElement {}
@@ -91,54 +46,23 @@ declare global {
     new (): HTMLManifoldPlanMatrixElement;
   };
 
-  interface HTMLManifoldSelectElement extends Components.ManifoldSelect, HTMLStencilElement {}
-  var HTMLManifoldSelectElement: {
-    prototype: HTMLManifoldSelectElement;
-    new (): HTMLManifoldSelectElement;
-  };
-
   interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
   var HTMLManifoldTheadElement: {
     prototype: HTMLManifoldTheadElement;
     new (): HTMLManifoldTheadElement;
   };
-
-  interface HTMLManifoldToggleElement extends Components.ManifoldToggle, HTMLStencilElement {}
-  var HTMLManifoldToggleElement: {
-    prototype: HTMLManifoldToggleElement;
-    new (): HTMLManifoldToggleElement;
-  };
   interface HTMLElementTagNameMap {
-    'manifold-checkbox': HTMLManifoldCheckboxElement;
     'manifold-cost-tiers': HTMLManifoldCostTiersElement;
-    'manifold-empty-cell': HTMLManifoldEmptyCellElement;
-    'manifold-metered': HTMLManifoldMeteredElement;
-    'manifold-numeric-input': HTMLManifoldNumericInputElement;
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
-    'manifold-select': HTMLManifoldSelectElement;
     'manifold-thead': HTMLManifoldTheadElement;
-    'manifold-toggle': HTMLManifoldToggleElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface ManifoldCheckbox {
-    'checked'?: boolean;
-    'inputId'?: string;
-    'name'?: string;
-  }
   interface ManifoldCostTiers {
     'cost'?: number;
     'maxLimit'?: number;
     'minLimit'?: number;
-    'unit'?: string;
-  }
-  interface ManifoldEmptyCell {}
-  interface ManifoldMetered {}
-  interface ManifoldNumericInput {
-    'increment'?: number;
-    'max'?: number;
-    'min'?: number;
     'unit'?: string;
   }
   interface ManifoldPlanMatrix {
@@ -148,28 +72,15 @@ declare namespace LocalJSX {
     'graphqlUrl'?: string;
     'productId'?: string;
   }
-  interface ManifoldSelect {
-    'options'?: PlanConfigurableFeatureOption[];
-  }
   interface ManifoldThead {
     'plan'?: ProductQuery['product']['plans']['edges'][0]['node'];
     'titleText'?: string;
   }
-  interface ManifoldToggle {
-    'off'?: number;
-    'on'?: number;
-  }
 
   interface IntrinsicElements {
-    'manifold-checkbox': ManifoldCheckbox;
     'manifold-cost-tiers': ManifoldCostTiers;
-    'manifold-empty-cell': ManifoldEmptyCell;
-    'manifold-metered': ManifoldMetered;
-    'manifold-numeric-input': ManifoldNumericInput;
     'manifold-plan-matrix': ManifoldPlanMatrix;
-    'manifold-select': ManifoldSelect;
     'manifold-thead': ManifoldThead;
-    'manifold-toggle': ManifoldToggle;
   }
 }
 
@@ -179,15 +90,9 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'manifold-checkbox': LocalJSX.ManifoldCheckbox & JSXBase.HTMLAttributes<HTMLManifoldCheckboxElement>;
       'manifold-cost-tiers': LocalJSX.ManifoldCostTiers & JSXBase.HTMLAttributes<HTMLManifoldCostTiersElement>;
-      'manifold-empty-cell': LocalJSX.ManifoldEmptyCell & JSXBase.HTMLAttributes<HTMLManifoldEmptyCellElement>;
-      'manifold-metered': LocalJSX.ManifoldMetered & JSXBase.HTMLAttributes<HTMLManifoldMeteredElement>;
-      'manifold-numeric-input': LocalJSX.ManifoldNumericInput & JSXBase.HTMLAttributes<HTMLManifoldNumericInputElement>;
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
-      'manifold-select': LocalJSX.ManifoldSelect & JSXBase.HTMLAttributes<HTMLManifoldSelectElement>;
       'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
-      'manifold-toggle': LocalJSX.ManifoldToggle & JSXBase.HTMLAttributes<HTMLManifoldToggleElement>;
     }
   }
 }
