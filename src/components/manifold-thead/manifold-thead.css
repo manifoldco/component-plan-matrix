@@ -1,15 +1,14 @@
 .mp--plan-cost {
-  margin: var(--manifold-table-spacing) 0 calc(var(--manifold-table-spacing) / 2) 0;
-  color: hsl(var(--manifold-c-grey-darker));
-  font-weight: 600;
+  color: hsl(var(--c-gray-darker));
+  font-family: var(--f-body);
   font-size: 16px;
-  font-family: var(--manifold-table-f-body);
-  line-height: 19px;
+  font-weight: 600;
+  margin: 0.5rem 0 0 0;
 }
 
 .mp--subtext {
-  color: hsl(var(--manifold-c-grey));
-  font-weight: 400;
+  color: hsl(var(--c-gray));
   font-size: 14px;
-  line-height: 17px;
+  font-weight: 400;
+  line-height: 1.2;
 }

@@ -1,10 +1,10 @@
 .mp--cost-tiers {
+  border-top: var(--table-metered-border);
+  color: var(--c-gray-darker);
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  color: var(--manifold-c-grey-darker);
   font-size: 14px;
-  line-height: 17px;
-  border-top: var(--manifold-table-metered-border);
+  grid-template-columns: 1fr 1fr;
+  line-height: 1.2;
 }
 
 .mp--cost-tiers__text {
