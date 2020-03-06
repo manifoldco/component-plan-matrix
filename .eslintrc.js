@@ -27,7 +27,6 @@ module.exports = {
       typescript: {},
     },
   },
-  ignorePatterns: ['src/types/gateway.ts'],
   rules: {
     '@manifoldco/stencil/component-prefix': ['error', { prefix: 'manifold-' }],
     '@manifoldco/stencil/require-render-decorator': 'off',

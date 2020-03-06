@@ -7,80 +7,44 @@
 
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
-import {
-  ProductQuery,
-} from './types/graphql';
+
 
 export namespace Components {
-  interface ManifoldCostTiers {
-    'cost'?: number;
-    'maxLimit'?: number;
-    'minLimit'?: number;
-    'unit'?: string;
-  }
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'clientId'?: string;
     'ctaText'?: string;
+    'gatewayUrl'?: string;
     'graphqlUrl'?: string;
     'productId'?: string;
-  }
-  interface ManifoldThead {
-    'plan'?: ProductQuery['product']['plans']['edges'][0]['node'];
-    'titleText'?: string;
   }
 }
 
 declare global {
 
 
-  interface HTMLManifoldCostTiersElement extends Components.ManifoldCostTiers, HTMLStencilElement {}
-  var HTMLManifoldCostTiersElement: {
-    prototype: HTMLManifoldCostTiersElement;
-    new (): HTMLManifoldCostTiersElement;
-  };
-
   interface HTMLManifoldPlanMatrixElement extends Components.ManifoldPlanMatrix, HTMLStencilElement {}
   var HTMLManifoldPlanMatrixElement: {
     prototype: HTMLManifoldPlanMatrixElement;
     new (): HTMLManifoldPlanMatrixElement;
   };
-
-  interface HTMLManifoldTheadElement extends Components.ManifoldThead, HTMLStencilElement {}
-  var HTMLManifoldTheadElement: {
-    prototype: HTMLManifoldTheadElement;
-    new (): HTMLManifoldTheadElement;
-  };
   interface HTMLElementTagNameMap {
-    'manifold-cost-tiers': HTMLManifoldCostTiersElement;
     'manifold-plan-matrix': HTMLManifoldPlanMatrixElement;
-    'manifold-thead': HTMLManifoldTheadElement;
   }
 }
 
 declare namespace LocalJSX {
-  interface ManifoldCostTiers {
-    'cost'?: number;
-    'maxLimit'?: number;
-    'minLimit'?: number;
-    'unit'?: string;
-  }
   interface ManifoldPlanMatrix {
     'baseUrl'?: string;
     'clientId'?: string;
     'ctaText'?: string;
+    'gatewayUrl'?: string;
     'graphqlUrl'?: string;
     'productId'?: string;
   }
-  interface ManifoldThead {
-    'plan'?: ProductQuery['product']['plans']['edges'][0]['node'];
-    'titleText'?: string;
-  }
 
   interface IntrinsicElements {
-    'manifold-cost-tiers': ManifoldCostTiers;
     'manifold-plan-matrix': ManifoldPlanMatrix;
-    'manifold-thead': ManifoldThead;
   }
 }
 
@@ -90,9 +54,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
-      'manifold-cost-tiers': LocalJSX.ManifoldCostTiers & JSXBase.HTMLAttributes<HTMLManifoldCostTiersElement>;
       'manifold-plan-matrix': LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
-      'manifold-thead': LocalJSX.ManifoldThead & JSXBase.HTMLAttributes<HTMLManifoldTheadElement>;
     }
   }
 }

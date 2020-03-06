@@ -180,7 +180,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 3rem;
+  min-height: 2rem;
   padding: 0.5rem 1rem;
   text-align: center;
   width: 100%;
@@ -276,6 +276,37 @@
 }
 
 /**
+ * Loading
+ */
+
+@keyframes load {
+  50% {
+    opacity: 0.5;
+    transform: translateY(-25%);
+  }
+}
+
+.mp--loading {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.mp--loading__dot {
+  animation-duration: 1.25s;
+  animation-iteration-count: 200;
+  animation-name: load;
+  animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  background: hsl(var(--c-gray));
+  border-radius: 4px;
+  height: 0.5rem;
+  margin-left: 0.125rem;
+  margin-right: 0.125rem;
+  opacity: 0.2;
+  pointer-events: none;
+  width: 0.5rem;
+}
+
+/**
  * Empty Cell
  */
 
@@ -309,6 +340,23 @@
 }
 
 .mp--metered__header-tar {
+  text-align: right;
+}
+
+.mp--metered__cost-tiers {
+  border-top: var(--table-metered-border);
+  color: var(--c-gray-darker);
+  display: grid;
+  font-size: 14px;
+  grid-template-columns: 1fr 1fr;
+  line-height: 1.2;
+}
+
+.mp--metered__cost-tiers__text {
+  margin: 6px 0;
+}
+
+.mp--metered__cost-tiers__last {
   text-align: right;
 }
 
@@ -347,6 +395,26 @@
 }
 
 /**
+ * Plan
+ */
+
+.mp--plan-cost {
+  color: hsl(var(--c-gray-darker));
+  font-family: var(--f-body);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0.5rem 0 0 0;
+}
+
+.mp--plan-subtext {
+  color: hsl(var(--c-gray));
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 0.25rem;
+}
+
+/**
  * Select
  */
 
@@ -361,16 +429,13 @@
   min-height: 2rem;
   position: relative;
   width: 100%;
-
-  &:focus-within {
-    color: hsl(var(--selected-color));
-  }
 }
 
 .mp--select__chevron {
   border-left: 1px solid currentColor;
   fill: var(--default-chevron-color);
   padding: 0 4px;
+  pointer-events: none;
   transition: fill var(--transition), border-color var(--transition);
   width: 20px;
 }
@@ -378,14 +443,14 @@
 .mp--select__border {
   background: transparent;
   border-radius: 3px;
-  border: 1px solid currentColor;
+  border: 1px solid hsl(var(--c-gray));
   bottom: 0;
   left: 0;
   pointer-events: none;
   position: absolute;
   right: 0;
   top: 0;
-  transition: border-color var(--transition);
+  transition: border-color 150ms linear;
 }
 
 .mp--select__input {
@@ -396,15 +461,25 @@
   flex-grow: 1;
   font-size: 1em;
   height: 100%;
-  padding: 0 0 0 0.75rem;
+  outline: none;
+  padding: 0 0 0 0.375rem;
   text-indent: 0;
+  transition: color 150ms linear;
 
-  &:focus {
-    outline: none;
+  &::-ms-expand {
+    display: none;
+  }
+}
 
-    & ~ .mp--select__chevron {
-      fill: hsl(var(--selected-color));
-    }
+.mp--select:focus-within {
+  color: hsl(var(--c-blue));
+
+  & .mp--select__border {
+    border-color: hsl(var(--c-blue));
+  }
+
+  & .mp--select__chevron {
+    fill: hsl(var(--c-blue));
   }
 }
 
@@ -412,7 +487,7 @@
  * Skeleton
  */
 
-@keyframes flash {
+@keyframes shimmer {
   to {
     transform: translateX(100%); /* line width shouldn’t be more than this */
   }
@@ -447,7 +522,7 @@
   &::after {
     animation-duration: 1.5s;
     animation-iteration-count: infinite;
-    animation-name: flash;
+    animation-name: shimmer;
     animation-timing-function: linear;
     background-image: linear-gradient(
       60deg,
