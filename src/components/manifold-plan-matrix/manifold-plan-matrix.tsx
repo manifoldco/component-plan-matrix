@@ -90,7 +90,7 @@ export class ManifoldPricing {
 
   async fetchProduct(productID: string) {
     const variables: ProductQueryVariables = { id: productID };
-    const res = await fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
+    const res = await fetch(`${this.graphqlUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -129,6 +129,7 @@ export class ManifoldPricing {
     const planFeatures: PlanFeatures = {};
     const userSelection: UserSelection = {};
 
+    // iterate through plans to gather costs, features, and configurable feature defaults
     data.product.plans.edges.forEach(({ node: plan }) => {
       // add cost to map
       planCosts[plan.id] = plan.cost;
