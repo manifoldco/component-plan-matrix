@@ -33,14 +33,13 @@
     "test": "stencil test --spec",
     "test:watch": "stencil test --spec --watchAll"
   },
-  "dependencies": {
-    "@manifoldco/icons": "0.0.6"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@graphql-codegen/cli": "^1.12.2",
     "@graphql-codegen/typescript": "^1.12.2",
     "@graphql-codegen/typescript-operations": "^1.12.2",
     "@manifoldco/eslint-plugin-stencil": "^0.4.1",
+    "@manifoldco/icons": "0.0.6",
     "@stencil/core": "^1.8.9",
     "@stencil/postcss": "^1.0.1",
     "@storybook/addon-a11y": "^5.3.13",
@@ -51,6 +50,7 @@
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "babel-loader": "^8.0.6",
+    "deepmerge": "^4.2.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",

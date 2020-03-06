@@ -17,29 +17,21 @@ describe(ManifoldPricing.name, () => {
     consoleOutput = '';
   });
 
-  it('should render with warning if no client ID is set', async () => {
-    const page = await newSpecPage({
-      components: [ManifoldPricing],
-      html: `<manifold-plan-matrix></manifold-plan-matrix>`,
+  describe('client-id', () => {
+    it('missing: should warn', async () => {
+      await newSpecPage({
+        components: [ManifoldPricing],
+        html: `<manifold-plan-matrix></manifold-plan-matrix>`,
+      });
+      expect(consoleOutput).toEqual(CLIENT_ID_WARNING);
     });
 
-    expect(consoleOutput).toEqual(CLIENT_ID_WARNING);
-
-    expect(page.root).toEqualHtml(`
-    <manifold-plan-matrix><div>Loading...</div></manifold-plan-matrix>
-  `);
-  });
-
-  it('should not render with warning if client ID is set', async () => {
-    const page = await newSpecPage({
-      components: [ManifoldPricing],
-      html: `<manifold-plan-matrix client-id="123" ></manifold-plan-matrix>`,
+    it('present: no warning', async () => {
+      await newSpecPage({
+        components: [ManifoldPricing],
+        html: `<manifold-plan-matrix client-id="123" ></manifold-plan-matrix>`,
+      });
+      expect(consoleOutput).toBeFalsy();
     });
-
-    expect(consoleOutput).toBeFalsy();
-
-    expect(page.root).toEqualHtml(`
-    <manifold-plan-matrix client-id="123"><div>Loading...</div></manifold-plan-matrix>
-  `);
   });
 });
