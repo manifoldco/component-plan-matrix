@@ -8,16 +8,14 @@ import query from './product.graphql';
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
 
+// query types
+type ProductFixed = ProductQuery['product']['fixedFeatures']['edges'][0]['node'];
+type ProductMetered = ProductQuery['product']['meteredFeatures']['edges'][0]['node'];
+type ProductConfigurable = ProductQuery['product']['configurableFeatures']['edges'][0]['node'];
 interface ProductFeatures {
-  fixed: {
-    [label: string]: ProductQuery['product']['fixedFeatures']['edges'][0]['node'];
-  };
-  metered: {
-    [label: string]: ProductQuery['product']['meteredFeatures']['edges'][0]['node'];
-  };
-  configurable: {
-    [label: string]: ProductQuery['product']['configurableFeatures']['edges'][0]['node'];
-  };
+  fixed: { [label: string]: ProductFixed };
+  metered: { [label: string]: ProductMetered };
+  configurable: { [label: string]: ProductConfigurable };
 }
 type ProductPlan = ProductQuery['product']['plans']['edges'][0]['node'];
 type PlanFixedFeature = ProductPlan['fixedFeatures']['edges'][0]['node'];
@@ -33,6 +31,12 @@ interface PlanFeatures {
   };
 }
 
+// state
+interface UserSelection {
+  [planID: string]: { [featureLabel: string]: string | number | boolean | undefined };
+}
+
+// settings
 const DEFAULT_PLANS = 3;
 const DEFAULT_FEATURES = 5;
 
@@ -57,6 +61,8 @@ export class ManifoldPricing {
   @State() productFeatures: ProductFeatures = { fixed: {}, metered: {}, configurable: {} };
   // Plan features
   @State() planFeatures: PlanFeatures = {};
+  // User selection
+  @State() userSelection: UserSelection = {};
   @Watch('productId') refetchProduct(newVal?: string) {
     if (newVal) {
       this.fetchProduct(newVal);
@@ -73,9 +79,9 @@ export class ManifoldPricing {
     }
   }
 
-  fetchProduct(productID: string) {
+  async fetchProduct(productID: string) {
     const variables: ProductQueryVariables = { id: productID };
-    fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
+    const res = await fetch(this.graphqlUrl || GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -83,48 +89,51 @@ export class ManifoldPricing {
         ...(this.clientId ? { [MANIFOLD_CLIENT_ID]: this.clientId } : {}),
       },
       body: JSON.stringify({ query, variables }),
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(({ data }: { data?: ProductQuery }) => {
-        if (data) {
-          this.product = data.product;
-          // create map of plan features by type
-          const fixed = data.product.fixedFeatures.edges.reduce(
-            (features, { node }) => ({ ...features, [node.label]: node }),
-            {}
-          );
-          const metered = data.product.meteredFeatures.edges.reduce(
-            (features, { node }) => ({ ...features, [node.label]: node }),
-            {}
-          );
-          const configurable = data.product.configurableFeatures.edges.reduce(
-            (features, { node }) => ({ ...features, [node.label]: node }),
-            {}
-          );
-          this.productFeatures = { fixed, metered, configurable };
-          // create map of plan features
-          const featureLabels = Object.keys({ ...fixed, ...metered, ...configurable });
-          this.planFeatures = data.product.plans.edges.reduce(
-            (plans, { node: plan }) => ({
-              ...plans,
-              [plan.id]: featureLabels.reduce((labels, label) => {
-                const planHasFeature = [
-                  ...plan.fixedFeatures.edges,
-                  ...plan.meteredFeatures.edges,
-                  ...plan.configurableFeatures.edges,
-                ].find(({ node: feature }) => feature.label === label);
-                return {
-                  ...labels,
-                  [label]: planHasFeature ? planHasFeature.node : undefined,
-                };
-              }, {}),
-            }),
-            {}
-          );
-        }
-      });
+    });
+    const json = await res.json();
+    const data = json.data as ProductQuery;
+
+    if (!data || !data.product) {
+      return;
+    }
+
+    // save result to state
+    this.product = data.product;
+
+    // create map of all product features in fixed / metered / configurable order
+    const fixed = data.product.fixedFeatures.edges.reduce(
+      (features, { node }) => ({ ...features, [node.label]: node }),
+      {}
+    );
+    const metered = data.product.meteredFeatures.edges.reduce(
+      (features, { node }) => ({ ...features, [node.label]: node }),
+      {}
+    );
+    const configurable = data.product.configurableFeatures.edges.reduce(
+      (features, { node }) => ({ ...features, [node.label]: node }),
+      {}
+    );
+    this.productFeatures = { fixed, metered, configurable };
+
+    // create map of plan feature values
+    const featureLabels = Object.keys({ ...fixed, ...metered, ...configurable });
+    this.planFeatures = data.product.plans.edges.reduce(
+      (plans, { node: plan }) => ({
+        ...plans,
+        [plan.id]: featureLabels.reduce((labels, label) => {
+          const planHasFeature = [
+            ...plan.fixedFeatures.edges,
+            ...plan.meteredFeatures.edges,
+            ...plan.configurableFeatures.edges,
+          ].find(({ node: feature }) => feature.label === label);
+          return {
+            ...labels,
+            [label]: planHasFeature ? planHasFeature.node : undefined,
+          };
+        }, {}),
+      }),
+      {}
+    );
   }
 
   displayFixed(displayValue: string) {
@@ -152,7 +161,7 @@ export class ManifoldPricing {
     return <div class="mp--cell mp--cell__body">{displayValue}</div>;
   }
 
-  displayMetered(feature: ProductPlan['meteredFeatures']['edges'][0]['node']) {
+  displayMetered(feature: PlanMeteredFeature) {
     const { numericDetails } = feature;
     if (!numericDetails.costTiers) {
       return (
@@ -192,15 +201,15 @@ export class ManifoldPricing {
     );
   }
 
-  displayConfigurable(feature: ProductPlan['configurableFeatures']['edges'][0]['node']) {
+  displayConfigurable(feature: PlanConfigurableFeature) {
     switch (feature.type) {
       case PlanFeatureType.String:
         return (
           <div class="mp--cell mp--cell__body">
             <div class="mp--select">
               <select class="mp--select__input">
-                {(feature.featureOptions || []).map((option, i) => (
-                  <option value={option.cost} selected={i === 0}>
+                {(feature.featureOptions || []).map(option => (
+                  <option value={option.cost}>
                     <span>{option.displayName}</span>
                     <span> ({toUSD(option.cost)})</span>
                   </option>
@@ -259,23 +268,17 @@ export class ManifoldPricing {
   }
 
   render() {
-    if (!this.product) {
-      return <div>Loading...</div>;
-    }
-
-    if (this.product && !this.product.plans) {
-      return <div>error</div>;
-    }
-
-    const gridColumns = ((this.product && this.product.plans.edges.length) || DEFAULT_PLANS) + 1; // +1 for features column
+    const gridColumns = 1 + ((this.product && this.product.plans.edges.length) || 0); // + 1 for features column
     const gridRows =
-      (Object.keys({
+      1 +
+      Object.keys({
         ...this.productFeatures.fixed,
         ...this.productFeatures.metered,
         ...this.productFeatures.configurable,
-      }).length || DEFAULT_FEATURES) + 2; // +1 for the "Get Started" row
+      }).length +
+      1; // + 1 for headings + 1 for CTA row
 
-    return (
+    return this.product ? (
       <div
         class="mp"
         style={{ '--table-columns': `${gridColumns}`, '--table-rows': `${gridRows}` }}
@@ -299,55 +302,98 @@ export class ManifoldPricing {
           data-column-first
           data-row-last
         ></div>
-        {this.product &&
-          this.product.plans.edges.map(({ node: plan }, i) => {
-            const lastColumn = i === gridColumns - 2 || undefined;
+        {this.product.plans.edges.map(({ node: plan }, planIndex) => {
+          const lastColumn = planIndex === gridColumns - 2 || undefined;
 
-            return [
-              <div
-                class="mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th"
-                data-row-first
-                data-column-last={lastColumn}
-              >
-                <manifold-thead title-text={plan.displayName} plan={plan}></manifold-thead>
-              </div>,
-              Object.values(this.planFeatures[plan.id]).map(feature => {
-                // fixed feature
-                if (feature && this.productFeatures.fixed[feature.label]) {
-                  const fixedFeature = feature as PlanFixedFeature;
-                  return this.displayFixed(fixedFeature.displayValue);
-                }
+          return [
+            <div
+              class="mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th"
+              data-row-first
+              data-column-last={lastColumn}
+            >
+              <manifold-thead title-text={plan.displayName} plan={plan}></manifold-thead>
+            </div>,
+            Object.values(this.planFeatures[plan.id]).map(feature => {
+              // fixed feature
+              if (feature && this.productFeatures.fixed[feature.label]) {
+                const fixedFeature = feature as PlanFixedFeature;
+                return this.displayFixed(fixedFeature.displayValue);
+              }
 
-                // metered feature
-                if (feature && this.productFeatures.metered[feature.label]) {
-                  const meteredFeature = feature as PlanMeteredFeature;
-                  return this.displayMetered(meteredFeature);
-                }
+              // metered feature
+              if (feature && this.productFeatures.metered[feature.label]) {
+                const meteredFeature = feature as PlanMeteredFeature;
+                return this.displayMetered(meteredFeature);
+              }
 
-                // configurable
-                if (feature && this.productFeatures.configurable[feature.label]) {
-                  const configurableFeature = feature as PlanConfigurableFeature;
-                  return this.displayConfigurable(configurableFeature);
-                }
+              // configurable
+              if (feature && this.productFeatures.configurable[feature.label]) {
+                const configurableFeature = feature as PlanConfigurableFeature;
+                return this.displayConfigurable(configurableFeature);
+              }
 
-                // undefined / disabled feature
-                return (
-                  <div class="mp--cell mp--cell__body">
-                    <span class="mp--empty-cell">•</span>
-                  </div>
-                );
-              }),
-              <div
-                class="mp--cell mp--cell__body mp--cell__bbs"
-                data-row-last
-                data-column-last={lastColumn}
-              >
-                <a class="mp--button" id={`manifold-cta-plan-${plan.id}`} href={this.baseUrl}>
-                  {this.ctaText}
-                </a>
-              </div>,
-            ];
-          })}
+              // undefined / disabled feature
+              return (
+                <div class="mp--cell mp--cell__body">
+                  <span class="mp--empty-cell">•</span>
+                </div>
+              );
+            }),
+            <div
+              class="mp--cell mp--cell__body mp--cell__bbs"
+              data-row-last
+              data-column-last={lastColumn}
+            >
+              <a class="mp--button" id={`manifold-cta-plan-${plan.id}`} href={this.baseUrl}>
+                {this.ctaText}
+              </a>
+            </div>,
+          ];
+        })}
+      </div>
+    ) : (
+      // 💀 Skeleton (uses &nbsp; characters to prevent flash of unstyled text)
+      <div
+        class="mp"
+        style={{
+          '--table-columns': `${1 + DEFAULT_PLANS}`,
+          '--table-rows': `${1 + DEFAULT_FEATURES + 1}`,
+        }}
+      >
+        <div
+          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts"
+          data-column-first
+          data-row-first
+        ></div>
+        {Array.from(new Array(DEFAULT_FEATURES)).map(() => (
+          <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
+            <div class="mp--skeleton">                                              </div>
+          </div>
+        ))}
+        <div
+          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th"
+          data-column-first
+          data-row-last
+        ></div>
+        {Array.from(new Array(DEFAULT_PLANS)).map((_, plan) => [
+          <div
+            class="mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th"
+            data-row-first
+            data-column-last={plan === DEFAULT_PLANS - 1 || undefined}
+          >
+            <div class="mp--skeleton">                     </div>
+          </div>,
+          Array.from(new Array(DEFAULT_FEATURES)).map(() => (
+            <div class="mp--cell mp--cell__body">
+              <div class="mp--skeleton">                        </div>
+            </div>
+          )),
+          <div
+            class="mp--cell mp--cell__body mp--cell__bbs"
+            data-row-last
+            data-column-last={plan === DEFAULT_PLANS - 1 || undefined}
+          ></div>,
+        ])}
       </div>
     );
   }
