@@ -1,9 +1,13 @@
-import { Component, h, State, Prop, Watch } from '@stencil/core';
+import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
 import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
 import { toUSD } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
+import logger, { loadMark } from '../../utils/logger';
+import analytics from '../../packages/analytics';
+import environment from '../../utils/env';
+
 import { CLIENT_ID_WARNING } from './warning';
 import FixedFeature from './fixed-feature';
 import MeteredFeature from './metered-feature';
@@ -50,6 +54,7 @@ const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
   styleUrl: 'manifold-plan-matrix.css',
 })
 export class ManifoldPricing {
+  @Element() el: HTMLElement;
   // Gateway endpoint (TEMP)
   @Prop() gatewayUrl?: string = GATEWAY_ENDPOINT;
   // GraphQL endpoint (TEMP)
@@ -78,6 +83,7 @@ export class ManifoldPricing {
     }
   }
 
+  @loadMark()
   componentWillLoad() {
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
@@ -191,6 +197,26 @@ export class ManifoldPricing {
     });
   }
 
+  handleCtaClick(planId: string) {
+    const env = environment(this?.graphqlUrl);
+
+    analytics(
+      {
+        description: 'Track pricing matrix cta clicks',
+        name: 'click',
+        type: 'component-analytics',
+        source: 'mui-pricing-matrix',
+        properties: {
+          version: '<@NPM_PACKAGE_VERSION@>',
+          componentName: this.el.tagName,
+          planId,
+          clientId: this.clientId || '',
+        },
+      },
+      { env }
+    );
+  }
+
   setFeature({
     planID,
     featureLabel,
@@ -299,6 +325,7 @@ export class ManifoldPricing {
     }
   }
 
+  @logger()
   render() {
     // 💀 Skeleton Loader
     if (!this.product) {
@@ -385,7 +412,12 @@ export class ManifoldPricing {
               data-row-last
               data-column-last={lastColumn}
             >
-              <a class="mp--button" id={`manifold-cta-plan-${plan.id}`} href={this.baseUrl}>
+              <a
+                class="mp--button"
+                id={`manifold-cta-plan-${plan.id}`}
+                href={this.baseUrl}
+                onClick={() => this.handleCtaClick(plan.id)}
+              >
                 {this.ctaText}
               </a>
             </div>,
