@@ -39,7 +39,7 @@ jobs:
       - run: npm install
       - run: npm run typecheck
   vrt:
-    needs: [build, lint, test]
+    needs: [build, lint, test, typecheck]
     env:
       PREVIOUS_SHA: ${{ github.event.pull_request.base.sha }}
       CURRENT_SHA: ${{ github.event.pull_request.head.sha }}
