@@ -28,6 +28,17 @@ const error: AnalyticsEvent = {
   },
   source: 'mui-pricing-matrix',
 };
+const track: AnalyticsEvent = {
+  type: 'component-analytics',
+  name: 'click',
+  properties: {
+    componentName: 'MANIFOLD_PRODUCT',
+    version: '1.2.3',
+    clientId: '123',
+    planId: '1234',
+  },
+  source: 'mui-pricing-matrix',
+};
 
 describe('analytics', () => {
   describe('env', () => {
@@ -56,23 +67,33 @@ describe('analytics', () => {
     beforeEach(() => fetchMock.mock(prod, {}));
     afterEach(fetchMock.restore);
 
-    describe('error', () => {
-      it('error', async () => {
-        await report(error, { env: 'prod' });
-        const res = fetchMock.calls()[0][1];
-        expect(res && res.body && JSON.parse(res.body.toString())).toEqual(error);
-      });
+    it('error', async () => {
+      await report(error, { env: 'prod' });
+      const res = fetchMock.calls()[0][1];
+      expect(res && res.body && JSON.parse(res.body.toString())).toEqual(error);
+    });
 
-      it('metric', async () => {
-        await report(metric, { env: 'prod' });
-        const res = fetchMock.calls()[0][1];
-        expect(res && res.body && JSON.parse(res.body.toString())).toEqual({
-          ...metric,
-          properties: {
-            ...metric.properties,
-            duration: '123', // numbers should submit as strings
-          },
-        });
+    it('metric', async () => {
+      await report(metric, { env: 'prod' });
+      const res = fetchMock.calls()[0][1];
+      expect(res && res.body && JSON.parse(res.body.toString())).toEqual({
+        ...metric,
+        properties: {
+          ...metric.properties,
+          duration: '123', // numbers should submit as strings
+        },
+      });
+    });
+
+    it('track', async () => {
+      await report(track, { env: 'prod' });
+      const res = fetchMock.calls()[0][1];
+      expect(res && res.body && JSON.parse(res.body.toString())).toEqual({
+        ...track,
+        properties: {
+          ...track.properties,
+          planId: '1234', // numbers should submit as strings
+        },
       });
     });
   });

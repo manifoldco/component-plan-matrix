@@ -79,7 +79,7 @@ export class ManifoldPricing {
   @State() userSelection: UserSelection = {};
   @Watch('productId') refetchProduct(newVal?: string) {
     if (newVal) {
-      this.fetchProduct(newVal);
+      this.setupProduct(newVal);
     }
   }
 
@@ -90,13 +90,14 @@ export class ManifoldPricing {
     }
     if (this.productId) {
       // Note: we could warn here if product-id is missing, but let’s not. In some front-end frameworks it may be set a half-second after it loads
-      this.fetchProduct(this.productId);
+      this.setupProduct(this.productId);
     }
   }
 
-  async fetchProduct(productID: string) {
+  // trying to move fetch out for testing.
+  async fetchGraphQl(productID: string) {
     const variables: ProductQueryVariables = { id: productID };
-    const res = await fetch(`${this.graphqlUrl}`, {
+    return fetch(`${this.graphqlUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +105,11 @@ export class ManifoldPricing {
         ...(this.clientId ? { [MANIFOLD_CLIENT_ID]: this.clientId } : {}),
       },
       body: JSON.stringify({ query, variables }),
-    }).then(body => body.json());
+    });
+  }
+
+  async setupProduct(productID: string) {
+    const res = await this.fetchGraphQl(productID).then(body => body.json());
     const data = res.data as ProductQuery;
 
     if (!data || !data.product) {
