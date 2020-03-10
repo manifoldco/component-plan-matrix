@@ -605,12 +605,14 @@ export type ProductBooleanConfigurableFeature = ProductConfigurableFeature & {
    __typename?: 'ProductBooleanConfigurableFeature',
   label: Scalars['String'],
   displayName: Scalars['String'],
+  type: ProductFeatureType,
   featureOptions?: Maybe<Array<ProductConfigurableFeatureOption>>,
 };
 
 export type ProductConfigurableFeature = {
   label: Scalars['String'],
   displayName: Scalars['String'],
+  type: ProductFeatureType,
 };
 
 export type ProductConfigurableFeatureConnection = {
@@ -680,6 +682,12 @@ export type ProductFeatureCostTier = {
   limit: Scalars['Int'],
   cost: Scalars['Int'],
 };
+
+export enum ProductFeatureType {
+  Boolean = 'BOOLEAN',
+  String = 'STRING',
+  Number = 'NUMBER'
+}
 
 export type ProductFixedFeature = Node & {
    __typename?: 'ProductFixedFeature',
@@ -770,6 +778,7 @@ export type ProductNumberConfigurableFeature = ProductConfigurableFeature & {
    __typename?: 'ProductNumberConfigurableFeature',
   label: Scalars['String'],
   displayName: Scalars['String'],
+  type: ProductFeatureType,
   numericOptions?: Maybe<Array<ProductConfigurableFeatureNumericOptions>>,
 };
 
@@ -806,6 +815,7 @@ export type ProductStringConfigurableFeature = ProductConfigurableFeature & {
    __typename?: 'ProductStringConfigurableFeature',
   label: Scalars['String'],
   displayName: Scalars['String'],
+  type: ProductFeatureType,
   featureOptions?: Maybe<Array<ProductConfigurableFeatureOption>>,
 };
 
