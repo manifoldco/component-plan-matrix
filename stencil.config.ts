@@ -2,6 +2,10 @@ import { Config } from '@stencil/core';
 import { postcss } from '@stencil/postcss';
 import postCSSPresetEnv from 'postcss-preset-env';
 import { createFilter } from 'rollup-pluginutils';
+import fs from 'fs';
+import replace from 'rollup-plugin-replace';
+
+const pkgManifest = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 interface Options {
   include?: string;
@@ -51,6 +55,13 @@ export const config: Config = {
           },
         }),
       ],
+    }),
+    replace({
+      exclude: 'node_modules/**',
+      delimiters: ['<@', '@>'],
+      values: {
+        NPM_PACKAGE_VERSION: pkgManifest.version,
+      },
     }),
   ],
 };

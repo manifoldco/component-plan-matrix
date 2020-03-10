@@ -17,8 +17,10 @@
   --manifold-table-box-shadow: 0 2px 8px hsla(var(--manifold-c-black) 0.0699445);
   --manifold-table-border-width: 1px;
   --manifold-table-border-radius: 6px;
-  --manifold-table-solid-border: var(--manifold-table-border-width) solid hsl(var(--manifold-c-grey-light));
-  --manifold-table-dashed-border: var(--manifold-table-border-width) dashed hsl(var(--manifold-c-grey-lightest));
+  --manifold-table-solid-border: var(--manifold-table-border-width) solid
+    hsl(var(--manifold-c-grey-light));
+  --manifold-table-dashed-border: var(--manifold-table-border-width) dashed
+    hsl(var(--manifold-c-grey-lightest));
 
   --manifold-table-f-body: -apple-system, BlinkMacSystemmanifold-tableont, 'Segoe UI', Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
@@ -30,8 +32,8 @@
   display: grid;
   grid-auto-flow: column;
   grid-template: repeat(var(--manifold-table-rows), min-content) / repeat(
-    var(--manifold-table-columns),
-    minmax(200px, 300px)
+      var(--manifold-table-columns),
+      minmax(200px, 300px)
     );
   overflow-x: auto;
   color: hsl(var(--manifold-c-grey-darker));
@@ -92,6 +94,7 @@
 
 .mp--cell__al {
   justify-content: flex-start;
+  text-align: start;
 }
 
 .mp--cell__bts {
