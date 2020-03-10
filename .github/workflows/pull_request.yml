@@ -29,8 +29,17 @@ jobs:
           node-version: '13.x'
       - run: npm install
       - run: npm run test
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+      - run: npm install
+      - run: npm run typecheck
   vrt:
-    needs: [build, lint, test]
+    needs: [build, lint, test, typecheck]
     env:
       PREVIOUS_SHA: ${{ github.event.pull_request.base.sha }}
       CURRENT_SHA: ${{ github.event.pull_request.head.sha }}

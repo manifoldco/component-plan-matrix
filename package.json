@@ -1,6 +1,6 @@
 {
   "name": "@manifoldco/component-plan-matrix",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": false,
   "description": "Stencil Component Starter",
   "main": "dist/index.js",
@@ -26,12 +26,12 @@
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint 'src/**/*.css'",
     "lint:js": "eslint --ext .js,.ts,.tsx src",
-    "prepare": "node scripts/version-from-git",
-    "prepublishOnly": "npm run build",
+    "postinstall": "node scripts/version-from-git",
     "start": "stencil build --dev --watch --serve",
     "storybook": "start-storybook -p 6006",
     "test": "stencil test --spec",
-    "test:watch": "stencil test --spec --watchAll"
+    "test:watch": "stencil test --spec --watchAll",
+    "typecheck": "npm run generate:gql && tsc --noEmit"
   },
   "dependencies": {},
   "devDependencies": {

@@ -19,6 +19,7 @@ dist/
 loader/
 log.txt
 node_modules/
+pkg/
 storybook-static
 Thumbs.db
 UserInterfaceState.xcuserstate
