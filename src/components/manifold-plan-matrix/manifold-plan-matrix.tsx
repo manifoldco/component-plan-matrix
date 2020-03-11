@@ -1,23 +1,8 @@
 import { Component, Element, h, State, Prop } from '@stencil/core';
 import { ProductQueryVariables, ProductQuery } from 'types/graphql';
-import { Connection, InitDetail } from '@manifoldco/mui-core-types/v0';
-import query from './product.graphql';
+import { Connection } from '@manifoldco/mui-core-types/types/v0';
 
-function initialize(el: HTMLElement): Promise<Connection> {
-  return new Promise((resolve, reject) => {
-    el.dispatchEvent(
-      new CustomEvent<InitDetail>('mui-initialize', {
-        bubbles: true,
-        detail: {
-          resolve,
-          reject,
-          version: 0,
-          componentVersion: '<@NPM_PACKAGE_VERSION@>',
-        },
-      })
-    );
-  });
-}
+import query from './product.graphql';
 
 type conditionalClassesObj = {
   [name: string]: boolean;
@@ -48,7 +33,13 @@ export class ManifoldPricing {
   @State() connection: Connection;
 
   async componentWillLoad() {
-    this.connection = await initialize(this.el);
+    await customElements.whenDefined('mui-core');
+    const core = document.querySelector('mui-core') as HTMLMuiCoreElement;
+    this.connection = await core.initialize({
+      element: this.el,
+      componentVersion: '<@NPM_PACKAGE_VERSION@>',
+      version: 0,
+    });
 
     const DEFAULT = 'ziggeo';
     const variables: ProductQueryVariables = { label: this.productLabel || DEFAULT, first: 50 };
