@@ -2,8 +2,13 @@ import { newSpecPage } from '@stencil/core/testing';
 import fetchMock from 'fetch-mock';
 import { CLIENT_ID_WARNING } from './warning';
 import { ManifoldPricing } from './manifold-plan-matrix';
+import enviornment from '../../utils/env';
+import { endpoint } from '../../packages/analytics/index';
+import mockLogDna from '../../mocks/graphql/product-logDna.json';
 
-const FAKE_ENDPOINT = 'http://test.com/graphql';
+const GRAPHQL_ENDPOINT = 'http://test.com/graphql';
+const REST_ENDPOINT = 'http://test.com/v1';
+const ANALYTICS_ENDPOINT = endpoint[enviornment(GRAPHQL_ENDPOINT)];
 
 interface Props {
   gatewayUrl?: string;
@@ -12,6 +17,26 @@ interface Props {
   clientId?: string;
   baseUrl?: string;
   ctaText?: string;
+}
+
+async function setup(props: Props) {
+  const page = await newSpecPage({
+    components: [ManifoldPricing],
+    html: '<div></div>',
+  });
+
+  const component = page.doc.createElement('manifold-plan-matrix');
+
+  component.gatewayUrl = props.gatewayUrl;
+  component.graphqlUrl = props.graphqlUrl;
+  component.productId = props.productId;
+  component.clientId = props.clientId;
+
+  const root = page.root as HTMLDivElement;
+  root.appendChild(component);
+  await page.waitForChanges();
+
+  return { page, component };
 }
 
 describe(ManifoldPricing.name, () => {
@@ -29,26 +54,6 @@ describe(ManifoldPricing.name, () => {
   beforeEach(() => {
     consoleOutput = '';
   });
-
-  async function setup(props: Props) {
-    const page = await newSpecPage({
-      components: [ManifoldPricing],
-      html: '<div></div>',
-    });
-
-    const component = page.doc.createElement('manifold-plan-matrix');
-
-    component.gatewayUrl = props.gatewayUrl;
-    component.graphqlUrl = props.graphqlUrl;
-    component.productId = props.productId;
-    component.clientId = props.clientId;
-
-    const root = page.root as HTMLDivElement;
-    root.appendChild(component);
-    await page.waitForChanges();
-
-    return { page, component };
-  }
 
   describe('client-id', () => {
     it('missing: should warn', async () => {
@@ -68,24 +73,38 @@ describe(ManifoldPricing.name, () => {
     });
   });
 
-  describe('analytics tracking events fireing', () => {
+  describe('analytics events fireing', () => {
+    beforeEach(() => {
+      fetchMock.mock(GRAPHQL_ENDPOINT, mockLogDna);
+      fetchMock.mock(REST_ENDPOINT, { cost: 3500, currency: 'USD' });
+      fetchMock.mock(ANALYTICS_ENDPOINT, 200);
+    });
+
+    afterEach(fetchMock.restore);
+
     it('tracks CTA clicks', async () => {
       const productId = '789456123';
       const clientId = '369258147';
 
+      const mockClick = jest.fn();
+
       const { page } = await setup({
         productId,
         clientId,
-        gatewayUrl: FAKE_ENDPOINT,
-        graphqlUrl: FAKE_ENDPOINT,
+        gatewayUrl: REST_ENDPOINT,
+        graphqlUrl: GRAPHQL_ENDPOINT,
       });
 
-      const href = page.root && page.root.querySelectorAll(`.mp--button`);
-      console.log(href);
-      console.log('------------------------------------------------');
-      console.log(page.root);
-    });
+      const cta = page.root && page.root.querySelector(`[data-cta="cta-button"]`);
 
-    // it('tracks on load metrics', () => {});
+      if (!cta) {
+        throw new Error('cta not found in document');
+      }
+
+      cta.addEventListener('click', mockClick);
+      cta.click();
+
+      expect(mockClick).toBeCalled();
+    });
   });
 });

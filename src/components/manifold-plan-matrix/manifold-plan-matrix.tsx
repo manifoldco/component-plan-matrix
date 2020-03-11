@@ -418,6 +418,7 @@ export class ManifoldPricing {
               data-column-last={lastColumn}
             >
               <a
+                data-cta="cta-button"
                 class="mp--button"
                 id={`manifold-cta-plan-${plan.id}`}
                 href={this.baseUrl}

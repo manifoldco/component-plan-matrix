@@ -1,0 +1,574 @@
+{
+  "data": {
+    "product": {
+      "id": "234qkjvrptpy3thna4qttwt7m2nf6",
+      "displayName": "LogDNA",
+      "fixedFeatures": {
+        "edges": [
+          {
+            "node": {
+              "label": "search-retention",
+              "displayName": "Search Retention",
+              "featureOptions": [
+                {
+                  "value": "search-retention-generated-1",
+                  "displayName": "0 Days"
+                },
+                {
+                  "value": "search-retention-generated-4",
+                  "displayName": "7 Days"
+                },
+                {
+                  "value": "search-retention-generated-9",
+                  "displayName": "14 Days"
+                },
+                {
+                  "value": "search-retention-generated-16",
+                  "displayName": "30 Days"
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "label": "storage-volume",
+              "displayName": "Storage Volume Per Day",
+              "featureOptions": [
+                {
+                  "value": "storage-volume-generated-2",
+                  "displayName": "0 MB"
+                },
+                {
+                  "value": "storage-volume-generated-5",
+                  "displayName": "90 MB"
+                },
+                {
+                  "value": "storage-volume-generated-6",
+                  "displayName": "175 MB"
+                },
+                {
+                  "value": "storage-volume-generated-7",
+                  "displayName": "350 MB"
+                },
+                {
+                  "value": "storage-volume-generated-10",
+                  "displayName": "700 MB"
+                },
+                {
+                  "value": "storage-volume-generated-11",
+                  "displayName": "1.5 GB"
+                },
+                {
+                  "value": "storage-volume-generated-12",
+                  "displayName": "3 GB"
+                },
+                {
+                  "value": "storage-volume-generated-13",
+                  "displayName": "5.5 GB"
+                },
+                {
+                  "value": "storage-volume-generated-14",
+                  "displayName": "10 GB"
+                },
+                {
+                  "value": "storage-volume-generated-17",
+                  "displayName": "20 GB"
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "label": "users",
+              "displayName": "Users",
+              "featureOptions": [
+                {
+                  "value": "users-generated-0",
+                  "displayName": "1"
+                },
+                {
+                  "value": "users-generated-3",
+                  "displayName": "5"
+                },
+                {
+                  "value": "users-generated-8",
+                  "displayName": "10"
+                },
+                {
+                  "value": "users-generated-15",
+                  "displayName": "25"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "meteredFeatures": {
+        "edges": []
+      },
+      "configurableFeatures": {
+        "edges": []
+      },
+      "plans": {
+        "edges": [
+          {
+            "node": {
+              "cost": 0,
+              "displayName": "Quaco",
+              "id": "23558gd5kaw5z462e3mvaknj5veuj",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "0 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "0 MB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "1"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 500,
+              "displayName": "Zepto",
+              "id": "2351u7mty4bkwtwqdvzmbmw1w63w2",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "7 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "90 MB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "5"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 1000,
+              "displayName": "Atto",
+              "id": "23573p7qduq7a14vb3k4ax5c02jpg",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "7 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "175 MB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "5"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 2000,
+              "displayName": "Femto",
+              "id": "2357cp7dmpzemfchj1tmuw908rxq6",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "7 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "350 MB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "5"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 5000,
+              "displayName": "Pico",
+              "id": "2354a2a6t4pxnv2mp88zacwvdqn4g",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "14 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "700 MB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "10"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 10000,
+              "displayName": "Nano",
+              "id": "235fckeg3u3d31uxrq3uv717uxd58",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "14 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "1.5 GB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "10"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 20000,
+              "displayName": "Micro",
+              "id": "2351fzva4f783dwaeqkw0kecrdnp8",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "14 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "3 GB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "10"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 50000,
+              "displayName": "Milli",
+              "id": "2351ujxurnkyug6akadkacyvmb02e",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "14 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "5.5 GB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "10"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 75000,
+              "displayName": "Centi",
+              "id": "2358fw1rfjtjv0ubty0waymvd204c",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "14 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "10 GB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "10"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 100000,
+              "displayName": "Deci",
+              "id": "235dfgpddef0b63cvxc1v3fuqvvxw",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "30 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "10 GB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "25"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 150000,
+              "displayName": "Deca",
+              "id": "2354fnphxzc4jvx9fw7pbgwh187y4",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "14 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "20 GB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "10"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          },
+          {
+            "node": {
+              "cost": 200000,
+              "displayName": "Hecto",
+              "id": "2359e5042rt0hvf2b4tpjmg2ahp62",
+              "fixedFeatures": {
+                "edges": [
+                  {
+                    "node": {
+                      "label": "search-retention",
+                      "displayName": "Search Retention",
+                      "displayValue": "30 Days"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "storage-volume",
+                      "displayName": "Storage Volume Per Day",
+                      "displayValue": "20 GB"
+                    }
+                  },
+                  {
+                    "node": {
+                      "label": "users",
+                      "displayName": "Users",
+                      "displayValue": "25"
+                    }
+                  }
+                ]
+              },
+              "meteredFeatures": {
+                "edges": []
+              },
+              "configurableFeatures": {
+                "edges": []
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
