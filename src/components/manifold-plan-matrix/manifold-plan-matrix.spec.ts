@@ -86,8 +86,6 @@ describe(ManifoldPricing.name, () => {
       const productId = '789456123';
       const clientId = '369258147';
 
-      const mockClick = jest.fn();
-
       const { page } = await setup({
         productId,
         clientId,
@@ -101,10 +99,15 @@ describe(ManifoldPricing.name, () => {
         throw new Error('cta not found in document');
       }
 
-      cta.addEventListener('click', mockClick);
       cta.click();
 
-      expect(mockClick).toBeCalled();
+      const [[_, analyticsRes]] = fetchMock.calls().filter(call => call[0] === ANALYTICS_ENDPOINT);
+      const body = typeof analyticsRes?.body === 'string' && JSON.parse(analyticsRes.body);
+
+      expect(body.type).toContain('component-analytics');
+      expect(body.properties.version).toContain('<@NPM_PACKAGE_VERSION@>');
+      expect(body.properties.planId.length).toBeGreaterThan(0);
+      expect(body.properties.clientId.length).toBeGreaterThan(0);
     });
   });
 });
