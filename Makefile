@@ -10,3 +10,4 @@ package:
 	cp LICENSE pkg/.
 	cp README.md pkg/.
 	cp package.json pkg/.
+	npm run clean-package-json

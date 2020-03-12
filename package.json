@@ -12,13 +12,10 @@
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/manifold-plan-matrix/manifold-plan-matrix.js",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "loader/"
-  ],
   "scripts": {
     "build": "stencil build",
     "build:watch": "stencil build --watch",
+    "clean-package-json": "node scripts/clean-package-json",
     "dev": "npm run build:watch & rm -rf dist loader && wait-on loader/index.cjs.js && npm run storybook",
     "happo": "npm run build && npm run generate:gql && happo run",
     "generate": "stencil generate",
