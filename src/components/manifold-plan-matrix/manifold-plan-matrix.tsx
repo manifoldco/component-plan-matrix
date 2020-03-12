@@ -83,7 +83,9 @@ export class ManifoldPricing {
 
   @loadMark()
   async componentWillLoad() {
+    debugger;
     await customElements.whenDefined('mui-core');
+    debugger;
     const core = document.querySelector('mui-core') as HTMLMuiCoreElement;
     this.connection = await core.initialize({
       element: this.el,
@@ -103,8 +105,8 @@ export class ManifoldPricing {
   // trying to move fetch out for testing.
   async setupProduct(productID: string) {
     const variables: ProductQueryVariables = { id: productID };
-    const res = await this.connection.graphqlFetch({ query, variables });
-    const data = res.data as ProductQuery;
+    const res = await this.connection.graphqlFetch<ProductQuery>({ query, variables });
+    const { data } = res;
 
     if (!data || !data.product) {
       return;

@@ -1,6 +1,6 @@
 {
   "name": "@manifoldco/component-plan-matrix",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "private": false,
   "description": "Stencil Component Starter",
   "main": "dist/index.js",
@@ -28,6 +28,7 @@
     "storybook": "start-storybook -p 6006",
     "test": "stencil test --spec",
     "test:watch": "stencil test --spec --watchAll",
+    "test:debug": "node --inspect-brk node_modules/.bin/stencil test --spec --runInBand",
     "typecheck": "npm run generate:gql && tsc --noEmit"
   },
   "dependencies": {},
@@ -37,6 +38,7 @@
     "@graphql-codegen/typescript-operations": "^1.12.2",
     "@manifoldco/eslint-plugin-stencil": "^0.4.1",
     "@manifoldco/icons": "0.0.6",
+    "@manifoldco/mui-core": "^0.1.5",
     "@manifoldco/mui-core-types": "^0.1.4",
     "@rollup/plugin-replace": "^2.3.1",
     "@stencil/core": "^1.8.9",

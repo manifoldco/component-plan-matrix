@@ -47,6 +47,7 @@ export const config: Config = {
   ],
   testing: {
     testPathIgnorePatterns: ['/node_modules/'],
+    transformIgnorePatterns: ['node_modules/(?!@manifoldco/mui-core)'],
     transform: {
       '\\.graphql$': './jest-transform-graphql',
     },
