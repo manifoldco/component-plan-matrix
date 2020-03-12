@@ -88,7 +88,7 @@ export default function logger<T>() {
                   clientId,
                 },
               },
-              { env }
+              { env: this.env }
             );
           }
 

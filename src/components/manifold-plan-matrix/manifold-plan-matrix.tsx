@@ -60,6 +60,7 @@ export class ManifoldPricing {
   @Prop() clientId?: string = '';
   // Base url for buttons
   @Prop() baseUrl?: string = '/signup';
+  @Prop() gatewayUrl?: string;
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
   @Prop() env?: 'stage' | 'local' | 'prod' = 'stage';
@@ -212,7 +213,7 @@ export class ManifoldPricing {
           clientId: this.clientId || '',
         },
       },
-      { env: this.env }
+      { env: this.env || 'prod' }
     ).then(() => {
       window.location.href = destination;
     });

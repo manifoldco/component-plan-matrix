@@ -15,6 +15,7 @@ export namespace Components {
     'clientId'?: string;
     'ctaText'?: string;
     'env'?: 'stage' | 'local' | 'prod';
+    'gatewayUrl'?: string;
     'productId'?: string;
   }
 }
@@ -38,6 +39,7 @@ declare namespace LocalJSX {
     'clientId'?: string;
     'ctaText'?: string;
     'env'?: 'stage' | 'local' | 'prod';
+    'gatewayUrl'?: string;
     'productId'?: string;
   }
 
