@@ -1,9 +1,13 @@
-import { Component, h, State, Prop, Watch } from '@stencil/core';
+import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
 import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
 import { toUSD } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
+import logger, { loadMark } from '../../utils/logger';
+import analytics from '../../packages/analytics';
+import environment from '../../utils/env';
+
 import { CLIENT_ID_WARNING } from './warning';
 import FixedFeature from './fixed-feature';
 import MeteredFeature from './metered-feature';
@@ -50,6 +54,7 @@ const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
   styleUrl: 'manifold-plan-matrix.css',
 })
 export class ManifoldPricing {
+  @Element() el: HTMLElement;
   // Gateway endpoint (TEMP)
   @Prop() gatewayUrl?: string = GATEWAY_ENDPOINT;
   // GraphQL endpoint (TEMP)
@@ -74,23 +79,25 @@ export class ManifoldPricing {
   @State() userSelection: UserSelection = {};
   @Watch('productId') refetchProduct(newVal?: string) {
     if (newVal) {
-      this.fetchProduct(newVal);
+      this.setupProduct(newVal);
     }
   }
 
+  @loadMark()
   componentWillLoad() {
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
     }
     if (this.productId) {
       // Note: we could warn here if product-id is missing, but let’s not. In some front-end frameworks it may be set a half-second after it loads
-      this.fetchProduct(this.productId);
+      this.setupProduct(this.productId);
     }
   }
 
-  async fetchProduct(productID: string) {
+  // trying to move fetch out for testing.
+  async fetchGraphQl(productID: string) {
     const variables: ProductQueryVariables = { id: productID };
-    const res = await fetch(`${this.graphqlUrl}`, {
+    return fetch(`${this.graphqlUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +105,11 @@ export class ManifoldPricing {
         ...(this.clientId ? { [MANIFOLD_CLIENT_ID]: this.clientId } : {}),
       },
       body: JSON.stringify({ query, variables }),
-    }).then(body => body.json());
+    });
+  }
+
+  async setupProduct(productID: string) {
+    const res = await this.fetchGraphQl(productID).then(body => body.json());
     const data = res.data as ProductQuery;
 
     if (!data || !data.product) {
@@ -188,6 +199,30 @@ export class ManifoldPricing {
           this.planCosts = merge(this.planCosts, { [planID]: oldCost });
         }
       });
+    });
+  }
+
+  handleCtaClick(e: MouseEvent, planId: string, destination = '') {
+    e.preventDefault();
+
+    const env = environment(this?.graphqlUrl);
+
+    analytics(
+      {
+        description: 'Track pricing matrix cta clicks',
+        name: 'click',
+        type: 'component-analytics',
+        source: 'mui-pricing-matrix',
+        properties: {
+          version: '<@NPM_PACKAGE_VERSION@>',
+          componentName: this.el.tagName,
+          planId,
+          clientId: this.clientId || '',
+        },
+      },
+      { env }
+    ).then(() => {
+      window.location.href = destination;
     });
   }
 
@@ -299,6 +334,7 @@ export class ManifoldPricing {
     }
   }
 
+  @logger()
   render() {
     // 💀 Skeleton Loader
     if (!this.product) {
@@ -385,7 +421,13 @@ export class ManifoldPricing {
               data-row-last
               data-column-last={lastColumn}
             >
-              <a class="mp--button" id={`manifold-cta-plan-${plan.id}`} href={this.baseUrl}>
+              <a
+                data-cta="cta-button"
+                class="mp--button"
+                id={`manifold-cta-plan-${plan.id}`}
+                href={this.baseUrl}
+                onClick={e => this.handleCtaClick(e, plan.id, this.baseUrl)}
+              >
                 {this.ctaText}
               </a>
             </div>,
