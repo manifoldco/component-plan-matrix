@@ -1229,6 +1229,13 @@ export type ProductQuery = (
       & { edges: Array<(
         { __typename?: 'ProductConfigurableFeatureEdge' }
         & { node: (
+          { __typename?: 'ProductStringConfigurableFeature' }
+          & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
+          & { featureOptions: Maybe<Array<(
+            { __typename?: 'ProductConfigurableFeatureOption' }
+            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
+          )>> }
+        ) | (
           { __typename?: 'ProductBooleanConfigurableFeature' }
           & Pick<ProductBooleanConfigurableFeature, 'label' | 'displayName'>
           & { featureOptions: Maybe<Array<(
@@ -1249,13 +1256,6 @@ export type ProductQuery = (
                 & Pick<ProductFeatureCostTier, 'cost' | 'limit'>
               )> }
             ) }
-          )>> }
-        ) | (
-          { __typename?: 'ProductStringConfigurableFeature' }
-          & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
-          & { featureOptions: Maybe<Array<(
-            { __typename?: 'ProductConfigurableFeatureOption' }
-            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
           )>> }
         ) }
       )> }
