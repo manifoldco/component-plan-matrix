@@ -1229,6 +1229,13 @@ export type ProductQuery = (
       & { edges: Array<(
         { __typename?: 'ProductConfigurableFeatureEdge' }
         & { node: (
+          { __typename?: 'ProductBooleanConfigurableFeature' }
+          & Pick<ProductBooleanConfigurableFeature, 'label' | 'displayName'>
+          & { featureOptions: Maybe<Array<(
+            { __typename?: 'ProductConfigurableFeatureOption' }
+            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
+          )>> }
+        ) | (
           { __typename?: 'ProductNumberConfigurableFeature' }
           & Pick<ProductNumberConfigurableFeature, 'label' | 'displayName'>
           & { numericOptions: Maybe<Array<(
@@ -1246,13 +1253,6 @@ export type ProductQuery = (
         ) | (
           { __typename?: 'ProductStringConfigurableFeature' }
           & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
-          & { featureOptions: Maybe<Array<(
-            { __typename?: 'ProductConfigurableFeatureOption' }
-            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
-          )>> }
-        ) | (
-          { __typename?: 'ProductBooleanConfigurableFeature' }
-          & Pick<ProductBooleanConfigurableFeature, 'label' | 'displayName'>
           & { featureOptions: Maybe<Array<(
             { __typename?: 'ProductConfigurableFeatureOption' }
             & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
