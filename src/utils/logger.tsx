@@ -1,7 +1,6 @@
 import { h } from '@stencil/core';
 import { report } from './errorReport';
 import analytics, { mark, measure } from '../packages/analytics';
-import environment from './env';
 
 interface StencilComponent {
   constructor: {
@@ -44,7 +43,6 @@ export default function logger<T>() {
       try {
         const rendered = originalMethod.apply(this); // attempt to call render()
         if (this.el && this.el.tagName.startsWith('MANIFOLD-')) {
-          const env = environment(this.graphql);
           const clientId = this.clientId || '';
           const el = this.el as HTMLElement;
 
@@ -73,7 +71,7 @@ export default function logger<T>() {
                     clientId,
                   },
                 },
-                { env }
+                { env: this.env }
               );
             }
           }
@@ -106,14 +104,13 @@ export default function logger<T>() {
                   clientId,
                 },
               },
-              { env }
+              { env: this.env }
             );
           }
         }
 
         return rendered;
       } catch (e) {
-        const env = environment(this.graphql);
         const clientId = this.clientId || '';
 
         report(
@@ -123,7 +120,7 @@ export default function logger<T>() {
             message: e.message || e,
             clientId,
           },
-          { env }
+          { env: this.env }
         );
         return (
           <div>

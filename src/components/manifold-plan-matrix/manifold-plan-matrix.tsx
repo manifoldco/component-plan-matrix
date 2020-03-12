@@ -8,7 +8,6 @@ import { toUSD } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
 import logger, { loadMark } from '../../utils/logger';
 import analytics from '../../packages/analytics';
-import environment from '../../utils/env';
 
 import { CLIENT_ID_WARNING } from './warning';
 import FixedFeature from './fixed-feature';
@@ -63,6 +62,7 @@ export class ManifoldPricing {
   @Prop() baseUrl?: string = '/signup';
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
+  @Prop() env?: 'stage' | 'local' | 'prod' = 'prod';
   // Product data
   @State() product?: ProductQuery['product'];
   // Product features
@@ -83,9 +83,7 @@ export class ManifoldPricing {
 
   @loadMark()
   async componentWillLoad() {
-    debugger;
     await customElements.whenDefined('mui-core');
-    debugger;
     const core = document.querySelector('mui-core') as HTMLMuiCoreElement;
     this.connection = await core.initialize({
       element: this.el,
@@ -201,8 +199,6 @@ export class ManifoldPricing {
   handleCtaClick(e: MouseEvent, planId: string, destination = '') {
     e.preventDefault();
 
-    const env = environment(this?.graphqlUrl);
-
     analytics(
       {
         description: 'Track pricing matrix cta clicks',
@@ -216,7 +212,7 @@ export class ManifoldPricing {
           clientId: this.clientId || '',
         },
       },
-      { env }
+      { env: this.env }
     ).then(() => {
       window.location.href = destination;
     });

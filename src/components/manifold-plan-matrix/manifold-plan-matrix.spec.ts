@@ -12,8 +12,6 @@ const REST_ENDPOINT = 'http://test.com/v1';
 const ANALYTICS_ENDPOINT = endpoint[enviornment(GRAPHQL_ENDPOINT)];
 
 interface Props {
-  gatewayUrl?: string;
-  graphqlUrl?: string;
   productId?: string;
   clientId?: string;
   baseUrl?: string;
@@ -22,8 +20,8 @@ interface Props {
 
 async function setup(props: Props) {
   const page = await newSpecPage({
-    components: [ManifoldPricing],
-    html: '<div></div>',
+    components: [MuiCore, ManifoldPricing],
+    html: '<div><mui-core></mui-core></div>',
   });
 
   const component = page.doc.createElement('manifold-plan-matrix');
@@ -97,8 +95,6 @@ describe(ManifoldPricing.name, () => {
       const { page } = await setup({
         productId,
         clientId,
-        gatewayUrl: REST_ENDPOINT,
-        graphqlUrl: GRAPHQL_ENDPOINT,
       });
 
       const cta =
