@@ -47,7 +47,6 @@ interface UserSelection {
 }
 
 // settings
-const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const GATEWAY_ENDPOINT = 'https://api.manifold.co/v1';
 
 @Component({
@@ -56,10 +55,6 @@ const GATEWAY_ENDPOINT = 'https://api.manifold.co/v1';
 })
 export class ManifoldPricing {
   @Element() el: HTMLElement;
-  // Gateway endpoint (TEMP)
-  @Prop() gatewayUrl?: string = GATEWAY_ENDPOINT;
-  // GraphQL endpoint (TEMP)
-  @Prop() graphqlUrl?: string = GRAPHQL_ENDPOINT;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string;
   // Passed client ID header to the graphql calls
@@ -94,6 +89,7 @@ export class ManifoldPricing {
       element: this.el,
       componentVersion: '<@NPM_PACKAGE_VERSION@>',
       version: 0,
+      clientId: this.clientId,
     });
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
