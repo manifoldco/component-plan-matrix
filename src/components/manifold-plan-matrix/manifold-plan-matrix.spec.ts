@@ -93,7 +93,11 @@ describe(ManifoldPricing.name, () => {
         graphqlUrl: GRAPHQL_ENDPOINT,
       });
 
-      const cta = page.root && page.root.querySelector(`[data-cta="cta-button"]`);
+      const cta =
+        page.root &&
+        (page.root.querySelector<HTMLAnchorElement>(
+          `[data-cta="cta-button"]`
+        ) as HTMLAnchorElement);
 
       if (!cta) {
         throw new Error('cta not found in document');
@@ -101,7 +105,7 @@ describe(ManifoldPricing.name, () => {
 
       cta.click();
 
-      const [[_, analyticsRes]] = fetchMock.calls().filter(call => call[0] === ANALYTICS_ENDPOINT);
+      const [[, analyticsRes]] = fetchMock.calls().filter(call => call[0] === ANALYTICS_ENDPOINT);
       const body = typeof analyticsRes?.body === 'string' && JSON.parse(analyticsRes.body);
 
       expect(body.type).toContain('component-analytics');

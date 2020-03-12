@@ -202,7 +202,9 @@ export class ManifoldPricing {
     });
   }
 
-  handleCtaClick(planId: string) {
+  handleCtaClick(e: MouseEvent, planId: string, destination = '') {
+    e.preventDefault();
+
     const env = environment(this?.graphqlUrl);
 
     analytics(
@@ -219,7 +221,9 @@ export class ManifoldPricing {
         },
       },
       { env }
-    );
+    ).then(() => {
+      window.location.href = destination;
+    });
   }
 
   setFeature({
@@ -422,7 +426,7 @@ export class ManifoldPricing {
                 class="mp--button"
                 id={`manifold-cta-plan-${plan.id}`}
                 href={this.baseUrl}
-                onClick={() => this.handleCtaClick(plan.id)}
+                onClick={e => this.handleCtaClick(e, plan.id, this.baseUrl)}
               >
                 {this.ctaText}
               </a>
