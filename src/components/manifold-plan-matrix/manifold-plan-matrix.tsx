@@ -179,7 +179,7 @@ export class ManifoldPricing {
       }, 150);
 
       // fetch plan cost for this configurable plan
-      fetchPlanCost({ planID, selection, url: GATEWAY_ENDPOINT }).then(cost => {
+      fetchPlanCost({ planID, selection, url: this.gatewayUrl || GATEWAY_ENDPOINT }).then(cost => {
         if (typeof cost === 'number') {
           clearTimeout(flickerStopper);
           this.planCosts = merge(this.planCosts, { [planID]: cost });
