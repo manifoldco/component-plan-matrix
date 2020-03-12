@@ -1,18 +1,16 @@
 import { newSpecPage } from '@stencil/core/testing';
 import fetchMock from 'fetch-mock';
+import { MuiCore } from '@manifoldco/mui-core/src/components/mui-core/mui-core';
 import { CLIENT_ID_WARNING } from './warning';
 import { ManifoldPricing } from './manifold-plan-matrix';
-import enviornment from '../../utils/env';
 import { endpoint } from '../../packages/analytics/index';
 import mockLogDna from '../../mocks/graphql/product-logDna.json';
 
-const GRAPHQL_ENDPOINT = 'http://test.com/graphql';
+const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const REST_ENDPOINT = 'http://test.com/v1';
-const ANALYTICS_ENDPOINT = endpoint[enviornment(GRAPHQL_ENDPOINT)];
+const ANALYTICS_ENDPOINT = endpoint.stage;
 
 interface Props {
-  gatewayUrl?: string;
-  graphqlUrl?: string;
   productId?: string;
   clientId?: string;
   baseUrl?: string;
@@ -21,14 +19,12 @@ interface Props {
 
 async function setup(props: Props) {
   const page = await newSpecPage({
-    components: [ManifoldPricing],
-    html: '<div></div>',
+    components: [MuiCore, ManifoldPricing],
+    html: '<div><mui-core></mui-core></div>',
   });
 
   const component = page.doc.createElement('manifold-plan-matrix');
 
-  component.gatewayUrl = props.gatewayUrl;
-  component.graphqlUrl = props.graphqlUrl;
   component.productId = props.productId;
   component.clientId = props.clientId;
 
@@ -58,16 +54,25 @@ describe(ManifoldPricing.name, () => {
   describe('client-id', () => {
     it('missing: should warn', async () => {
       await newSpecPage({
-        components: [ManifoldPricing],
-        html: `<manifold-plan-matrix></manifold-plan-matrix>`,
+        components: [MuiCore, ManifoldPricing],
+        html: `
+          <div>
+            <mui-core></mui-core>
+            <manifold-plan-matrix></manifold-plan-matrix>
+          </div>`,
       });
+
       expect(consoleOutput).toEqual(CLIENT_ID_WARNING);
     });
 
     it('present: no warning', async () => {
       await newSpecPage({
-        components: [ManifoldPricing],
-        html: `<manifold-plan-matrix client-id="123" ></manifold-plan-matrix>`,
+        components: [MuiCore, ManifoldPricing],
+        html: `
+          <div>
+            <mui-core></mui-core>
+            <manifold-plan-matrix client-id="123" ></manifold-plan-matrix>
+          </div>`,
       });
       expect(consoleOutput).toBeFalsy();
     });
@@ -89,8 +94,6 @@ describe(ManifoldPricing.name, () => {
       const { page } = await setup({
         productId,
         clientId,
-        gatewayUrl: REST_ENDPOINT,
-        graphqlUrl: GRAPHQL_ENDPOINT,
       });
 
       const cta =

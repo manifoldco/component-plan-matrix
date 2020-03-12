@@ -14,8 +14,8 @@ export namespace Components {
     'baseUrl'?: string;
     'clientId'?: string;
     'ctaText'?: string;
+    'env'?: 'stage' | 'local' | 'prod';
     'gatewayUrl'?: string;
-    'graphqlUrl'?: string;
     'productId'?: string;
   }
 }
@@ -38,8 +38,8 @@ declare namespace LocalJSX {
     'baseUrl'?: string;
     'clientId'?: string;
     'ctaText'?: string;
+    'env'?: 'stage' | 'local' | 'prod';
     'gatewayUrl'?: string;
-    'graphqlUrl'?: string;
     'productId'?: string;
   }
 

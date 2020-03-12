@@ -6,13 +6,17 @@ const ZIGGEO = '234yycr3mf5f2hrw045vuxeatnd50';
 
 function renderProduct(productID: string) {
   const grid = document.createElement('manifold-plan-matrix');
+  const core = document.createElement('mui-core');
   grid.productId = productID;
+  document.body.appendChild(core);
   document.body.appendChild(grid);
   return grid.componentOnReady();
 }
 
 export const skeleton = () => {
   const matrix = document.createElement('manifold-plan-matrix');
+  const core = document.createElement('mui-core');
+  document.body.appendChild(core);
   document.body.appendChild(matrix);
   return matrix;
 };

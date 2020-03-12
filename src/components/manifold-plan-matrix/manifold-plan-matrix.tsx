@@ -1,12 +1,13 @@
 import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
 import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
+import { Connection } from '@manifoldco/mui-core-types/types/v0';
+
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
 import { microCostToDollars } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
 import logger, { loadMark } from '../../utils/logger';
 import analytics from '../../packages/analytics';
-import environment from '../../utils/env';
 
 import { CLIENT_ID_WARNING } from './warning';
 import FixedFeature from './fixed-feature';
@@ -45,9 +46,7 @@ interface UserSelection {
 }
 
 // settings
-const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const GATEWAY_ENDPOINT = 'https://api.manifold.co/v1';
-const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
 
 @Component({
   tag: 'manifold-plan-matrix',
@@ -55,18 +54,16 @@ const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
 })
 export class ManifoldPricing {
   @Element() el: HTMLElement;
-  // Gateway endpoint (TEMP)
-  @Prop() gatewayUrl?: string = GATEWAY_ENDPOINT;
-  // GraphQL endpoint (TEMP)
-  @Prop() graphqlUrl?: string = GRAPHQL_ENDPOINT;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string;
   // Passed client ID header to the graphql calls
   @Prop() clientId?: string = '';
   // Base url for buttons
   @Prop() baseUrl?: string = '/signup';
+  @Prop() gatewayUrl?: string;
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
+  @Prop() env?: 'stage' | 'local' | 'prod' = 'stage';
   // Product data
   @State() product?: ProductQuery['product'];
   // Product features
@@ -83,8 +80,18 @@ export class ManifoldPricing {
     }
   }
 
+  connection: Connection;
+
   @loadMark()
-  componentWillLoad() {
+  async componentWillLoad() {
+    await customElements.whenDefined('mui-core');
+    const core = document.querySelector('mui-core') as HTMLMuiCoreElement;
+    this.connection = await core.initialize({
+      element: this.el,
+      componentVersion: '<@NPM_PACKAGE_VERSION@>',
+      version: 0,
+      clientId: this.clientId,
+    });
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
     }
@@ -95,22 +102,10 @@ export class ManifoldPricing {
   }
 
   // trying to move fetch out for testing.
-  async fetchGraphQl(productID: string) {
-    const variables: ProductQueryVariables = { id: productID };
-    return fetch(`${this.graphqlUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Connection: 'keep-alive',
-        ...(this.clientId ? { [MANIFOLD_CLIENT_ID]: this.clientId } : {}),
-      },
-      body: JSON.stringify({ query, variables }),
-    });
-  }
-
   async setupProduct(productID: string) {
-    const res = await this.fetchGraphQl(productID).then(body => body.json());
-    const data = res.data as ProductQuery;
+    const variables: ProductQueryVariables = { id: productID };
+    const res = await this.connection.graphqlFetch<ProductQuery>({ query, variables });
+    const { data } = res;
 
     if (!data || !data.product) {
       return;
@@ -205,8 +200,6 @@ export class ManifoldPricing {
   handleCtaClick(e: MouseEvent, planId: string, destination = '') {
     e.preventDefault();
 
-    const env = environment(this?.graphqlUrl);
-
     analytics(
       {
         description: 'Track pricing matrix cta clicks',
@@ -220,7 +213,7 @@ export class ManifoldPricing {
           clientId: this.clientId || '',
         },
       },
-      { env }
+      { env: this.env || 'prod' }
     ).then(() => {
       window.location.href = destination;
     });
