@@ -3,13 +3,12 @@ import fetchMock from 'fetch-mock';
 import { MuiCore } from '@manifoldco/mui-core/src/components/mui-core/mui-core';
 import { CLIENT_ID_WARNING } from './warning';
 import { ManifoldPricing } from './manifold-plan-matrix';
-import enviornment from '../../utils/env';
 import { endpoint } from '../../packages/analytics/index';
 import mockLogDna from '../../mocks/graphql/product-logDna.json';
 
-const GRAPHQL_ENDPOINT = 'http://test.com/graphql';
+const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const REST_ENDPOINT = 'http://test.com/v1';
-const ANALYTICS_ENDPOINT = endpoint[enviornment(GRAPHQL_ENDPOINT)];
+const ANALYTICS_ENDPOINT = endpoint.stage;
 
 interface Props {
   productId?: string;

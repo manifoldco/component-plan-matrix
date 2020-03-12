@@ -62,7 +62,7 @@ export class ManifoldPricing {
   @Prop() baseUrl?: string = '/signup';
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
-  @Prop() env?: 'stage' | 'local' | 'prod' = 'prod';
+  @Prop() env?: 'stage' | 'local' | 'prod' = 'stage';
   // Product data
   @State() product?: ProductQuery['product'];
   // Product features
