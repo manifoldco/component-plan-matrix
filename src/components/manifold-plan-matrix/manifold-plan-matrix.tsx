@@ -2,7 +2,7 @@ import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
 import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
-import { toUSD } from '../../utils/cost';
+import { microCostToDollars } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
 import logger, { loadMark } from '../../utils/logger';
 import analytics from '../../packages/analytics';
@@ -258,7 +258,7 @@ export class ManifoldPricing {
                 {(feature.featureOptions || []).map(option => (
                   <option value={option.value}>
                     <span>{option.displayName}</span>
-                    <span> ({toUSD(option.cost)})</span>
+                    <span> ({microCostToDollars(option.cost)})</span>
                   </option>
                 ))}
               </select>
