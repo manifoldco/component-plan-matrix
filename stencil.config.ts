@@ -3,7 +3,7 @@ import { Config } from '@stencil/core';
 import { postcss } from '@stencil/postcss';
 import postCSSPresetEnv from 'postcss-preset-env';
 import { createFilter } from 'rollup-pluginutils';
-import replace from 'rollup-plugin-replace';
+import replace from '@rollup/plugin-replace';
 
 interface Options {
   include?: string;

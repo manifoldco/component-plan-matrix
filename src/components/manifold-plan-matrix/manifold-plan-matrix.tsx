@@ -1,6 +1,8 @@
 import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
 import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
+import { Connection } from '@manifoldco/mui-core-types/types/v0';
+
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
 import { toUSD } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
@@ -47,7 +49,6 @@ interface UserSelection {
 // settings
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const GATEWAY_ENDPOINT = 'https://api.manifold.co/v1';
-const MANIFOLD_CLIENT_ID = 'Manifold-Client-ID';
 
 @Component({
   tag: 'manifold-plan-matrix',
@@ -83,8 +84,17 @@ export class ManifoldPricing {
     }
   }
 
+  connection: Connection;
+
   @loadMark()
-  componentWillLoad() {
+  async componentWillLoad() {
+    await customElements.whenDefined('mui-core');
+    const core = document.querySelector('mui-core') as HTMLMuiCoreElement;
+    this.connection = await core.initialize({
+      element: this.el,
+      componentVersion: '<@NPM_PACKAGE_VERSION@>',
+      version: 0,
+    });
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
     }
@@ -95,21 +105,9 @@ export class ManifoldPricing {
   }
 
   // trying to move fetch out for testing.
-  async fetchGraphQl(productID: string) {
-    const variables: ProductQueryVariables = { id: productID };
-    return fetch(`${this.graphqlUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Connection: 'keep-alive',
-        ...(this.clientId ? { [MANIFOLD_CLIENT_ID]: this.clientId } : {}),
-      },
-      body: JSON.stringify({ query, variables }),
-    });
-  }
-
   async setupProduct(productID: string) {
-    const res = await this.fetchGraphQl(productID).then(body => body.json());
+    const variables: ProductQueryVariables = { id: productID };
+    const res = await this.connection.graphqlFetch({ query, variables });
     const data = res.data as ProductQuery;
 
     if (!data || !data.product) {
