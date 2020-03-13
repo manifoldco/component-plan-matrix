@@ -11,18 +11,33 @@ or even no framework!):
 <manifold-plan-matrix></manifold-plan-matrix>
 ```
 
+This component also requires our [manifold-init][manifold-init] component to be present on the page
+with your client ID added.
+
+```html
+<manifold-init client-id="your client ID"></manifold-init>
+```
+
 ### Option 1: Manifold CDN
 
 Next place the following at the very beginning of the `<body>` tag:
 
 ```html
 <!-- modern browsers -->
+<script
+  type="module"
+  src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.esm.js"
+></script>
 <script type="module">
   import(
     'https://js.cdn.manifold.co/@manifoldco/component-plan-matrix/loader/index.mjs'
   ).then(({ defineCustomElements }) => defineCustomElements(window));
 </script>
 <!-- legacy browsers -->
+<script
+  nomodule
+  src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js"
+></script>
 <script
   nomodule
   src="https://js.cdn.manifold.co/@manifoldco/component-plan-matrix/dist/manifold-plan-matrix.js"
@@ -35,6 +50,7 @@ Alternately, if you build your site with npm using webpack, create-react-app, et
 
 ```bash
 npm install @manifoldco/component-plan-matrix
+npm install @manifoldco/manifold-init
 ```
 
 And add the following code to your application, ideally to your entry file so it’s loadded as early
@@ -42,6 +58,9 @@ as possible:
 
 ```js
 import('@manifoldco/component-plan-matrix/loader').then(({ defineCustomElements }) =>
+  defineCustomElements(window)
+);
+import('@manifoldco/manifold-init/loader').then(({ defineCustomElements }) =>
   defineCustomElements(window)
 );
 ```
@@ -82,3 +101,4 @@ declare global {
 [stencil]: https://stenciljs.com/docs/introduction
 [stencil-framework]: https://stenciljs.com/docs/overview
 [tsconfig-includes]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#examples
+[manifold-init]: https://github.com/manifoldco/manifold-init
