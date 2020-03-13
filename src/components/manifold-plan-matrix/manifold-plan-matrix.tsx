@@ -4,7 +4,7 @@ import merge from 'deepmerge';
 import { Connection } from '@manifoldco/mui-core-types/types/v0';
 
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
-import { microCostToDollars } from '../../utils/cost';
+import { toUSD } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
 import logger, { loadMark } from '../../utils/logger';
 import analytics from '../../packages/analytics';
@@ -251,7 +251,7 @@ export class ManifoldPricing {
                 {(feature.featureOptions || []).map(option => (
                   <option value={option.value}>
                     <span>{option.displayName}</span>
-                    <span> ({microCostToDollars(option.cost)})</span>
+                    <span> ({toUSD(option.cost)})</span>
                   </option>
                 ))}
               </select>
