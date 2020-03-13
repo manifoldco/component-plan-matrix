@@ -1,7 +1,7 @@
 import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
 import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
-import { Connection } from '@manifoldco/mui-core-types/types/v0';
+import { Connection } from '@manifoldco/manifold-init-types/types/v0';
 
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
 import { toUSD } from '../../utils/cost';
@@ -84,13 +84,12 @@ export class ManifoldPricing {
 
   @loadMark()
   async componentWillLoad() {
-    await customElements.whenDefined('mui-core');
-    const core = document.querySelector('mui-core') as HTMLMuiCoreElement;
+    await customElements.whenDefined('manifold-init');
+    const core = document.querySelector('manifold-init') as HTMLManifoldInitElement;
     this.connection = await core.initialize({
       element: this.el,
       componentVersion: '<@NPM_PACKAGE_VERSION@>',
       version: 0,
-      clientId: this.clientId,
     });
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);

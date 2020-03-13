@@ -1,6 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import fetchMock from 'fetch-mock';
-import { MuiCore } from '@manifoldco/mui-core/src/components/mui-core/mui-core';
+import { ManifoldInit } from '@manifoldco/manifold-init/src/components/manifold-init/manifold-init';
 import { CLIENT_ID_WARNING } from './warning';
 import { ManifoldPricing } from './manifold-plan-matrix';
 import { endpoint } from '../../packages/analytics/index';
@@ -19,8 +19,8 @@ interface Props {
 
 async function setup(props: Props) {
   const page = await newSpecPage({
-    components: [MuiCore, ManifoldPricing],
-    html: '<div><mui-core></mui-core></div>',
+    components: [ManifoldInit, ManifoldPricing],
+    html: '<div><manifold-init></manifold-init></div>',
   });
 
   const component = page.doc.createElement('manifold-plan-matrix');
@@ -54,10 +54,10 @@ describe(ManifoldPricing.name, () => {
   describe('client-id', () => {
     it('missing: should warn', async () => {
       await newSpecPage({
-        components: [MuiCore, ManifoldPricing],
+        components: [ManifoldInit, ManifoldPricing],
         html: `
           <div>
-            <mui-core></mui-core>
+            <manifold-init></manifold-init>
             <manifold-plan-matrix></manifold-plan-matrix>
           </div>`,
       });
@@ -67,10 +67,10 @@ describe(ManifoldPricing.name, () => {
 
     it('present: no warning', async () => {
       await newSpecPage({
-        components: [MuiCore, ManifoldPricing],
+        components: [ManifoldInit, ManifoldPricing],
         html: `
           <div>
-            <mui-core></mui-core>
+            <manifold-init></manifold-init>
             <manifold-plan-matrix client-id="123" ></manifold-plan-matrix>
           </div>`,
       });
