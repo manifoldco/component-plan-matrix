@@ -196,6 +196,23 @@ export class ManifoldPricing {
     });
   }
 
+  ctaHref(planID: string) {
+    if (!this.baseUrl || this.baseUrl === '#') {
+      return this.baseUrl;
+    }
+
+    const search = new URLSearchParams();
+    // set plan ID
+    search.set('planId', planID);
+
+    // set configurable feature selection (or skip, if no configurable features);
+    Object.entries(this.userSelection[planID] || {}).forEach(([key, val]) => {
+      search.set(key, `${val}`);
+    });
+
+    return `${this.baseUrl}?${search.toString()}`;
+  }
+
   handleCtaClick(e: MouseEvent, planId: string, destination = '') {
     e.preventDefault();
 
@@ -417,7 +434,7 @@ export class ManifoldPricing {
                 data-cta="cta-button"
                 class="mp--button"
                 id={`manifold-cta-plan-${plan.id}`}
-                href={this.baseUrl}
+                href={this.ctaHref(plan.id)}
                 onClick={e => this.handleCtaClick(e, plan.id, this.baseUrl)}
               >
                 {this.ctaText}
