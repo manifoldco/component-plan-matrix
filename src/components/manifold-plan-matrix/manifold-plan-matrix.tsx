@@ -45,9 +45,6 @@ interface UserSelection {
   [planID: string]: { [featureLabel: string]: UserValue };
 }
 
-// settings
-const GATEWAY_ENDPOINT = 'https://api.manifold.co/v1';
-
 @Component({
   tag: 'manifold-plan-matrix',
   styleUrl: 'manifold-plan-matrix.css',
