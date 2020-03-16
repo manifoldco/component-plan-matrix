@@ -1,7 +1,7 @@
 import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
 import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
-import { Connection } from '@manifoldco/mui-core-types/types/v0';
+import { Connection } from '@manifoldco/manifold-init-types/types/v0';
 
 import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
 import { toUSD } from '../../utils/cost';
@@ -45,9 +45,6 @@ interface UserSelection {
   [planID: string]: { [featureLabel: string]: UserValue };
 }
 
-// settings
-const GATEWAY_ENDPOINT = 'https://api.manifold.co/v1';
-
 @Component({
   tag: 'manifold-plan-matrix',
   styleUrl: 'manifold-plan-matrix.css',
@@ -84,13 +81,12 @@ export class ManifoldPricing {
 
   @loadMark()
   async componentWillLoad() {
-    await customElements.whenDefined('mui-core');
-    const core = document.querySelector('mui-core') as HTMLMuiCoreElement;
+    await customElements.whenDefined('manifold-init');
+    const core = document.querySelector('manifold-init') as HTMLManifoldInitElement;
     this.connection = await core.initialize({
       element: this.el,
       componentVersion: '<@NPM_PACKAGE_VERSION@>',
       version: 0,
-      clientId: this.clientId,
     });
     if (!this.clientId) {
       console.warn(CLIENT_ID_WARNING);
@@ -185,7 +181,10 @@ export class ManifoldPricing {
       }, 150);
 
       // fetch plan cost for this configurable plan
-      fetchPlanCost({ planID, selection, url: this.gatewayUrl || GATEWAY_ENDPOINT }).then(cost => {
+      fetchPlanCost(this.connection, {
+        planID,
+        selection,
+      }).then(cost => {
         if (typeof cost === 'number') {
           clearTimeout(flickerStopper);
           this.planCosts = merge(this.planCosts, { [planID]: cost });

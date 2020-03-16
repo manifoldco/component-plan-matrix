@@ -1,1 +1,1 @@
-export * from '@manifoldco/mui-core-types/types/components';
+export * from '@manifoldco/manifold-init-types/types/components';
