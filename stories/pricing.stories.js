@@ -61,6 +61,7 @@ storiesOf('Manifold Pricing', module)
     const cta = text('cta-text', 'Get Started');
     const baseUrl = text('base-url', '/signup');
 
-    return `<manifold-plan-matrix client-id="${clientId}" product-id="${productId ||
+    return `<manifold-init client-id="${clientId}"></manifold-init>
+    <manifold-plan-matrix client-id="${clientId}" product-id="${productId ||
       catalogProduct}" base-url="${baseUrl}" cta-text="${cta}"></manifold-plan-matrix>`;
   });
