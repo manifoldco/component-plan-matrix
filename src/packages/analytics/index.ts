@@ -37,7 +37,7 @@ export default function report(evt: AnalyticsEvent, options: AnalyticsOptions) {
     method: 'POST',
     body: JSON.stringify({
       ...stringifyProperties(evt),
-      source: 'mui-pricing-matrix', // add source
+      source: 'manifold-plan-table', // add source
     }),
   });
 }

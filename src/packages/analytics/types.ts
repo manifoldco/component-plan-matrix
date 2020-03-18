@@ -3,7 +3,7 @@
  */
 interface SharedProperties {
   description?: string;
-  source?: 'mui-pricing-matrix';
+  source?: 'manifold-plan-table';
   properties: {
     componentName: string;
     version: string;
@@ -64,7 +64,7 @@ export type EventEvent = {
  */
 export interface ErrorEvent extends SharedProperties {
   type: 'error';
-  name: 'mui-pricing-matrix_error';
+  name: 'manifold-plan-table_error';
   properties: {
     code: string;
     componentName: string;
@@ -72,7 +72,7 @@ export interface ErrorEvent extends SharedProperties {
     version: string;
     clientId: string;
   };
-  source?: 'mui-pricing-matrix';
+  source?: 'manifold-plan-table';
 }
 
 export type AnalyticsEvent = ErrorEvent | EventEvent;

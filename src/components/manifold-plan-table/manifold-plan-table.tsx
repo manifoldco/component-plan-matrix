@@ -46,10 +46,10 @@ interface UserSelection {
 }
 
 @Component({
-  tag: 'manifold-plan-matrix',
-  styleUrl: 'manifold-plan-matrix.css',
+  tag: 'manifold-plan-table',
+  styleUrl: 'manifold-plan-table.css',
 })
-export class ManifoldPricing {
+export class ManifoldPlanTable {
   @Element() el: HTMLElement;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string;
@@ -218,10 +218,10 @@ export class ManifoldPricing {
 
     analytics(
       {
-        description: 'Track pricing matrix cta clicks',
+        description: 'Track manifold-plan-table CTA clicks',
         name: 'click',
         type: 'component-analytics',
-        source: 'mui-pricing-matrix',
+        source: 'manifold-plan-table',
         properties: {
           version: '<@NPM_PACKAGE_VERSION@>',
           componentName: this.el.tagName,

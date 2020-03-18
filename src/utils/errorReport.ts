@@ -24,7 +24,7 @@ export function report(detail: ErrorDetail, options?: ErrorOptions) {
   analytics(
     {
       type: 'error',
-      name: 'mui-pricing-matrix_error',
+      name: 'manifold-plan-table_error',
       properties: {
         code: detail.code || '',
         componentName: detail.componentName || (element && element.tagName) || '',

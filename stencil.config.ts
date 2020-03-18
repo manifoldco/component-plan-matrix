@@ -33,8 +33,8 @@ function gql(opts: Options = {}) {
 }
 
 export const config: Config = {
-  namespace: 'manifold-plan-matrix',
-  excludeSrc: ['**/*-happo.*'],
+  namespace: 'manifold-plan-table',
+  exclude: ['**/*-happo.*'],
   outputTargets: [
     {
       type: 'dist',

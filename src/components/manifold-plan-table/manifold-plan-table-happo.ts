@@ -5,20 +5,20 @@ const PREFAB = '234j199gnaggg2qj6fvey2m3gw1nc';
 const ZIGGEO = '234yycr3mf5f2hrw045vuxeatnd50';
 
 function renderProduct(productID: string) {
-  const grid = document.createElement('manifold-plan-matrix');
+  const planTable = document.createElement('manifold-plan-table');
   const core = document.createElement('mui-core');
-  grid.productId = productID;
+  planTable.productId = productID;
   document.body.appendChild(core);
-  document.body.appendChild(grid);
-  return grid.componentOnReady();
+  document.body.appendChild(planTable);
+  return planTable.componentOnReady();
 }
 
 export const skeleton = () => {
-  const matrix = document.createElement('manifold-plan-matrix');
+  const planTable = document.createElement('manifold-plan-table');
   const core = document.createElement('mui-core');
   document.body.appendChild(core);
-  document.body.appendChild(matrix);
-  return matrix;
+  document.body.appendChild(planTable);
+  return planTable;
 };
 
 export const aivenCassandra = () => renderProduct(AIVEN_CASSANDRA);

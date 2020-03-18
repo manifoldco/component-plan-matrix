@@ -8,6 +8,7 @@ on:
 jobs:
   vrt:
     env:
+      CURRENT_SHA: ${{ github.sha }}
       HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
       HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
     runs-on: ubuntu-latest
@@ -19,4 +20,4 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run generate:gql
-      - run: node_modules/.bin/happo run $GITHUB_SHA
+      - run: node_modules/.bin/happo-ci
