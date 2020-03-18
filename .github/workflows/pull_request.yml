@@ -42,7 +42,6 @@ jobs:
     needs: [build, lint, test, typecheck]
     env:
       PREVIOUS_SHA: ${{ github.event.pull_request.base.sha }}
-      CURRENT_SHA: ${{ github.event.pull_request.head.sha }}
       CHANGE_URL: ${{ github.event.pull_request.html_url }}
       HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
       HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
@@ -54,5 +53,4 @@ jobs:
           node-version: '13.x'
       - run: npm install
       - run: npm run build
-      - run: npm run generate:gql
-      - run: node_modules/.bin/happo-ci
+      - run: node_modules/.bin/happo run $GITHUB_SHA
