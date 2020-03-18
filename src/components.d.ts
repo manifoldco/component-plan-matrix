@@ -6,7 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface ManifoldPlanMatrix {
+    interface ManifoldPlanTable {
         "baseUrl"?: string;
         "clientId"?: string;
         "ctaText"?: string;
@@ -16,18 +16,18 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLManifoldPlanMatrixElement extends Components.ManifoldPlanMatrix, HTMLStencilElement {
+    interface HTMLManifoldPlanTableElement extends Components.ManifoldPlanTable, HTMLStencilElement {
     }
-    var HTMLManifoldPlanMatrixElement: {
-        prototype: HTMLManifoldPlanMatrixElement;
-        new (): HTMLManifoldPlanMatrixElement;
+    var HTMLManifoldPlanTableElement: {
+        prototype: HTMLManifoldPlanTableElement;
+        new (): HTMLManifoldPlanTableElement;
     };
     interface HTMLElementTagNameMap {
-        "manifold-plan-matrix": HTMLManifoldPlanMatrixElement;
+        "manifold-plan-table": HTMLManifoldPlanTableElement;
     }
 }
 declare namespace LocalJSX {
-    interface ManifoldPlanMatrix {
+    interface ManifoldPlanTable {
         "baseUrl"?: string;
         "clientId"?: string;
         "ctaText"?: string;
@@ -36,14 +36,14 @@ declare namespace LocalJSX {
         "productId"?: string;
     }
     interface IntrinsicElements {
-        "manifold-plan-matrix": ManifoldPlanMatrix;
+        "manifold-plan-table": ManifoldPlanTable;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "manifold-plan-matrix": LocalJSX.ManifoldPlanMatrix & JSXBase.HTMLAttributes<HTMLManifoldPlanMatrixElement>;
+            "manifold-plan-table": LocalJSX.ManifoldPlanTable & JSXBase.HTMLAttributes<HTMLManifoldPlanTableElement>;
         }
     }
 }

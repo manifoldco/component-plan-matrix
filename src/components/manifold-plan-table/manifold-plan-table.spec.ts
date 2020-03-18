@@ -2,7 +2,7 @@ import { newSpecPage } from '@stencil/core/testing';
 import { ManifoldInit } from '@manifoldco/manifold-init/src/components/manifold-init/manifold-init';
 import fetchMock from 'fetch-mock';
 import { CLIENT_ID_WARNING } from './warning';
-import { ManifoldPricing } from './manifold-plan-matrix';
+import { ManifoldPlanTable } from './manifold-plan-table';
 import { endpoint } from '../../packages/analytics/index';
 import mockLogDna from '../../mocks/graphql/product-logDna.json';
 import mockJawsDB from '../../mocks/graphql/product-jawsdb-mysql.json';
@@ -20,11 +20,11 @@ interface Props {
 
 async function setup(props: Props) {
   const page = await newSpecPage({
-    components: [ManifoldInit, ManifoldPricing],
+    components: [ManifoldInit, ManifoldPlanTable],
     html: '<div><manifold-init></manifold-init></div>',
   });
 
-  const component = page.doc.createElement('manifold-plan-matrix');
+  const component = page.doc.createElement('manifold-plan-table');
 
   component.productId = props.productId;
   component.clientId = props.clientId;
@@ -36,7 +36,7 @@ async function setup(props: Props) {
   return { page, component };
 }
 
-describe(ManifoldPricing.name, () => {
+describe(ManifoldPlanTable.name, () => {
   const originalWarn = console.warn;
   afterAll(() => {
     console.warn = originalWarn;

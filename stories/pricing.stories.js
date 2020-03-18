@@ -54,7 +54,7 @@ const products = {
 storiesOf('Manifold Pricing', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
-  .add('manifold-plan-matrix', () => {
+  .add('manifold-plan-table', () => {
     const catalogProduct = select('Select from Catalog', products, products['JawsDB MySQL']);
     const productId = text('Custom Product ID', ''); // Jaws DB
     const clientId = text('Client ID', '234a33rd2pxfzq9qfk0v5qdrykhcp'); // ziggeo provider id
@@ -62,6 +62,6 @@ storiesOf('Manifold Pricing', module)
     const baseUrl = text('base-url', '/signup');
 
     return `<manifold-init client-id="${clientId}"></manifold-init>
-    <manifold-plan-matrix client-id="${clientId}" product-id="${productId ||
-      catalogProduct}" base-url="${baseUrl}" cta-text="${cta}"></manifold-plan-matrix>`;
+    <manifold-plan-table client-id="${clientId}" product-id="${productId ||
+      catalogProduct}" base-url="${baseUrl}" cta-text="${cta}"></manifold-plan-table>`;
   });

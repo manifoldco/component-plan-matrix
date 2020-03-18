@@ -14,11 +14,11 @@ const metric: AnalyticsEvent = {
     version: '1.2.3',
     clientId: '123',
   },
-  source: 'mui-pricing-matrix',
+  source: 'manifold-plan-table',
 };
 const error: AnalyticsEvent = {
   type: 'error',
-  name: 'mui-pricing-matrix_error',
+  name: 'manifold-plan-table_error',
   properties: {
     code: 'code',
     componentName: 'MANIFOLD-PRODUCT',
@@ -26,7 +26,7 @@ const error: AnalyticsEvent = {
     version: '1.2.3',
     clientId: '123',
   },
-  source: 'mui-pricing-matrix',
+  source: 'manifold-plan-table',
 };
 const track: AnalyticsEvent = {
   type: 'component-analytics',
@@ -37,7 +37,7 @@ const track: AnalyticsEvent = {
     clientId: '123',
     planId: '1234',
   },
-  source: 'mui-pricing-matrix',
+  source: 'manifold-plan-table',
 };
 
 describe('analytics', () => {

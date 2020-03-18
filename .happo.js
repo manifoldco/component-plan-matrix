@@ -3,7 +3,7 @@ const happoPluginTypeScript = require('happo-plugin-typescript');
 const path = require('path');
 
 module.exports = {
-  project: 'manifoldco/component-plan-matrix',
+  project: 'manifoldco/manifold-plan-table',
   apiKey: process.env.HAPPO_API_KEY,
   apiSecret: process.env.HAPPO_API_SECRET,
   targets: {
