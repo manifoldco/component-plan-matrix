@@ -34,7 +34,7 @@ Next place the following at the very beginning of the `<body>` tag:
 Alternately, if you build your site with npm using webpack, create-react-app, etc., run:
 
 ```bash
-npm install @manifoldco/init @manifoldco/manifold-plan-table
+npm install @manifoldco/manifold-init @manifoldco/manifold-plan-table
 ```
 
 And add the following code to your application, ideally to your entry file so it’s loaded as early
