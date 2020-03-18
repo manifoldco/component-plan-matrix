@@ -1,6 +1,6 @@
 {
   "name": "@manifoldco/manifold-plan-table",
-  "version": "0.0.14",
+  "version": "0.0.1",
   "private": false,
   "description": "Stencil Component Starter",
   "main": "dist/index.js",
@@ -13,23 +13,26 @@
   "unpkg": "dist/manifold-plan-table/manifold-plan-table.js",
   "license": "MIT",
   "scripts": {
+    "prebuild": "npm run version-from-git",
     "build": "stencil build",
+    "postbuild": "npm run format:changelog",
     "build:watch": "stencil build --watch",
     "clean-package-json": "node scripts/clean-package-json",
     "dev": "npm run build:watch & rm -rf dist loader && wait-on loader/index.cjs.js && npm run storybook",
-    "happo": "npm run build && happo run",
-    "generate": "stencil generate",
+    "format:changelog": "npx keep-a-changelog && prettier CHANGELOG.md --write",
     "generate:gql": "graphql-codegen --config codegen.yml",
+    "generate": "stencil generate",
+    "happo": "npm run build && happo run",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint 'src/**/*.css'",
     "lint:js": "eslint --ext .js,.ts,.tsx src",
-    "postinstall": "node scripts/version-from-git",
     "start": "stencil build --dev --watch --serve",
     "storybook": "start-storybook -p 6006",
     "test": "stencil test --spec",
     "test:watch": "stencil test --spec --watchAll",
     "test:debug": "node --inspect-brk node_modules/.bin/stencil test --spec --runInBand",
-    "typecheck": "npm run generate:gql && tsc --noEmit"
+    "typecheck": "npm run generate:gql && tsc --noEmit",
+    "version-from-git": "node scripts/version-from-git"
   },
   "dependencies": {},
   "devDependencies": {

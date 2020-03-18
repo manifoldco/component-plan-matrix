@@ -12,3 +12,7 @@
 ## Testing
 
 <!-- For someone unfamiliar with the issue, how should this be tested? -->
+
+## Checklist
+
+- [ ] [CHANGELOG](./CHANGELOG.md) updated
