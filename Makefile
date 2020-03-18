@@ -7,7 +7,8 @@ package:
 	npm run build
 	cp -r dist pkg/.
 	cp -r loader pkg/.
+	cp CHANGELOG.md pkg/.
 	cp LICENSE pkg/.
-	cp README.md pkg/.
 	cp package.json pkg/.
+	cp README.md pkg/.
 	npm run clean-package-json
