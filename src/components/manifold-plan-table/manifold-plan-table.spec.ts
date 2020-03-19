@@ -51,7 +51,7 @@ describe(ManifoldPlanTable.name, () => {
     consoleOutput = '';
   });
 
-  describe('v0 props', async () => {
+  describe('v0 props', () => {
     it('[client-id]: when missing it should warn', async () => {
       await setup({});
       expect(consoleOutput).toEqual(CLIENT_ID_WARNING);
