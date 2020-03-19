@@ -3,13 +3,12 @@ import { ManifoldInit } from '@manifoldco/manifold-init/src/components/manifold-
 import fetchMock from 'fetch-mock';
 import { CLIENT_ID_WARNING } from './warning';
 import { ManifoldPlanTable } from './manifold-plan-table';
-import { endpoint } from '../../packages/analytics/index';
 import mockLogDna from '../../mocks/graphql/product-logDna.json';
 import mockJawsDB from '../../mocks/graphql/product-jawsdb-mysql.json';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const REST_ENDPOINT = 'http://test.com/v1';
-const ANALYTICS_ENDPOINT = endpoint.stage;
+const ANALYTICS_ENDPOINT = 'https://analytics.manifold.co/v1/events';
 
 interface Props {
   productId?: string;
