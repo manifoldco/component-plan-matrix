@@ -8,21 +8,18 @@
     />
     <title>Stencil Component Starter</title>
 
-    <script
-      nomodule
-      src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js"
-    ></script>
+    <script nomodule src="http://localhost:8080/dist/manifold-init/manifold-init.js"></script>
     <script
       type="module"
-      src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.esm.js"
+      src="http://localhost:8080/dist/manifold-init/manifold-init.esm.js"
     ></script>
     <script type="module" src="/build/manifold-plan-matrix.esm.js"></script>
     <script nomodule src="/build/manifold-plan-matrix.js"></script>
   </head>
   <body>
-    <manifold-init client-id="123456"></manifold-init>
+    <manifold-init env="stage" client-id="123456"></manifold-init>
     <manifold-plan-matrix
-      product-id="234w1jyaum5j0aqe3g3bmbqjgf20p"
+      product-id="234j94djrwxapnnbyqbjtg75g111j"
       client-id="123456"
     ></manifold-plan-matrix>
   </body>
