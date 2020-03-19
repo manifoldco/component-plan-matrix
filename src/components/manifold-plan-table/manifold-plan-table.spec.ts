@@ -21,7 +21,7 @@ interface Props {
 async function setup(props: Props) {
   const page = await newSpecPage({
     components: [ManifoldInit, ManifoldPlanTable],
-    html: '<div><manifold-init></manifold-init></div>',
+    html: `<div><manifold-init client-id="${props.clientId}"></manifold-init></div>`,
   });
 
   const component = page.doc.createElement('manifold-plan-table');

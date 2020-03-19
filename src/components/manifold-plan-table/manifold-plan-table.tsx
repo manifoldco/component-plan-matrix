@@ -7,7 +7,6 @@ import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../type
 import { toUSD } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
 import logger, { loadMark } from '../../utils/logger';
-import analytics from '../../packages/analytics';
 
 import { CLIENT_ID_WARNING } from './warning';
 import FixedFeature from './fixed-feature';
@@ -216,23 +215,18 @@ export class ManifoldPlanTable {
   handleCtaClick(e: MouseEvent, planId: string, destination = '') {
     e.preventDefault();
 
-    analytics(
-      {
-        description: 'Track manifold-plan-table CTA clicks',
+    this.connection.analytics
+      .track({
+        description: 'Track pricing matrix cta clicks',
         name: 'click',
         type: 'component-analytics',
-        source: 'manifold-plan-table',
         properties: {
-          version: '<@NPM_PACKAGE_VERSION@>',
-          componentName: this.el.tagName,
           planId,
-          clientId: this.clientId || '',
         },
-      },
-      { env: this.env || 'prod' }
-    ).then(() => {
-      window.location.href = destination;
-    });
+      })
+      .then(() => {
+        window.location.href = destination;
+      });
   }
 
   setFeature({

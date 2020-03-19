@@ -1,6 +1,6 @@
 import { h } from '@stencil/core';
 import { report } from './errorReport';
-import analytics, { mark, measure } from '../packages/analytics';
+import { mark, measure } from '../packages/analytics';
 
 interface StencilComponent {
   constructor: {
@@ -33,7 +33,7 @@ export function loadMark<T>() {
 
 export default function logger<T>() {
   return function loggerDecorator(
-    target: T & StencilComponent,
+    _target: T & StencilComponent,
     _propertyKey: string,
     descriptor: PropertyDescriptor
   ) {
@@ -46,82 +46,66 @@ export default function logger<T>() {
           const clientId = this.clientId || '';
           const el = this.el as HTMLElement;
 
-          const loadMeasure = measure(el, 'load');
-          const firstRenderMeasure = measure(el, 'first_render');
+          const loadMeasure = measure(this.el, 'load');
+          const firstRenderMeasure = measure(this.el, 'first_render');
           if (performance.getEntriesByName(`${el.tagName}-rtt_graphql-end`).length) {
             // This element has loaded data via graphql, we can report first_render_with_data
-            const rttGraphqlMeasure = measure(el, 'rtt_graphql');
-            const firstRenderWithDataMeasure = measure(el, 'first_render_with_data');
+            const rttGraphqlMeasure = measure(this.el, 'rtt_graphql');
+            const firstRenderWithDataMeasure = this.connection.analytics.measure(
+              el,
+              'first_render_with_data'
+            );
             if (
               firstRenderWithDataMeasure &&
               firstRenderWithDataMeasure.firstReport &&
               rttGraphqlMeasure &&
               loadMeasure
             ) {
-              analytics(
-                {
-                  name: 'first_render_with_data',
-                  type: 'metric',
-                  properties: {
-                    componentName: el.tagName,
-                    version: '<@NPM_PACKAGE_VERSION@>',
-                    duration: firstRenderWithDataMeasure.duration,
-                    rttGraphql: rttGraphqlMeasure.duration,
-                    load: loadMeasure.duration,
-                    clientId,
-                  },
+              this.conneciton.analytics.track({
+                name: 'first_render_with_data',
+                type: 'metric',
+                properties: {
+                  version: '<@NPM_PACKAGE_VERSION@>',
+                  duration: firstRenderWithDataMeasure.duration,
+                  rttGraphql: rttGraphqlMeasure.duration,
+                  load: loadMeasure.duration,
+                  clientId,
                 },
-                { env: this.env }
-              );
+              });
             }
           }
 
           if (loadMeasure && loadMeasure.firstReport) {
-            analytics(
-              {
-                name: 'load',
-                type: 'metric',
-                properties: {
-                  componentName: el.tagName,
-                  version: '<@NPM_PACKAGE_VERSION@>',
-                  duration: loadMeasure.duration,
-                  clientId,
-                },
+            this.connection.analytics.track({
+              name: 'load',
+              type: 'metric',
+              properties: {
+                version: '<@NPM_PACKAGE_VERSION@>',
+                duration: loadMeasure.duration,
+                clientId,
               },
-              { env: this.env }
-            );
+            });
           }
 
           if (firstRenderMeasure && firstRenderMeasure.firstReport) {
-            analytics(
-              {
-                name: 'first_render',
-                type: 'metric',
-                properties: {
-                  componentName: el.tagName,
-                  version: '<@NPM_PACKAGE_VERSION@>',
-                  duration: firstRenderMeasure.duration,
-                  clientId,
-                },
+            this.connection.analytics.track({
+              name: 'first_render',
+              type: 'metric',
+              properties: {
+                version: '<@NPM_PACKAGE_VERSION@>',
+                duration: firstRenderMeasure.duration,
+                clientId,
               },
-              { env: this.env }
-            );
+            });
           }
         }
 
         return rendered;
       } catch (e) {
-        const clientId = this.clientId || '';
-
-        report(
-          {
-            code: e.name || e,
-            componentName: target.constructor.name,
-            message: e.message || e,
-            clientId,
-          },
-          { env: this.env }
-        );
+        report(this.connection.analytics, {
+          code: e.name || e,
+          message: e.message || e,
+        });
         return (
           <div>
             <p>Hmm something went wrong.</p>
