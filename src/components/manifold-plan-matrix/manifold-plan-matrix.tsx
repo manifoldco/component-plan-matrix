@@ -204,9 +204,7 @@ export class ManifoldPricing {
         name: 'click',
         type: 'component-analytics',
         properties: {
-          version: '<@NPM_PACKAGE_VERSION@>',
           planId,
-          clientId: this.clientId || '',
         },
       })
       .then(() => {

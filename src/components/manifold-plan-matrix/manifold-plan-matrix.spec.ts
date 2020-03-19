@@ -3,12 +3,11 @@ import fetchMock from 'fetch-mock';
 import { ManifoldInit } from '@manifoldco/manifold-init/src/components/manifold-init/manifold-init';
 import { CLIENT_ID_WARNING } from './warning';
 import { ManifoldPricing } from './manifold-plan-matrix';
-import { endpoint } from '../../packages/analytics/index';
 import mockLogDna from '../../mocks/graphql/product-logDna.json';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const REST_ENDPOINT = 'http://test.com/v1';
-const ANALYTICS_ENDPOINT = endpoint.stage;
+const ANALYTICS_ENDPOINT = 'https://analytics.manifold.co/v1/events';
 
 interface Props {
   productId?: string;
@@ -20,7 +19,7 @@ interface Props {
 async function setup(props: Props) {
   const page = await newSpecPage({
     components: [ManifoldInit, ManifoldPricing],
-    html: '<div><manifold-init></manifold-init></div>',
+    html: `<div><manifold-init client-id="${props.clientId}"></manifold-init></div>`,
   });
 
   const component = page.doc.createElement('manifold-plan-matrix');
