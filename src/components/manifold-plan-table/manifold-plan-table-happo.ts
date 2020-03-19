@@ -6,7 +6,7 @@ const ZIGGEO = '234yycr3mf5f2hrw045vuxeatnd50';
 
 function renderProduct(productID: string) {
   const planTable = document.createElement('manifold-plan-table');
-  const core = document.createElement('mui-core');
+  const core = document.createElement('manifold-init');
   planTable.productId = productID;
   document.body.appendChild(core);
   document.body.appendChild(planTable);
@@ -15,7 +15,7 @@ function renderProduct(productID: string) {
 
 export const skeleton = () => {
   const planTable = document.createElement('manifold-plan-table');
-  const core = document.createElement('mui-core');
+  const core = document.createElement('manifold-init');
   document.body.appendChild(core);
   document.body.appendChild(planTable);
   return planTable;
