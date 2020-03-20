@@ -3,13 +3,12 @@ import { ManifoldInit } from '@manifoldco/manifold-init/src/components/manifold-
 import fetchMock from 'fetch-mock';
 import { CLIENT_ID_WARNING } from './warning';
 import { ManifoldPlanTable } from './manifold-plan-table';
-import { endpoint } from '../../packages/analytics/index';
 import mockLogDna from '../../mocks/graphql/product-logDna.json';
 import mockJawsDB from '../../mocks/graphql/product-jawsdb-mysql.json';
 
 const GRAPHQL_ENDPOINT = 'https://api.manifold.co/graphql';
 const REST_ENDPOINT = 'http://test.com/v1';
-const ANALYTICS_ENDPOINT = endpoint.stage;
+const ANALYTICS_ENDPOINT = 'https://analytics.manifold.co/v1/events';
 
 interface Props {
   productId?: string;
@@ -21,7 +20,7 @@ interface Props {
 async function setup(props: Props) {
   const page = await newSpecPage({
     components: [ManifoldInit, ManifoldPlanTable],
-    html: '<div><manifold-init></manifold-init></div>',
+    html: `<div><manifold-init client-id="${props.clientId}"></manifold-init></div>`,
   });
 
   const component = page.doc.createElement('manifold-plan-table');
@@ -52,7 +51,7 @@ describe(ManifoldPlanTable.name, () => {
     consoleOutput = '';
   });
 
-  describe('v0 props', async () => {
+  describe('v0 props', () => {
     it('[client-id]: when missing it should warn', async () => {
       await setup({});
       expect(consoleOutput).toEqual(CLIENT_ID_WARNING);
