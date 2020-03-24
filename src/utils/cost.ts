@@ -50,10 +50,12 @@ export function displayTierCost(microCost: number, unit: string): string {
   if (microCost >= ONE_BILLION) {
     return `${toUSD(microCostToCents(microCost))} / ${unit}`; // if the cost is already >= $1, don’t bother multiplying
   }
-  if (microCost < ONE_HUNDRED_THOUSAND) {
-    multiplier = Math.ceil(ONE_MILLION / microCost / 10000) * 10000; // increment by 10k
-  } else if (microCost < ONE_MILLION) {
-    multiplier = Math.ceil(TEN_MILLION / microCost / 1000) * 1000; // increment by 1k
+  // increase multiplier until we can represent full precision of cost in whole cents
+  while (
+    Math.floor((microCost * multiplier) / TEN_MILLION) !==
+    (microCost * multiplier) / TEN_MILLION
+  ) {
+    multiplier *= 10;
   }
 
   const singularOrPlural =
