@@ -1,6 +1,8 @@
 import fs from 'fs';
 import { Config } from '@stencil/core';
 import { postcss } from '@stencil/postcss';
+import { sass } from '@stencil/sass';
+import cssnano from 'cssnano';
 import postCSSPresetEnv from 'postcss-preset-env';
 import { createFilter } from 'rollup-pluginutils';
 import replace from '@rollup/plugin-replace';
@@ -54,15 +56,9 @@ export const config: Config = {
   },
   plugins: [
     gql(),
+    sass(),
     postcss({
-      plugins: [
-        postCSSPresetEnv({
-          features: {
-            'custom-media-queries': true,
-            'nesting-rules': true,
-          },
-        }),
-      ],
+      plugins: [cssnano(), postCSSPresetEnv()],
     }),
     replace({
       exclude: 'node_modules/**',

@@ -52,7 +52,7 @@ interface UserSelection {
 
 @Component({
   tag: 'manifold-plan-table',
-  styleUrl: 'manifold-plan-table.css',
+  styleUrl: 'manifold-plan-table.scss',
 })
 export class ManifoldPlanTable {
   @Element() el: HTMLElement;
@@ -383,21 +383,24 @@ export class ManifoldPlanTable {
 
     return (
       <div
-        class="mp"
+        class="ManifoldPlanTable"
         style={{ '--table-columns': `${gridColumns}`, '--table-rows': `${gridRows}` }}
       >
         <div
-          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts"
+          class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH ManifoldPlanTable__Cell--THead"
           data-column-first
           data-row-first
         ></div>
         {this.sortedProductFeatures().map((feature) => (
-          <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
+          <div
+            class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH"
+            data-column-first
+          >
             {feature.displayName}
           </div>
         ))}
         <div
-          class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th"
+          class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH"
           data-column-first
           data-row-last
         ></div>
@@ -406,7 +409,7 @@ export class ManifoldPlanTable {
 
           return [
             <div
-              class="mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th"
+              class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell__TH"
               data-row-first
               data-column-last={lastColumn}
             >
@@ -440,13 +443,13 @@ export class ManifoldPlanTable {
 
               // undefined / disabled feature
               return (
-                <div class="mp--cell mp--cell__body">
+                <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
                   <span class="mp--empty-cell">•</span>
                 </div>
               );
             }),
             <div
-              class="mp--cell mp--cell__body mp--cell__bbs"
+              class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body"
               data-row-last
               data-column-last={lastColumn}
             >

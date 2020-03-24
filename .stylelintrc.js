@@ -2,6 +2,7 @@ module.exports = {
   extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
   plugins: ['stylelint-order'],
   rules: {
+    'at-rule-no-unknown': [true, { ignoreAtRules: ['use', 'include'] }], // allow Sass syntax
     'color-hex-length': null, // 6 digits is fine / coming from figma
     'custom-property-empty-line-before': null, // Space makes nested css more readable
     'declaration-colon-newline-after': null, // let Prettier decide (when to put values on a new line new line)
@@ -14,5 +15,5 @@ module.exports = {
     ],
     'value-list-comma-newline-after': null, // let Prettier decide (when to put comma separated values on new lines)
   },
-  syntax: 'postcss',
+  syntax: 'scss',
 };
