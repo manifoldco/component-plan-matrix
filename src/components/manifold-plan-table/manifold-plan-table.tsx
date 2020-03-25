@@ -252,10 +252,10 @@ export class ManifoldPlanTable {
     switch (feature.type) {
       case PlanFeatureType.String: {
         return (
-          <div class="mp--cell mp--cell__body">
-            <label class="mp--select">
+          <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+            <label class="ManifoldPlanTable__Select">
               <select
-                class="mp--select__input"
+                class="ManifoldPlanTable__Select__Input"
                 onChange={(e) =>
                   this.setFeature({
                     planID,
@@ -272,14 +272,14 @@ export class ManifoldPlanTable {
                 ))}
               </select>
               <svg
-                class="mp--select__chevron"
+                class="ManifoldPlanTable__Select__Chevron"
                 viewBox="0 0 1024 1024"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlns-x="http://www.w3.org/1999/xlink"
               >
                 <path d={chevron_up_down} />
               </svg>
-              <div class="mp--select__border"></div>
+              <div class="ManifoldPlanTable__Select__Border"></div>
             </label>
           </div>
         );
@@ -295,10 +295,10 @@ export class ManifoldPlanTable {
             featureValue: (e.target as HTMLInputElement).value,
           });
         return (
-          <div class="mp--cell mp--cell__body">
-            <label class="mp--numeric-range">
+          <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+            <label class="ManifoldPlanTable__NumericRange">
               <input
-                class="mp--numeric-range__input"
+                class="ManifoldPlanTable__NumericRange__Input"
                 inputmode="numeric"
                 max={max}
                 min={min}
@@ -310,7 +310,7 @@ export class ManifoldPlanTable {
                 type="number"
                 value={(this.userSelection[planID][feature.label] as number) || min}
               />
-              <span class="mp--numeric-range__desc">
+              <span class="ManifoldPlanTable__NumericRange__Desc">
                 {min} – {max} {unit}
               </span>
             </label>
@@ -319,10 +319,10 @@ export class ManifoldPlanTable {
       }
       case PlanFeatureType.Boolean: {
         return (
-          <div class="mp--cell mp--cell__body">
-            <label class="mp--toggle">
+          <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+            <label class="ManifoldPlanTable__Toggle">
               <input
-                class="mp--toggle__input"
+                class="ManifoldPlanTable__Toggle__Input"
                 type="checkbox"
                 onChange={(e) => {
                   this.setFeature({
@@ -333,7 +333,7 @@ export class ManifoldPlanTable {
                 }}
                 value="on"
               />
-              <div class="mp--toggle__toggle"></div>
+              <div class="ManifoldPlanTable__Toggle__Toggle"></div>
             </label>
           </div>
         );
@@ -414,7 +414,7 @@ export class ManifoldPlanTable {
               data-column-last={lastColumn}
             >
               {plan.displayName}
-              <p class="mp--plan-cost">
+              <p class="ManifoldPlanTable__Plan__Cost">
                 <PlanCost
                   cost={this.planCosts[plan.id]}
                   metered={plan.meteredFeatures.edges.length > 0}
@@ -444,7 +444,7 @@ export class ManifoldPlanTable {
               // undefined / disabled feature
               return (
                 <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
-                  <span class="mp--empty-cell">•</span>
+                  <span class="ManifoldPlanTable__Cell__Disabled">•</span>
                 </div>
               );
             }),
@@ -454,8 +454,8 @@ export class ManifoldPlanTable {
               data-column-last={lastColumn}
             >
               <a
-                data-cta="cta-button"
-                class="mp--button"
+                data-testid="cta"
+                class="ManifoldPlanTable__Button"
                 id={`manifold-cta-plan-${plan.id}`}
                 href={this.ctaHref(plan.id)}
                 onClick={(e) => this.handleCtaClick(e, plan.id, this.baseUrl)}

@@ -1,5 +1,7 @@
-/* IBM Plex Mono */
+// Mercury
 @use "node_modules/@manifoldco/mercury";
+
+// Google Fonts
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
 
 $button-color: mercury.$color-blue;
@@ -8,7 +10,7 @@ $empty-color: mercury.$color-gray;
 $check-color: mercury.$color-blue;
 
 $table-block-spacing: 12px;
-$table-box-shadow: 0 2px 8px rgba(mercury.$color-black 0.0699445);
+$table-box-shadow: 0 2px 8px rgba(mercury.$color-black, 0.07);
 $table-border-radius: 6px;
 $table-solid-border: 1px solid mercury.$color-grayLight;
 $table-dashed-border: 1px dashed mercury.$color-grayLighter;
@@ -19,6 +21,10 @@ $selected-color: mercury.$color-blue;
 $default-chevron-color: #585c5f;
 $transition: 150ms linear;
 $switch-size: 1rem;
+
+// -----------------
+// ManifoldPlanTable
+// -----------------
 
 .ManifoldPlanTable {
   @include mercury.Manifold__Typography__Body;
@@ -34,9 +40,13 @@ $switch-size: 1rem;
   overflow-x: auto;
 
   & [pattern='[0-9]*'] {
-    font-family: mercury.$typography-monoBodyFontFamily;
+    font-family: mercury.$typography-monoBody-fontFamily;
   }
 }
+
+// ----------
+//  Button
+// ----------
 
 .ManifoldPlanTable__Button {
   @include mercury.Manifold__Typography__Body;
@@ -61,6 +71,10 @@ $switch-size: 1rem;
     background: rgba($button-color, 0.85);
   }
 }
+
+// ----------
+//  Cell
+// ----------
 
 .ManifoldPlanTable__Cell {
   align-items: center;
@@ -105,6 +119,17 @@ $switch-size: 1rem;
     border-bottom-right-radius: $table-border-radius;
   }
 }
+
+// Subcomponents
+
+.ManifoldPlanTable__Cell__Disabled {
+  color: $empty-color;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+// Modifiers
 
 .ManifoldPlanTable__Cell--Block {
   display: block;
@@ -152,15 +177,11 @@ $switch-size: 1rem;
   word-wrap: break-word;
 }
 
-.mp--cell__bts {
-  border-top: $table-solid-border;
-}
-
 // ----------
 //  Check
 // ----------
 
-.mp--check {
+.ManifoldPlanTable__Check {
   fill: mercury.$color-blue;
   height: 1.5em;
   width: 1.5em;
@@ -170,22 +191,22 @@ $switch-size: 1rem;
 //  Loading
 // ----------
 
-@keyframes load {
+@keyframes ManifoldPlanTable__Animation__Load {
   50% {
     opacity: 0.5;
     transform: translateY(-25%);
   }
 }
 
-.mp--loading {
+.ManifoldPlanTable__Loading {
   display: flex;
   margin-top: 0.5rem;
 }
 
-.mp--loading__dot {
+.ManifoldPlanTable__Loading__Dot {
   animation-duration: 1.25s;
   animation-iteration-count: 200;
-  animation-name: load;
+  animation-name: ManifoldPlanTable__Animation__Load;
   animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
   background: mercury.$color-gray;
   border-radius: 4px;
@@ -197,44 +218,31 @@ $switch-size: 1rem;
   width: 0.5rem;
 }
 
-// -----------
-//  Empty Cell
-// -----------
-
-.mp--empty-cell {
-  color: $empty-color;
-  font-size: 1.5rem;
-  line-height: 1.5;
-  text-align: center;
-}
-
 // ----------
 //  Metered
 // ----------
 
-.mp--metered {
+.ManifoldPlanTable__Metered {
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
-.mp--metered__header {
+// Subcomponents
+
+.ManifoldPlanTable__Metered__Header {
   color: $empty-color;
   display: grid;
   font-size: 11px;
   grid-template-columns: 1fr 1fr;
 }
 
-.mp--metered__header-text {
+.ManifoldPlanTable__Metered__HeaderText {
   margin: 6px 0;
   text-transform: uppercase;
 }
 
-.mp--metered__header-tar {
-  text-align: right;
-}
-
-.mp--metered__cost-tiers {
+.ManifoldPlanTable__Metered__CostTiers {
   border-top: $table-metered-border;
   color: mercury.$color-grayDarker;
   display: grid;
@@ -243,24 +251,20 @@ $switch-size: 1rem;
   line-height: 1.2;
 }
 
-.mp--metered__cost-tiers__text {
+.ManifoldPlanTable__Metered__CostTiers__Text {
   margin: 6px 0;
 }
 
-.mp--metered__cost-tiers__last {
-  text-align: right;
-}
-
 // --------------
-//  Numeric Range
+//  NumericRange
 // --------------
 
-.mp--numeric-range__desc {
+.ManifoldPlanTable__NumericRange__Desc {
   color: mercury.$color-gray;
   font-size: 12px;
 }
 
-.mp--numeric-range__input {
+.ManifoldPlanTable__NumericRange__Input {
   -webkit-appearance: none;
   -moz-appearance: textfield;
   background: mercury.$color-white;
@@ -289,15 +293,15 @@ $switch-size: 1rem;
 //  Plan
 // ----------
 
-.mp--plan-cost {
+.ManifoldPlanTable__Plan__Cost {
   color: mercury.$color-grayDarker;
-  font-family: mercury.$typography-bodyFontFamily;
+  font-family: mercury.$typography-body-fontFamily;
   font-size: 16px;
   font-weight: 600;
   margin: 0.5rem 0 0 0;
 }
 
-.mp--plan-subtext {
+.ManifoldPlanTable__Plan__Subtext {
   color: mercury.$color-gray;
   font-size: 14px;
   font-weight: 400;
@@ -305,11 +309,11 @@ $switch-size: 1rem;
   margin-top: 0.25rem;
 }
 
-/**
- * Select
- */
+// ----------
+//  Select
+// ----------
 
-.mp--select {
+.ManifoldPlanTable__Select {
   align-items: center;
   background: mercury.$color-white;
   border-radius: 3px;
@@ -322,7 +326,9 @@ $switch-size: 1rem;
   width: 100%;
 }
 
-.mp--select__chevron {
+// Subcomponents
+
+.ManifoldPlanTable__Select__Chevron {
   border-left: 1px solid currentColor;
   fill: $default-chevron-color;
   padding: 0 4px;
@@ -331,7 +337,7 @@ $switch-size: 1rem;
   width: 20px;
 }
 
-.mp--select__border {
+.ManifoldPlanTable__Select__Border {
   background: transparent;
   border-radius: 3px;
   border: 1px solid mercury.$color-gray;
@@ -344,7 +350,7 @@ $switch-size: 1rem;
   transition: border-color 150ms linear;
 }
 
-.mp--select__input {
+.ManifoldPlanTable__Select__Input {
   appearance: none;
   background: transparent;
   border: none;
@@ -362,14 +368,16 @@ $switch-size: 1rem;
   }
 }
 
-.mp--select:focus-within {
+// State
+
+.ManifoldPlanTable__Select:focus-within {
   color: mercury.$color-blue;
 
-  & .mp--select__border {
+  & .ManifoldPlanTable__Select__Border {
     border-color: mercury.$color-blue;
   }
 
-  & .mp--select__chevron {
+  & .ManifoldPlanTable__Select__Chevron {
     fill: mercury.$color-blue;
   }
 }
@@ -384,7 +392,7 @@ $switch-size: 1rem;
   }
 }
 
-.mp--skeleton {
+.ManifoldPlanTable__Skeleton {
   border-radius: 2px;
   color: transparent;
   display: inline-block;
@@ -437,7 +445,7 @@ $switch-size: 1rem;
 //  Toggle
 // ----------
 
-.mp--toggle {
+.ManifoldPlanTable__Toggle {
   align-items: center;
   display: flex;
   margin: -0.5rem;
@@ -449,7 +457,7 @@ $switch-size: 1rem;
   }
 }
 
-.mp--toggle__toggle {
+.ManifoldPlanTable__Toggle__Toggle {
   background-color: mercury.$color-grayLighter;
   border-radius: 2rem;
   height: calc(0.5rem + #{$switch-size});
@@ -485,19 +493,19 @@ $switch-size: 1rem;
   }
 }
 
-.mp--toggle__input {
+.ManifoldPlanTable__Toggle__Input {
   position: absolute;
   right: 100vw;
 
   &:focus {
-    & ~ .mp--toggle__toggle {
+    & ~ .ManifoldPlanTable__Toggle__Toggle {
       &::before {
         border-color: mercury.$color-blue;
       }
     }
   }
 
-  &:checked ~ .mp--toggle__toggle {
+  &:checked ~ .ManifoldPlanTable__Toggle__Toggle {
     background-color: mercury.$color-mutedBlue;
 
     &::after {
@@ -505,4 +513,12 @@ $switch-size: 1rem;
       transform: translateX(100%);
     }
   }
+}
+
+// ----------
+//  Utils
+// ----------
+
+.ManifoldPlanTable__TAR {
+  text-align: right;
 }

@@ -14,8 +14,8 @@ const MeteredFeature: FunctionalComponent<MeteredFeatureProps> = ({ feature }) =
   const { numericDetails } = feature;
   if (!numericDetails.costTiers || numericDetails.costTiers.length === 0) {
     return (
-      <div class="mp--cell mp--cell__body">
-        <span class="mp--empty-cell">•</span>
+      <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+        <span class="ManifoldPlanTable__Cell__Disabled">•</span>
       </div>
     );
   }
@@ -24,29 +24,33 @@ const MeteredFeature: FunctionalComponent<MeteredFeatureProps> = ({ feature }) =
   const multitiered = costTiers.length > 1;
 
   return (
-    <div class="mp--cell mp--cell__body mp--cell__block">
-      <div class="mp--metered">
-        <div class="mp--metered__header">
-          <p class="mp--metered__header-text">billed per {singularize(unit)}</p>
+    <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body ManifoldPlanTable__Cell--Block">
+      <div class="ManifoldPlanTable__Metered">
+        <div class="ManifoldPlanTable__Metered__Header">
+          <div class="ManifoldPlanTable__Metered__HeaderText">billed per {singularize(unit)}</div>
         </div>
-        <div class="mp--metered__cost-tiers" data-multitiered={multitiered || undefined}>
+        <div
+          class="ManifoldPlanTable__Metered__CostTiers"
+          data-multitiered={multitiered || undefined}
+        >
           {multitiered ? (
             costTiers.map(({ limit: tierUpper, cost }, i) => {
               let tierLower = 0;
               if (i > 0) {
                 tierLower = numericDetails.costTiers[i - 1].limit + 1;
               }
+
               return [
-                <div class="mp--metered__cost-tiers__range">
+                <div class="ManifoldPlanTable__Metered__CostTiers__Range">
                   {displayRange(tierLower, tierUpper, unit)}
                 </div>,
-                <div class="mp--metered__cost-tiers__cost">
+                <div class="ManifoldPlanTable__Metered__CostTiers__Cost">
                   {!cost ? 'Free' : displayTierCost(cost, unit)}
                 </div>,
               ];
             })
           ) : (
-            <div class="mp--metered__cost-tiers__cost">
+            <div class="ManifoldPlanTable__Metered__CostTiers__Cost">
               {!costTiers[0].cost ? 'Free' : displayTierCost(costTiers[0].cost, unit)}
             </div>
           )}
