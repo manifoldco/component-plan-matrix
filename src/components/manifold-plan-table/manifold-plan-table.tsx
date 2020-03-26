@@ -3,7 +3,13 @@ import { chevron_up_down } from '@manifoldco/icons';
 import merge from 'deepmerge';
 import { Connection } from '@manifoldco/manifold-init-types/types/v0';
 
-import { ProductQueryVariables, ProductQuery, PlanFeatureType } from '../../types/graphql';
+import {
+  ProductQueryVariables,
+  ProductQuery,
+  PlanFeatureType,
+  ProductNumberConfigurableFeature,
+  ProductBooleanConfigurableFeature,
+} from '../../types/graphql';
 import { toUSD } from '../../utils/cost';
 import { defaultFeatureValue, fetchPlanCost } from '../../utils/feature';
 import logger, { loadMark } from '../../utils/logger';
@@ -18,7 +24,7 @@ import query from './product.graphql';
 // query types
 type ProductFixed = ProductQuery['product']['fixedFeatures']['edges'][0]['node'];
 type ProductMetered = ProductQuery['product']['meteredFeatures']['edges'][0]['node'];
-type ProductConfigurable = ProductQuery['product']['configurableFeatures']['edges'][0]['node'];
+type ProductConfigurable = ProductNumberConfigurableFeature & ProductBooleanConfigurableFeature;
 interface ProductFeatures {
   fixed: { [label: string]: ProductFixed };
   metered: { [label: string]: ProductMetered };
@@ -125,7 +131,7 @@ export class ManifoldPlanTable {
     this.productFeatures = { fixed, metered, configurable };
 
     // create map of plan costs, plan feature values, and default user selection
-    const featureLabels = Object.keys({ ...fixed, ...metered, ...configurable });
+    const featureLabels = this.sortedProductFeatures().map(f => f.label);
     const planCosts: { [planID: string]: number } = {};
     const planFeatures: PlanFeatures = {};
     const userSelection: UserSelection = {};
@@ -337,6 +343,27 @@ export class ManifoldPlanTable {
     }
   }
 
+  sortedProductFeatures() {
+    const toggles = Object.values(this.productFeatures.configurable).filter(
+      f =>
+        f.featureOptions &&
+        f.featureOptions.length === 2 &&
+        f.featureOptions.filter(o => o.value === 'true') &&
+        f.featureOptions.filter(o => o.value === 'false')
+    );
+    const multipleChoice = Object.values(this.productFeatures.configurable)
+      .filter(f => f.featureOptions)
+      .filter(f => !toggles.map(t => t.label).includes(f.label));
+    return [
+      ...Object.values(this.productFeatures.metered), // Pay as you go
+      ...multipleChoice,
+      ...Object.values(this.productFeatures.configurable).filter(f => f.numericOptions), // Numeric range
+      ...Object.values(this.productFeatures.fixed).filter(f => f.featureOptions.length !== 2), // Text
+      ...toggles,
+      ...Object.values(this.productFeatures.fixed).filter(f => f.featureOptions.length === 2), // Checkbox
+    ];
+  }
+
   @logger()
   render() {
     // 💀 Skeleton Loader
@@ -364,11 +391,7 @@ export class ManifoldPlanTable {
           data-column-first
           data-row-first
         ></div>
-        {Object.values({
-          ...this.productFeatures.fixed,
-          ...this.productFeatures.metered,
-          ...this.productFeatures.configurable,
-        }).map(feature => (
+        {this.sortedProductFeatures().map(feature => (
           <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
             {feature.displayName}
           </div>
@@ -409,7 +432,10 @@ export class ManifoldPlanTable {
               // configurable
               if (feature && this.productFeatures.configurable[feature.label]) {
                 const configurableFeature = feature as PlanConfigurableFeature;
-                return this.displayConfigurable({ planID: plan.id, feature: configurableFeature });
+                return this.displayConfigurable({
+                  planID: plan.id,
+                  feature: configurableFeature,
+                });
               }
 
               // undefined / disabled feature
