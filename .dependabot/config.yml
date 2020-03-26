@@ -6,6 +6,7 @@ update_configs:
     automerged_updates:
       - match:
           dependency_type: 'all'
+          update_type: "all"
     ignored_updates:
       - match:
           dependency_name: '@types/jest' # Version-managed by Stencil
