@@ -1,5 +1,6 @@
 import { addDecorator, configure } from '@storybook/html';
 import { defineCustomElements as defineInit } from '@manifoldco/manifold-init/loader/index.mjs';
+import '../dist/manifold-plan-table/manifold-plan-table.css';
 import { defineCustomElements as definePlanTable } from '../loader';
 
 // Init web components

@@ -1,0 +1,28 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// ----------
+//  Plan
+// ----------
+
+.#{$name}__Plan {
+  // ----------
+  //  Elements
+  // ----------
+
+  &__Cost {
+    color: mercury.$color-grayDarker;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0.5rem 0 0 0;
+  }
+
+  &__Subtext {
+    color: mercury.$color-gray;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 0.25rem;
+  }
+}

@@ -36,7 +36,8 @@ function gql(opts: Options = {}) {
 
 export const config: Config = {
   namespace: 'manifold-plan-table',
-  exclude: ['**/*-happo.*'],
+  excludeSrc: ['**/*-happo.*'],
+  globalStyle: 'src/styles/styles.scss',
   outputTargets: [
     {
       type: 'dist',

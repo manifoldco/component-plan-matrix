@@ -17,7 +17,7 @@ other Manifold Web Components you embed.
 
 ### Option 1: Manifold CDN
 
-Next place the following at the very beginning of the `<body>` tag:
+Place the following at the very beginning of the `<body>` tag:
 
 ```html
 <!-- modern browsers -->
@@ -27,6 +27,12 @@ Next place the following at the very beginning of the `<body>` tag:
 <!-- legacy browsers -->
 <script nomodule src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js" ></script>
 <script nomodule src="https://js.cdn.manifold.co/@manifoldco/manifold-plan-table/dist/manifold-plan-table.js" ></script>
+```
+
+Place this component’s CSS in your `<head>` tag (optional if you want to write your own styles):
+
+```html
+<link rel="stylesheet" href="https://js.cdn.manifold.co/@manifoldco/manifold-plan-table/dist/manifold-plan-table/manifold-plan-table.css" />
 ```
 
 ### Option 2: npm
@@ -43,6 +49,12 @@ as possible:
 ```js
 import('@manifoldco/manifold-init/loader').then(({ defineCustomElements }) => defineCustomElements(window));
 import('@manifoldco/manifold-plan-table/loader').then(({ defineCustomElements }) => defineCustomElements(window));
+```
+
+Also import the CSS file in a way that works for your setup (for example, webpack):
+
+```js
+import '@manifoldco/manifold-plan-table/dist/manifold-plan-table/manifold-plan-table.css';
 ```
 
 This libary is built using [Stencil][stencil]. For more information about integrating with your

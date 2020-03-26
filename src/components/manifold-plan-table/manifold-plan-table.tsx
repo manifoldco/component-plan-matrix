@@ -50,10 +50,7 @@ interface UserSelection {
   [planID: string]: { [featureLabel: string]: UserValue };
 }
 
-@Component({
-  tag: 'manifold-plan-table',
-  styleUrl: 'manifold-plan-table.scss',
-})
+@Component({ tag: 'manifold-plan-table' })
 export class ManifoldPlanTable {
   @Element() el: HTMLElement;
   // Passed product ID to the graphql endpoint

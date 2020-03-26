@@ -1,0 +1,41 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// ----------
+//  Metered
+// ----------
+
+.#{$name}__Metered {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  // ----------
+  //  Elements
+  // ----------
+
+  &__Header {
+    color: mercury.$color-gray;
+    display: grid;
+    font-size: 11px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &__HeaderText {
+    margin: 6px 0;
+    text-transform: uppercase;
+  }
+
+  &__CostTiers {
+    border-top: 1px solid mercury.$color-grayLight;
+    color: mercury.$color-grayDarker;
+    display: grid;
+    font-size: 14px;
+    grid-template-columns: 1fr 1fr;
+    line-height: 1.2;
+
+    &__Text {
+      margin: 6px 0;
+    }
+  }
+}

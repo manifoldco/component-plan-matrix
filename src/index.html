@@ -7,8 +7,7 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
     />
     <title>Stencil Component Starter</title>
-
-    <!-- modern browsers -->
+    <link rel="stylesheet" href="/build/manifold-plan-table.css" />
     <script
       nomodule
       src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js"
@@ -19,13 +18,17 @@
       src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.esm.js"
     ></script>
     <script async type="module" src="/build/manifold-plan-table.esm.js"></script>
-
-    <!-- legacy browsers -->
     <script
       nomodule
       src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js"
     ></script>
     <script nomodule src="/build/manifold-plan-table.js"></script>
+    <style>
+      /* Dev Styles */
+      body {
+        font-family: sans-serif;
+      }
+    </style>
   </head>
   <body>
     <manifold-init env="stage" client-id="123456"></manifold-init>
