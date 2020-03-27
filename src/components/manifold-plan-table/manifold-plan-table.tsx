@@ -406,7 +406,7 @@ export class ManifoldPlanTable {
 
           return [
             <div
-              class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell__TH"
+              class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell--TH"
               data-row-first
               data-column-last={lastColumn}
             >

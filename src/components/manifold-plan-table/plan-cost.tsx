@@ -15,17 +15,17 @@ const PlanCost: FunctionalComponent<PlanCostProps> = ({ cost, metered }) => {
     return (
       <span>
         {toUSD(cost)}
-        <small class="ManifoldPlanSelector__Plan__Subtext">/mo</small>
-        {metered && <div class="ManifoldPlanSelector__Plan__Subtext">+ metered use</div>}
+        <small class="ManifoldPlanTable__Plan__Subtext">/mo</small>
+        {metered && <div class="ManifoldPlanTable__Plan__Subtext">+ metered use</div>}
       </span>
     );
   }
 
   return (
-    <div class="ManifoldPlanSelector__Loading">
-      <div class="ManifoldPlanSelector__Loading__Dot" style={{ animationDelay: '0' }}></div>
-      <div class="ManifoldPlanSelector__Loading__Dot" style={{ animationDelay: '250ms' }}></div>
-      <div class="ManifoldPlanSelector__Loading__Dot" style={{ animationDelay: '500ms' }}></div>
+    <div class="ManifoldPlanTable__Loading">
+      <div class="ManifoldPlanTable__Loading__Dot" style={{ animationDelay: '0' }}></div>
+      <div class="ManifoldPlanTable__Loading__Dot" style={{ animationDelay: '250ms' }}></div>
+      <div class="ManifoldPlanTable__Loading__Dot" style={{ animationDelay: '500ms' }}></div>
     </div>
   );
 };
