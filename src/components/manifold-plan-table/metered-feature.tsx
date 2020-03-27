@@ -1,5 +1,6 @@
 import { FunctionalComponent, h } from '@stencil/core';
-import { displayLimit, displayTierCost } from '../../utils/cost';
+import { displayRange, displayTierCost } from '../../utils/cost';
+import { singularize } from '../../utils/text';
 import { ProductQuery } from '../../types/graphql';
 
 type ProductPlan = ProductQuery['product']['plans']['edges'][0]['node'];
@@ -20,28 +21,36 @@ const MeteredFeature: FunctionalComponent<MeteredFeatureProps> = ({ feature }) =
   }
 
   const { costTiers = [], unit } = numericDetails;
+  const multitiered = costTiers.length > 1;
 
   return (
     <div class="mp--cell mp--cell__body mp--cell__block">
       <div class="mp--metered">
         <div class="mp--metered__header">
-          <p class="mp--metered__header-text">cost</p>
-          <p class="mp--metered__header-text mp--metered__header-tar">usage range</p>
+          <p class="mp--metered__header-text">billed per {singularize(unit)}</p>
         </div>
-        {costTiers.map(({ limit, cost }, i) => {
-          const inDollars = cost && unit && displayTierCost(cost, unit);
-          const previous = numericDetails.costTiers[i - 1];
-          const min = previous?.limit ? previous.limit : 0;
-          return (
-            <div class="mp--metered__cost-tiers">
-              <p class="mp--metered__cost-tiers__text">{inDollars === 0 ? 'Free' : inDollars}</p>
-              <p class="mp--metered__cost-tiers__text mp--metered__cost-tiers__last">
-                {min > 0 && unit && `${displayLimit(min, unit)} –`}
-                {limit && unit && displayLimit(limit, unit)}
-              </p>
+        <div class="mp--metered__cost-tiers" data-multitiered={multitiered || undefined}>
+          {multitiered ? (
+            costTiers.map(({ limit: tierUpper, cost }, i) => {
+              let tierLower = 0;
+              if (i > 0) {
+                tierLower = numericDetails.costTiers[i - 1].limit + 1;
+              }
+              return [
+                <div class="mp--metered__cost-tiers__range">
+                  {displayRange(tierLower, tierUpper, unit)}
+                </div>,
+                <div class="mp--metered__cost-tiers__cost">
+                  {!cost ? 'Free' : displayTierCost(cost, unit)}
+                </div>,
+              ];
+            })
+          ) : (
+            <div class="mp--metered__cost-tiers__cost">
+              {!costTiers[0].cost ? 'Free' : displayTierCost(costTiers[0].cost, unit)}
             </div>
-          );
-        })}
+          )}
+        </div>
       </div>
     </div>
   );

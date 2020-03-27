@@ -1,4 +1,4 @@
-import { pluralize } from './text';
+import { singularize, pluralize } from './text';
 
 export const ONE_BILLION = 10 ** 9;
 export const TEN_MILLION = 10 ** 7;
@@ -41,6 +41,8 @@ export function displayTierCost(microCost: number, unit: string): string {
     return 'Free'; // if this is free, show ”free”
   }
 
+  const singularUnit = singularize(unit); // remove trailing “s”
+
   // if ziggeo
   if (unit.toLowerCase().startsWith('second')) {
     return `${toUSD((microCost * SECONDS_IN_HOURS) / TEN_MILLION)} / hour`;
@@ -48,7 +50,7 @@ export function displayTierCost(microCost: number, unit: string): string {
 
   // otherwise, multiply by some generic amount
   if (microCost >= ONE_BILLION) {
-    return `${toUSD(microCostToCents(microCost))} / ${unit}`; // if the cost is already >= $1, don’t bother multiplying
+    return `${toUSD(microCostToCents(microCost))} / ${singularUnit}`; // if the cost is already >= $1, don’t bother multiplying
   }
   // increase multiplier until we can represent full precision of cost in whole cents
   while (
@@ -62,24 +64,40 @@ export function displayTierCost(microCost: number, unit: string): string {
     multiplier > 1
       ? `${new Intl.NumberFormat('en-US', {
           notation: 'compact',
-        } as Intl.NumberFormatOptions).format(multiplier)} ${pluralize(unit)}`
-      : unit;
+        } as Intl.NumberFormatOptions).format(multiplier)} ${pluralize(singularUnit)}`
+      : singularUnit;
 
   return `${toUSD((multiplier * microCost) / TEN_MILLION)} / ${singularOrPlural.toLowerCase()}`;
 }
 
-export function displayLimit(limit: number, unit: string): string {
-  // infinite
-  if (limit === -1) {
-    return '∞';
+export function displayRange(lower: number, upper: number, unit: string): string {
+  const isZiggeo = unit.toLowerCase().startsWith('second');
+
+  const format = (n: number, addOne?: boolean) => {
+    const adjustment = n > 0 && addOne ? 1 : 0; // add one, say, if lower bound
+
+    // ziggeo
+    if (isZiggeo) {
+      return `${Math.round(n / SECONDS_IN_HOURS) + adjustment}`;
+    }
+
+    return new Intl.NumberFormat('en-US', {
+      notation: 'compact',
+    } as Intl.NumberFormatOptions).format(n + adjustment);
+  };
+
+  // only one tier
+  if (lower === 0 && upper === -1) {
+    return '';
   }
 
-  // ziggeo
-  if (unit.toLowerCase().startsWith('second')) {
-    return `${Math.round(limit / SECONDS_IN_HOURS)}`;
+  const singularUnit = isZiggeo ? 'hour' : singularize(unit.toLocaleLowerCase());
+
+  // if upper tier infinite
+  if (upper === -1) {
+    return `${format(lower, true)}+ ${pluralize(singularUnit)}`;
   }
 
-  return new Intl.NumberFormat('en-US', {
-    notation: 'compact',
-  } as Intl.NumberFormatOptions).format(limit);
+  // default (add one to lower if > 0)
+  return `${format(lower, true)} – ${format(upper)} ${pluralize(singularUnit)}`;
 }
