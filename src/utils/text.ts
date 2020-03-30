@@ -16,10 +16,7 @@ export function pluralize(word: string) {
   if (word === word.toUpperCase()) {
     return word; // if this is an abbreviation
   }
-  return word
-    .replace(/y$/i, 'ie')
-    .replace(/s$/i, 'se')
-    .concat('s');
+  return word.replace(/y$/i, 'ie').replace(/s$/i, 'se').concat('s');
 }
 
 /**

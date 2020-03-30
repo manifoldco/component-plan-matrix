@@ -68,7 +68,7 @@
     "jest": "24.9.0",
     "jest-cli": "24.9.0",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "rollup-pluginutils": "^2.8.2",
     "stylelint": "^13.2.0",
     "stylelint-config-prettier": "^8.0.1",

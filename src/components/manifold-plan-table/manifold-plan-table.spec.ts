@@ -114,7 +114,9 @@ describe(ManifoldPlanTable.name, () => {
 
         cta.click();
 
-        const [[, analyticsRes]] = fetchMock.calls().filter(call => call[0] === ANALYTICS_ENDPOINT);
+        const [[, analyticsRes]] = fetchMock
+          .calls()
+          .filter((call) => call[0] === ANALYTICS_ENDPOINT);
         const body = typeof analyticsRes?.body === 'string' && JSON.parse(analyticsRes.body);
 
         expect(body.type).toContain('component-analytics');
