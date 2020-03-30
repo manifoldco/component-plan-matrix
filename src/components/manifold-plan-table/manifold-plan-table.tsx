@@ -131,7 +131,7 @@ export class ManifoldPlanTable {
     this.productFeatures = { fixed, metered, configurable };
 
     // create map of plan costs, plan feature values, and default user selection
-    const featureLabels = this.sortedProductFeatures().map(f => f.label);
+    const featureLabels = this.sortedProductFeatures().map((f) => f.label);
     const planCosts: { [planID: string]: number } = {};
     const planFeatures: PlanFeatures = {};
     const userSelection: UserSelection = {};
@@ -189,7 +189,7 @@ export class ManifoldPlanTable {
       fetchPlanCost(this.connection, {
         planID,
         selection,
-      }).then(cost => {
+      }).then((cost) => {
         if (typeof cost === 'number') {
           clearTimeout(flickerStopper);
           this.planCosts = merge(this.planCosts, { [planID]: cost });
@@ -256,7 +256,7 @@ export class ManifoldPlanTable {
             <label class="mp--select">
               <select
                 class="mp--select__input"
-                onChange={e =>
+                onChange={(e) =>
                   this.setFeature({
                     planID,
                     featureLabel: feature.label,
@@ -264,7 +264,7 @@ export class ManifoldPlanTable {
                   })
                 }
               >
-                {(feature.featureOptions || []).map(option => (
+                {(feature.featureOptions || []).map((option) => (
                   <option value={option.value}>
                     <span>{option.displayName}</span>
                     <span> ({toUSD(option.cost)})</span>
@@ -324,7 +324,7 @@ export class ManifoldPlanTable {
               <input
                 class="mp--toggle__input"
                 type="checkbox"
-                onChange={e => {
+                onChange={(e) => {
                   this.setFeature({
                     planID,
                     featureLabel: feature.label,
@@ -345,22 +345,22 @@ export class ManifoldPlanTable {
 
   sortedProductFeatures() {
     const toggles = Object.values(this.productFeatures.configurable).filter(
-      f =>
+      (f) =>
         f.featureOptions &&
         f.featureOptions.length === 2 &&
-        f.featureOptions.filter(o => o.value === 'true') &&
-        f.featureOptions.filter(o => o.value === 'false')
+        f.featureOptions.filter((o) => o.value === 'true') &&
+        f.featureOptions.filter((o) => o.value === 'false')
     );
     const multipleChoice = Object.values(this.productFeatures.configurable)
-      .filter(f => f.featureOptions)
-      .filter(f => !toggles.map(t => t.label).includes(f.label));
+      .filter((f) => f.featureOptions)
+      .filter((f) => !toggles.map((t) => t.label).includes(f.label));
     return [
       ...Object.values(this.productFeatures.metered), // Pay as you go
       ...multipleChoice,
-      ...Object.values(this.productFeatures.configurable).filter(f => f.numericOptions), // Numeric range
-      ...Object.values(this.productFeatures.fixed).filter(f => f.featureOptions.length !== 2), // Text
+      ...Object.values(this.productFeatures.configurable).filter((f) => f.numericOptions), // Numeric range
+      ...Object.values(this.productFeatures.fixed).filter((f) => f.featureOptions.length !== 2), // Text
       ...toggles,
-      ...Object.values(this.productFeatures.fixed).filter(f => f.featureOptions.length === 2), // Checkbox
+      ...Object.values(this.productFeatures.fixed).filter((f) => f.featureOptions.length === 2), // Checkbox
     ];
   }
 
@@ -391,7 +391,7 @@ export class ManifoldPlanTable {
           data-column-first
           data-row-first
         ></div>
-        {this.sortedProductFeatures().map(feature => (
+        {this.sortedProductFeatures().map((feature) => (
           <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
             {feature.displayName}
           </div>
@@ -418,7 +418,7 @@ export class ManifoldPlanTable {
                 />
               </p>
             </div>,
-            Object.values(this.planFeatures[plan.id]).map(feature => {
+            Object.values(this.planFeatures[plan.id]).map((feature) => {
               // fixed feature
               if (feature && this.productFeatures.fixed[feature.label]) {
                 return <FixedFeature displayValue={(feature as PlanFixedFeature).displayValue} />;
@@ -455,7 +455,7 @@ export class ManifoldPlanTable {
                 class="mp--button"
                 id={`manifold-cta-plan-${plan.id}`}
                 href={this.ctaHref(plan.id)}
-                onClick={e => this.handleCtaClick(e, plan.id, this.baseUrl)}
+                onClick={(e) => this.handleCtaClick(e, plan.id, this.baseUrl)}
               >
                 {this.ctaText}
               </a>
