@@ -329,9 +329,7 @@
 
 .mp--metered__header {
   color: hsl(var(--empty-color));
-  display: grid;
   font-size: 11px;
-  grid-template-columns: 1fr 1fr;
 }
 
 .mp--metered__header-text {
@@ -344,20 +342,29 @@
 }
 
 .mp--metered__cost-tiers {
-  border-top: var(--table-metered-border);
   color: var(--c-gray-darker);
-  display: grid;
   font-size: 14px;
-  grid-template-columns: 1fr 1fr;
   line-height: 1.2;
 }
 
-.mp--metered__cost-tiers__text {
-  margin: 6px 0;
+.mp--metered__cost-tiers__range {
+  border-top: var(--table-metered-border);
+  white-space: nowrap;
+  padding: 0.375rem 0;
 }
 
-.mp--metered__cost-tiers__last {
-  text-align: right;
+.mp--metered__cost-tiers__cost {
+  border-top: var(--table-metered-border);
+  padding: 0.375rem 0;
+}
+
+.mp--metered__cost-tiers[data-multitiered] {
+  display: grid;
+  grid-template-columns: min-content auto;
+
+  & .mp--metered__cost-tiers__cost {
+    padding-left: 0.75rem;
+  }
 }
 
 /**

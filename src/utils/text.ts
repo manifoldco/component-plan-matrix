@@ -21,3 +21,10 @@ export function pluralize(word: string) {
     .replace(/s$/i, 'se')
     .concat('s');
 }
+
+/**
+ * Strip off trailing “s” (adjust as-needed)
+ */
+export function singularize(word: string) {
+  return word.replace(/s$/, '');
+}
