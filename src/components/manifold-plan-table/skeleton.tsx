@@ -7,7 +7,7 @@ const DEFAULT_FEATURES = 5;
 
 const SkeletonLoader: FunctionalComponent = () => (
   <div
-    class="mp"
+    class="ManifoldPlanTable"
     style={{
       '--table-columns': `${1 + DEFAULT_PLANS}`,
       '--table-rows': `${1 + DEFAULT_FEATURES + 1}`,

@@ -4,8 +4,8 @@ import { postcss } from '@stencil/postcss';
 import { sass } from '@stencil/sass';
 import cssnano from 'cssnano';
 import postCSSPresetEnv from 'postcss-preset-env';
-import { createFilter } from 'rollup-pluginutils';
 import replace from '@rollup/plugin-replace';
+import { createFilter } from 'rollup-pluginutils';
 
 interface Options {
   include?: string;
@@ -15,11 +15,7 @@ interface Options {
 const pkgManifest = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 function gql(opts: Options = {}) {
-  if (!opts.include) {
-    opts.include = 'src/**/*.graphql'; // eslint-disable-line no-param-reassign
-  }
-
-  const filter = createFilter(opts.include, opts.exclude);
+  const filter = createFilter(opts.include || 'src/**/*.graphql', opts.exclude);
 
   return {
     name: 'gql',
@@ -29,6 +25,26 @@ function gql(opts: Options = {}) {
         return {
           code: `export default ${JSON.stringify(code)}`,
         };
+      }
+    },
+  };
+}
+
+function svg(opts: Options = {}) {
+  const filter = createFilter(opts.include || '**/*.svg', opts.exclude);
+
+  return {
+    name: 'svg',
+    // eslint-disable-next-line consistent-return
+    transform(code, id) {
+      if (filter(id)) {
+        // Rollup by default returns a base64 URL. Decode that back into HTML for SVGs
+        const transformed = code.replace(/'[^']+'/, (data) =>
+          JSON.stringify(
+            Buffer.from(data.replace('data:image/svg+xml;base64,', ''), 'base64').toString('utf8')
+          )
+        );
+        return { code: transformed };
       }
     },
   };
@@ -57,6 +73,7 @@ export const config: Config = {
   },
   plugins: [
     gql(),
+    svg(), // import SVGs from Mercury
     sass(),
     postcss({
       plugins: [cssnano(), postCSSPresetEnv()],

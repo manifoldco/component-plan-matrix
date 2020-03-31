@@ -88,6 +88,7 @@ $table-dashed-border: 1px dashed mercury.$color-grayLighter;
   }
 
   &--TH {
+    align-items: flex-start;
     background: mercury.$color-white;
     border-bottom: $table-dashed-border;
     box-sizing: border-box;
@@ -95,7 +96,7 @@ $table-dashed-border: 1px dashed mercury.$color-grayLighter;
     font-weight: 600;
     letter-spacing: -0.0125em;
     line-height: 1.5;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
     word-wrap: break-word;
   }
 

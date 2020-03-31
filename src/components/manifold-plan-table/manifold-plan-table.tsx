@@ -1,7 +1,7 @@
 import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
-import { chevron_up_down } from '@manifoldco/icons';
-import merge from 'deepmerge';
 import { Connection } from '@manifoldco/manifold-init-types/types/v0';
+import svgChevronUpDown from '@manifoldco/mercury/icons/chevron-up-down.svg';
+import merge from 'deepmerge';
 
 import {
   ProductQueryVariables,
@@ -268,14 +268,7 @@ export class ManifoldPlanTable {
                   </option>
                 ))}
               </select>
-              <svg
-                class="ManifoldPlanTable__Select__Chevron"
-                viewBox="0 0 1024 1024"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns-x="http://www.w3.org/1999/xlink"
-              >
-                <path d={chevron_up_down} />
-              </svg>
+              <div class="ManifoldPlanTable__Select__Chevron" innerHTML={svgChevronUpDown} />
               <div class="ManifoldPlanTable__Select__Border"></div>
             </label>
           </div>
