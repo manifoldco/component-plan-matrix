@@ -377,20 +377,20 @@ export class ManifoldPlanTable {
         style={{ '--table-columns': `${gridColumns}`, '--table-rows': `${gridRows}` }}
       >
         <div
-          class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH ManifoldPlanTable__Cell--THead"
+          class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--PlanName"
           data-column-first
           data-row-first
         ></div>
         {this.sortedProductFeatures().map((feature) => (
           <div
-            class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH"
+            class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--FeatureName"
             data-column-first
           >
             {feature.displayName}
           </div>
         ))}
         <div
-          class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH"
+          class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--FeatureName"
           data-column-first
           data-row-last
         ></div>
@@ -399,7 +399,7 @@ export class ManifoldPlanTable {
 
           return [
             <div
-              class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell--TH"
+              class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--PlanName"
               data-row-first
               data-column-last={lastColumn}
             >

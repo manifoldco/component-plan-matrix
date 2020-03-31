@@ -25,7 +25,12 @@ $table-dashed-border: 1px dashed mercury.$color-grayLighter;
 
   &[data-column-first] {
     border-left: $table-solid-border;
+    flex-direction: row;
     justify-content: flex-start;
+    left: 0;
+    position: sticky;
+    text-align: left;
+    z-index: 1;
   }
 
   &[data-row-first] {
@@ -78,38 +83,27 @@ $table-dashed-border: 1px dashed mercury.$color-grayLighter;
     box-sizing: border-box;
   }
 
-  &--Sticky {
-    color: mercury.$color-black;
-    flex-direction: row;
-    left: 0;
-    position: sticky;
-    text-align: left;
-    z-index: 1;
-  }
-
-  &--TH {
+  &--FeatureName {
     align-items: flex-start;
     background: mercury.$color-white;
     border-bottom: $table-dashed-border;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
-    letter-spacing: -0.0125em;
     line-height: 1.5;
     padding: 0.75rem 1rem;
     word-wrap: break-word;
   }
 
-  &--THead {
+  &--PlanName {
     background: mercury.$color-grayLightest;
     border-bottom: $table-solid-border;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 400;
+    font-size: mercury.$typography-headingLarge-fontSize;
+    font-weight: mercury.$typography-headingLarge-fontWeight;
     justify-content: flex-start;
-    letter-spacing: -0.0125em;
-    line-height: 1.2;
-    padding: 1rem;
+    letter-spacing: mercury.$typography-headingLarge-letterSpacing;
+    line-height: mercury.$typography-headingLarge-lineHeight;
+    padding: 1.5rem 1rem;
     text-align: center;
     word-wrap: break-word;
   }
