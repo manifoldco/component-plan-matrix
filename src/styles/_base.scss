@@ -1,0 +1,22 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// -----------------
+// ManifoldPlanTable
+// -----------------
+
+.#{$name} {
+  all: unset; // unset all styles
+  color: mercury.$color-grayDarker;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template: repeat(var(--table-rows), min-content) / repeat(
+      var(--table-columns),
+      minmax(220px, 250px)
+    );
+  overflow-x: auto;
+
+  & [pattern='[0-9]*'] {
+    font-family: mercury.$typography-monoBody-fontFamily;
+  }
+}

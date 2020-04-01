@@ -7,42 +7,44 @@ const DEFAULT_FEATURES = 5;
 
 const SkeletonLoader: FunctionalComponent = () => (
   <div
-    class="mp"
+    class="ManifoldPlanTable"
     style={{
       '--table-columns': `${1 + DEFAULT_PLANS}`,
       '--table-rows': `${1 + DEFAULT_FEATURES + 1}`,
     }}
   >
     <div
-      class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th mp--cell__thead mp--cell__bts"
+      class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH ManifoldPlanTable__Cell--THead"
       data-column-first
       data-row-first
     ></div>
     {Array.from(new Array(DEFAULT_FEATURES)).map(() => (
-      <div class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__al mp--cell__th">
-        <div class="mp--skeleton">                                              </div>
+      <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH">
+        <div class="ManifoldPlanTable__Skeleton">
+                                                        
+        </div>
       </div>
     ))}
     <div
-      class="mp--cell mp--cell__sticky mp--cell__bls mp--cell__bbs mp--cell__al mp--cell__th"
+      class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH"
       data-column-first
       data-row-last
     ></div>
     {Array.from(new Array(DEFAULT_PLANS)).map((_, plan) => [
       <div
-        class="mp--cell mp--cell__bts mp--cell__thead mp--cell__thead mp--cell__th"
+        class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell--THead ManifoldPlanTable__Cell--TH"
         data-row-first
         data-column-last={plan === DEFAULT_PLANS - 1 || undefined}
       >
-        <div class="mp--skeleton">                     </div>
+        <div class="ManifoldPlanTable__Skeleton">                     </div>
       </div>,
       Array.from(new Array(DEFAULT_FEATURES)).map(() => (
-        <div class="mp--cell mp--cell__body">
-          <div class="mp--skeleton">                        </div>
+        <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+          <div class="ManifoldPlanTable__Skeleton">                        </div>
         </div>
       )),
       <div
-        class="mp--cell mp--cell__body mp--cell__bbs"
+        class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body ManifoldPlanTable__Cell__bbs"
         data-row-last
         data-column-last={plan === DEFAULT_PLANS - 1 || undefined}
       ></div>,

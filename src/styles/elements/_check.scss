@@ -1,0 +1,14 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// ----------
+//  Check
+// ----------
+
+.#{$name}__Check {
+  & svg {
+    fill: mercury.$color-blue;
+    height: 1.5em;
+    width: 1.5em;
+  }
+}

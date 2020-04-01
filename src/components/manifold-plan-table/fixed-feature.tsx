@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from '@stencil/core';
-import { check } from '@manifoldco/icons';
+import svgCheck from '@manifoldco/mercury/icons/check.svg';
 
 interface FixedProps {
   displayValue: string;
@@ -8,22 +8,15 @@ interface FixedProps {
 const FixedFeature: FunctionalComponent<FixedProps> = ({ displayValue }) => {
   if (['yes', 'true'].includes(displayValue.toLowerCase())) {
     return (
-      <div class="mp--cell mp--cell__body">
-        <svg
-          class="mp--check"
-          viewBox="0 0 1024 1024"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns-x="http://www.w3.org/1999/xlink"
-        >
-          <path d={check} />
-        </svg>
+      <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+        <div class="ManifoldPlanTable__Check" innerHTML={svgCheck} />
       </div>
     );
   }
   if (displayValue.toLowerCase() === 'false') {
     return (
-      <div class="mp--cell mp--cell__body">
-        <span class="mp--empty-cell">•</span>
+      <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+        <span class="ManifoldPlanTable__Cell__Disabled">•</span>
       </div>
     );
   }
@@ -37,7 +30,7 @@ const FixedFeature: FunctionalComponent<FixedProps> = ({ displayValue }) => {
     } as Intl.NumberFormatOptions).format(parseInt(displayValue, 10));
   }
 
-  return <div class="mp--cell mp--cell__body">{display}</div>;
+  return <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">{display}</div>;
 };
 
 export default FixedFeature;

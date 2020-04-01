@@ -1,0 +1,30 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// ----------
+//  Button
+// ----------
+
+.#{$name}__Button {
+  @include mercury.Manifold__Typography__Body;
+
+  background: mercury.$color-blue;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: mercury.$color-white;
+  flex: 1;
+  font-style: normal;
+  font-weight: 500;
+  padding: 13px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  width: 100%;
+
+  &:visited {
+    color: mercury.$color-white;
+  }
+
+  &:hover {
+    background: rgba(mercury.$color-blue, 0.85);
+  }
+}

@@ -104,9 +104,7 @@ describe(ManifoldPlanTable.name, () => {
 
         const cta =
           page.root &&
-          (page.root.querySelector<HTMLAnchorElement>(
-            `[data-cta="cta-button"]`
-          ) as HTMLAnchorElement);
+          (page.root.querySelector<HTMLAnchorElement>(`[data-testid="cta"]`) as HTMLAnchorElement);
 
         if (!cta) {
           throw new Error('cta not found in document');

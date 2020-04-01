@@ -1248,15 +1248,15 @@ export type ProductQuery = (
             ) }
           )>> }
         ) | (
-          { __typename?: 'ProductBooleanConfigurableFeature' }
-          & Pick<ProductBooleanConfigurableFeature, 'label' | 'displayName'>
+          { __typename?: 'ProductStringConfigurableFeature' }
+          & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
           & { featureOptions: Maybe<Array<(
             { __typename?: 'ProductConfigurableFeatureOption' }
             & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
           )>> }
         ) | (
-          { __typename?: 'ProductStringConfigurableFeature' }
-          & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
+          { __typename?: 'ProductBooleanConfigurableFeature' }
+          & Pick<ProductBooleanConfigurableFeature, 'label' | 'displayName'>
           & { featureOptions: Maybe<Array<(
             { __typename?: 'ProductConfigurableFeatureOption' }
             & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>

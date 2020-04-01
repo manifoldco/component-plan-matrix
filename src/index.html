@@ -7,8 +7,7 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
     />
     <title>Stencil Component Starter</title>
-
-    <!-- modern browsers -->
+    <link rel="stylesheet" href="/build/manifold-plan-table.css" />
     <script
       nomodule
       src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js"
@@ -19,16 +18,20 @@
       src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.esm.js"
     ></script>
     <script async type="module" src="/build/manifold-plan-table.esm.js"></script>
-
-    <!-- legacy browsers -->
     <script
       nomodule
       src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js"
     ></script>
     <script nomodule src="/build/manifold-plan-table.js"></script>
+    <style>
+      /* Dev Styles */
+      body {
+        font-family: sans-serif;
+      }
+    </style>
   </head>
   <body>
-    <manifold-init env="stage" client-id="123456"></manifold-init>
+    <manifold-init client-id="123456"></manifold-init>
     <!-- blitline: 234htwpkzvg1vuyez6uybfhv8rjb2 -->
     <!-- cloudcube: 234vpcvg8k7dty17j7wmazfpdbrag -->
     <!-- custom image: 234q7ufpnwffnw63ktp1bzeqzxzdy -->
@@ -38,7 +41,7 @@
     <!-- zerosix: 234nbp17j5zrvb2ym49647kgtyv2a -->
     <!-- ziggeo: 234yycr3mf5f2hrw045vuxeatnd50 -->
     <manifold-plan-table
-      product-id="234j94djrwxapnnbyqbjtg75g111j"
+      product-id="234yycr3mf5f2hrw045vuxeatnd50"
       client-id="123456"
     ></manifold-plan-table>
   </body>

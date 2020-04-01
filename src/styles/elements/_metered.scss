@@ -1,0 +1,56 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// ----------
+//  Metered
+// ----------
+
+.#{$name}__Metered {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  // ----------
+  //  Elements
+  // ----------
+
+  &__Header {
+    color: mercury.$color-gray;
+    font-size: 11px;
+  }
+
+  &__HeaderText {
+    margin: 6px 0;
+    text-transform: uppercase;
+  }
+
+  &__CostTiers {
+    color: mercury.$color-grayDarker;
+    font-size: 14px;
+    line-height: 1.2;
+
+    &__Cost {
+      border-top: 1px solid mercury.$color-grayLighter;
+      padding: 0.375rem 0;
+    }
+
+    &__Text {
+      margin: 6px 0;
+    }
+
+    &__Range {
+      border-top: 1px solid mercury.$color-grayLighter;
+      white-space: nowrap;
+      padding: 0.375rem 0;
+    }
+
+    &[data-multitiered] {
+      display: grid;
+      grid-template-columns: min-content auto;
+
+      & .ManifoldPlanTable__Metered__CostTiers__Cost {
+        padding-left: 0.75rem;
+      }
+    }
+  }
+}

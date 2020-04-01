@@ -1,0 +1,110 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// ----------
+//  Cell
+// ----------
+
+$table-border-radius: 6px;
+$table-solid-border: 1px solid mercury.$color-grayLight;
+$table-dashed-border: 1px dashed mercury.$color-grayLighter;
+
+.#{$name}__Cell {
+  align-items: center;
+  border-bottom: $table-dashed-border;
+  border-right: $table-solid-border;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  width: 100%;
+  word-wrap: break-word;
+
+  &[data-column-first] {
+    border-left: $table-solid-border;
+    flex-direction: row;
+    justify-content: flex-start;
+    left: 0;
+    position: sticky;
+    text-align: left;
+    z-index: 1;
+  }
+
+  &[data-row-first] {
+    border-top: $table-solid-border;
+  }
+
+  &[data-row-last] {
+    border-bottom: $table-solid-border;
+  }
+
+  &[data-column-first][data-row-first] {
+    border-top-left-radius: $table-border-radius;
+  }
+
+  &[data-column-first][data-row-last] {
+    border-bottom-left-radius: $table-border-radius;
+  }
+
+  &[data-column-last][data-row-first] {
+    border-top-right-radius: $table-border-radius;
+  }
+
+  &[data-column-last][data-row-last] {
+    border-bottom-right-radius: $table-border-radius;
+  }
+
+  // ----------
+  //  Elements
+  // ----------
+
+  &__Disabled {
+    color: mercury.$color-gray;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  // ----------
+  //  Modifiers
+  // ----------
+
+  &--Block {
+    display: block;
+    padding: 0.75rem;
+  }
+
+  &--Body {
+    background: mercury.$color-white;
+    border-bottom: $table-dashed-border;
+    box-sizing: border-box;
+  }
+
+  &--FeatureName {
+    align-items: flex-start;
+    background: mercury.$color-white;
+    border-bottom: $table-dashed-border;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 0.75rem 1rem;
+    word-wrap: break-word;
+  }
+
+  &--PlanName {
+    background: mercury.$color-grayLightest;
+    border-bottom: $table-solid-border;
+    font-size: mercury.$typography-headingLarge-fontSize;
+    font-weight: mercury.$typography-headingLarge-fontWeight;
+    justify-content: flex-start;
+    letter-spacing: mercury.$typography-headingLarge-letterSpacing;
+    line-height: mercury.$typography-headingLarge-lineHeight;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    word-wrap: break-word;
+  }
+}
