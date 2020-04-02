@@ -215,7 +215,7 @@ export class ManifoldPlanTable {
     return `${this.baseUrl}?${search.toString()}`;
   }
 
-  handleCtaClick(e: MouseEvent, planId: string, destination = '') {
+  handleCtaClick = (planId: string) => (e: MouseEvent) => {
     e.preventDefault();
 
     this.connection.analytics
@@ -228,9 +228,10 @@ export class ManifoldPlanTable {
         },
       })
       .then(() => {
-        window.location.href = destination;
+        const anchor = e.srcElement as HTMLAnchorElement;
+        window.location.href = anchor.href;
       });
-  }
+  };
 
   setFeature({
     planID,
@@ -448,7 +449,7 @@ export class ManifoldPlanTable {
                 class="ManifoldPlanTable__Button"
                 id={`manifold-cta-plan-${plan.id}`}
                 href={this.ctaHref(plan.id)}
-                onClick={(e) => this.handleCtaClick(e, plan.id, this.baseUrl)}
+                onClick={this.handleCtaClick(plan.id)}
               >
                 {this.ctaText}
               </a>
