@@ -13,6 +13,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Better namespaced CSS with BEM `.mp-*` ➡️ `.ManifoldPlanTable__*`
 - Now styles auto-update with the [Manifold Design System](https://github.com/manifoldco/mercury)
 
+### Fixed
+
+- Fixes `<select>` element alignment in Chrome
+
 ## [0.0.16] - 2020-03-30
 
 ### Changed
@@ -29,4 +33,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Initial release
 
+[0.2.0]: https://github.com/manifoldco/manifold-plan-table/compare/v0.0.16...v0.2.0
 [0.0.16]: https://github.com/manifoldco/manifold-plan-table/compare/v0.0.1...v0.0.16

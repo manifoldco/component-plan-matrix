@@ -8,6 +8,7 @@ $name: '' !default;
 $transition: 150ms linear;
 
 .#{$name}__Select {
+  align-items: center;
   background: mercury.$color-white;
   border-radius: 3px;
   color: inherit;
