@@ -12,25 +12,25 @@ or even no framework!):
 <manifold-plan-table product-id="[my product ID]" client-id="[my client ID]"></manifold-plan-table>
 ```
 
-Note that the [`<manifold-init>`][manifold-init] component is required **once per page** for any
-other Manifold Web Components you embed.
+Note that the [`<manifold-init>`][manifold-init] component is required **only once per page** for
+all Manifold Components (along with its JS). If you have that installed already, you may skip that
+here and in the following steps.
 
 ### Option 1: Manifold CDN
 
 Place the following at the very beginning of the `<body>` tag:
 
+<!-- prettier-ignore -->
 ```html
-<!-- modern browsers -->
 <script async type="module" src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.esm.js" ></script>
-<script async type="module" src="https://js.cdn.manifold.co/@manifoldco/manifold-plan-table/dist/manifold-plan-table/manifold-plan-table.esm.js" ></script>
-
-<!-- legacy browsers -->
 <script nomodule src="https://js.cdn.manifold.co/@manifoldco/manifold-init/dist/manifold-init/manifold-init.js" ></script>
+<script async type="module" src="https://js.cdn.manifold.co/@manifoldco/manifold-plan-table/dist/manifold-plan-table/manifold-plan-table.esm.js" ></script>
 <script nomodule src="https://js.cdn.manifold.co/@manifoldco/manifold-plan-table/dist/manifold-plan-table.js" ></script>
 ```
 
 Place this component’s CSS in your `<head>` tag (optional if you want to write your own styles):
 
+<!-- prettier-ignore -->
 ```html
 <link rel="stylesheet" href="https://js.cdn.manifold.co/@manifoldco/manifold-plan-table/dist/manifold-plan-table/manifold-plan-table.css" />
 ```
@@ -47,11 +47,16 @@ And add the following code to your application, ideally to your entry file so it
 as possible:
 
 ```js
-import('@manifoldco/manifold-init/loader').then(({ defineCustomElements }) => defineCustomElements(window));
-import('@manifoldco/manifold-plan-table/loader').then(({ defineCustomElements }) => defineCustomElements(window));
+import('@manifoldco/manifold-init/loader').then(({ defineCustomElements }) =>
+  defineCustomElements(window)
+);
+import('@manifoldco/manifold-plan-table/loader').then(({ defineCustomElements }) =>
+  defineCustomElements(window)
+);
 ```
 
-Also import the CSS file in a way that works for your setup (for example, webpack):
+Also if using CSS from npm, import the file in a way that works for your setup (for example,
+webpack):
 
 ```js
 import '@manifoldco/manifold-plan-table/dist/manifold-plan-table/manifold-plan-table.css';
@@ -64,41 +69,51 @@ site, please refer to the latest [framework docs][stencil-framework].
 
 Options are passed to the component in the form of HTML Attributes:
 
-| Name         | Required | Description                                                                                                     | Example                                                             |
-| :----------- | :------: | :-------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------ |
+| Name         | Required | Description                                                                                                     | Example                                                            |
+| :----------- | :------: | :-------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------- |
 | `product-id` |    Y     | Your Product’s identifier                                                                                       | `<manifold-plan-table product-id="234qkjvrptpy3thna4qttwt7m2nf6">` |
 | `client-id`  |    Y     | Your Account identifier (this helps us associate analytics to your account)                                     | `<manifold-plan-table client-id="284ablb7scfm8oxwz9wrxpt2q0jii">`  |
 | `base-url`   |          | The URL the buttons link to (plan ID & user selection will be appended to the end of the URL in a query string) | `<manifold-plan-table base-url="/checkout">`                       |
 | `cta-text`   |          | Change the ”Getting Started” default text.                                                                      | `<manifold-plan-table cta-text="Buy Now!">`                        |
 
-## Using in TypeScript + JSX
+## TypeScript + JSX
 
-This Web Component works in all frameworks & environments, but if you’re using within a React &
-TypeScript setup, you’ll also need the following config.
+This component works in all frameworks & environments, but when you first add the component in a
+JSX + TypeScript setup, you may see the following warning at first:
 
-Create a `custom-elements.d.ts` file anywhere in your project that’s within `tsconfig.json`’s
-[includes][tsconfig-includes] property:
+```
+Property 'manifold-init' does not exist on type 'JSX.IntrinsicElements'.
+```
+
+To solve this, import the types this library ships with. Create a `custom-elements.d.ts` file
+anywhere in your project that’s within `tsconfig.json`’s [includes][tsconfig-includes]:
 
 ```ts
-import { Components, JSX as LocalJSX } from '@manifoldco/manifold-plan-table/loader';
+import { JSX as ManifoldInit } from '@manifoldco/manifold-init/loader';
+import { JSX as ManifoldPlanTable } from '@manifoldco/manifold-plan-table/loader';
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
-type StencilProps<T> = {
-  [P in keyof T]?: Omit<T[P], 'ref'>;
-};
+type StencilProps<T> = { [P in keyof T]?: Omit<T[P], 'ref'> };
+type ReactProps<T> = { [P in keyof T]?: DetailedHTMLProps<HTMLAttributes<T[P]>, T[P]> };
 
-type ReactProps<T> = {
-  [P in keyof T]?: DetailedHTMLProps<HTMLAttributes<T[P]>, T[P]>;
-};
-
-type StencilToReact<T = LocalJSX.IntrinsicElements, U = HTMLElementTagNameMap> = StencilProps<T> &
-  ReactProps<U>;
+type StencilToReact = ReactProps<HTMLElementTagNameMap> &
+  StencilProps<ManifoldInit.IntrinsicElements> &
+  StencilProps<ManifoldPlanTable.IntrinsicElements>;
+// add additional Manifold Component types here if needed
 
 declare global {
   export namespace JSX {
     interface IntrinsicElements extends StencilToReact {}
   }
 }
+```
+
+You’ll now get TypeScript errors if you mistype an attribute while still being able to use JSX
+features like refs:
+
+```
+<manifold-init fakeproperty="foo" />
+// Property 'fakeproperty' does not exist on type …
 ```
 
 [manifold-init]: https://github.com/manifoldco/manifold-init
