@@ -33,6 +33,7 @@ declare namespace LocalJSX {
         "ctaText"?: string;
         "env"?: "stage" | "local" | "prod";
         "gatewayUrl"?: string;
+        "onCtaClick"?: (event: CustomEvent<any>) => void;
         "productId"?: string;
     }
     interface IntrinsicElements {

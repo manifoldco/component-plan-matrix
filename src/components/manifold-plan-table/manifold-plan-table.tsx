@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, Watch, Element } from '@stencil/core';
+import { Component, h, State, Prop, Watch, Element, Event, EventEmitter } from '@stencil/core';
 import { Connection } from '@manifoldco/manifold-init-types/types/v0';
 import svgChevronUpDown from '@manifoldco/mercury/icons/chevron-up-down.svg';
 import merge from 'deepmerge';
@@ -53,6 +53,7 @@ interface UserSelection {
 @Component({ tag: 'manifold-plan-table' })
 export class ManifoldPlanTable {
   @Element() el: HTMLElement;
+  @Event() CTAClick: EventEmitter;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string;
   // Passed client ID header to the graphql calls
@@ -217,6 +218,7 @@ export class ManifoldPlanTable {
 
   handleCtaClick = (planId: string) => (e: MouseEvent) => {
     e.preventDefault();
+    this.CTAClick.emit({ id: `manifold-cta-plan-${planId}` });
 
     this.connection.analytics
       .track({
@@ -227,7 +229,7 @@ export class ManifoldPlanTable {
           planId,
         },
       })
-      .then(() => {
+      .finally(() => {
         const anchor = e.srcElement as HTMLAnchorElement;
         window.location.href = anchor.href;
       });
