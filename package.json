@@ -40,7 +40,7 @@
     "@graphql-codegen/typescript": "^1.13.1",
     "@graphql-codegen/typescript-operations": "^1.13.1",
     "@manifoldco/eslint-plugin-stencil": "^0.4.1",
-    "@manifoldco/manifold-init": "^0.5.0",
+    "@manifoldco/manifold-init": "^0.6.1",
     "@manifoldco/manifold-init-types": "^0.5.0",
     "@manifoldco/mercury": "^0.1.1-beta.0",
     "@rollup/plugin-replace": "^2.3.1",
