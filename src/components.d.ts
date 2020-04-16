@@ -13,6 +13,7 @@ export namespace Components {
         "env"?: "stage" | "local" | "prod";
         "gatewayUrl"?: string;
         "productId"?: string;
+        "version"?: string;
     }
 }
 declare global {
@@ -33,8 +34,9 @@ declare namespace LocalJSX {
         "ctaText"?: string;
         "env"?: "stage" | "local" | "prod";
         "gatewayUrl"?: string;
-        "onCtaClick"?: (event: CustomEvent<any>) => void;
+        "onCTAClick"?: (event: CustomEvent<any>) => void;
         "productId"?: string;
+        "version"?: string;
     }
     interface IntrinsicElements {
         "manifold-plan-table": ManifoldPlanTable;
