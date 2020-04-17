@@ -108,7 +108,7 @@ export class ManifoldPlanTable {
   async setupProduct(productID: string) {
     const variables: ProductQueryVariables = {
       id: productID,
-      latest: this.version === LATEST_VERSION_FLAG ? true : false,
+      latest: this.version === LATEST_VERSION_FLAG,
     };
     const res = await this.connection.graphqlFetch<ProductQuery>({ query, variables });
     const { data } = res;

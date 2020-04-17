@@ -75,6 +75,7 @@ Options are passed to the component in the form of HTML Attributes:
 | `client-id`  |    Y     | Your Account identifier (this helps us associate analytics to your account)                                     | `<manifold-plan-table client-id="284ablb7scfm8oxwz9wrxpt2q0jii">`  |
 | `base-url`   |          | The URL the buttons link to (plan ID & user selection will be appended to the end of the URL in a query string) | `<manifold-plan-table base-url="/checkout">`                       |
 | `cta-text`   |          | Change the ”Getting Started” default text.                                                                      | `<manifold-plan-table cta-text="Buy Now!">`                        |
+| `version`   |          | The version of your product (omit for latest published product). Use `version="latest"` for the latest draft.                                                                       | `<manifold-plan-table version="1">`                        |
 
 ## TypeScript + JSX
 
