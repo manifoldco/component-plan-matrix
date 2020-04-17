@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-04-17
+
 ### Changed
 
 - Firing a CTAClick event when CTA is clicked
