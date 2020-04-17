@@ -1,5 +1,5 @@
-query PRODUCT($id: ID!) {
-  product(id: $id) {
+query PRODUCT($id: ID!, $latest: Boolean) {
+  product(id: $id, latest: $latest) {
     id
     displayName
     fixedFeatures(first: 25) {

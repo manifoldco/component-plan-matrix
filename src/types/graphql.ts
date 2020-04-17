@@ -1,19 +1,19 @@
 export type Maybe<T> = T;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  ProfileIdentity: any;
-  Time: any;
+  ID: string,
+  String: string,
+  Boolean: boolean,
+  Int: number,
+  Float: number,
+  ProfileIdentity: any,
+  Time: any,
 };
 
 export type BooleanConfiguredFeature = ConfiguredFeature & {
-   __typename?: 'BooleanConfiguredFeature';
-  label: Scalars['String'];
-  value: Scalars['Boolean'];
+   __typename?: 'BooleanConfiguredFeature',
+  label: Scalars['String'],
+  value: Scalars['Boolean'],
 };
 
 export enum CalculationType {
@@ -22,36 +22,36 @@ export enum CalculationType {
 }
 
 export type Category = Node & {
-   __typename?: 'Category';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  icon: Maybe<Scalars['String']>;
-  products: ProductConnection;
+   __typename?: 'Category',
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  icon: Maybe<Scalars['String']>,
+  products: ProductConnection,
 };
 
 
 export type CategoryProductsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<ProductOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<ProductOrderBy>
 };
 
 export type CategoryConnection = {
-   __typename?: 'CategoryConnection';
-  edges: Array<CategoryEdge>;
-  pageInfo: PageInfo;
+   __typename?: 'CategoryConnection',
+  edges: Array<CategoryEdge>,
+  pageInfo: PageInfo,
 };
 
 export type CategoryEdge = {
-   __typename?: 'CategoryEdge';
-  node: Category;
-  cursor: Scalars['String'];
+   __typename?: 'CategoryEdge',
+  node: Category,
+  cursor: Scalars['String'],
 };
 
 export type CategoryOrderBy = {
-  field: CategoryOrderByField;
-  direction: OrderByDirection;
+  field: CategoryOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum CategoryOrderByField {
@@ -63,8 +63,8 @@ export enum ChargeTime {
 }
 
 export type ConfigurableFeaturesOrderBy = {
-  field: ConfigurableFeaturesOrderByField;
-  direction: OrderByDirection;
+  field: ConfigurableFeaturesOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum ConfigurableFeaturesOrderByField {
@@ -73,67 +73,78 @@ export enum ConfigurableFeaturesOrderByField {
 }
 
 export type ConfiguredFeature = {
-  label: Scalars['String'];
+  label: Scalars['String'],
 };
 
 export type ConfiguredFeatureConnection = {
-   __typename?: 'ConfiguredFeatureConnection';
-  pageInfo: PageInfo;
-  edges: Array<ConfiguredFeatureEdge>;
+   __typename?: 'ConfiguredFeatureConnection',
+  pageInfo: PageInfo,
+  edges: Array<ConfiguredFeatureEdge>,
 };
 
 export type ConfiguredFeatureEdge = {
-   __typename?: 'ConfiguredFeatureEdge';
-  cursor: Scalars['String'];
-  node: ConfiguredFeature;
+   __typename?: 'ConfiguredFeatureEdge',
+  cursor: Scalars['String'],
+  node: ConfiguredFeature,
 };
 
 export type ConfiguredFeatureInput = {
-  value: Scalars['String'];
-  label: Scalars['String'];
+  value: Scalars['String'],
+  label: Scalars['String'],
 };
 
 export type CreateProfileAuthTokenInput = {
-  profileId: Scalars['ProfileIdentity'];
+  profileId: Scalars['ProfileIdentity'],
 };
 
 export type CreateProfileAuthTokenPayload = {
-   __typename?: 'CreateProfileAuthTokenPayload';
-  data: Maybe<ProfileAuthToken>;
+   __typename?: 'CreateProfileAuthTokenPayload',
+  data: Maybe<ProfileAuthToken>,
 };
 
 export type CreateResourceInput = {
-  label: Scalars['String'];
-  displayName: Maybe<Scalars['String']>;
-  ownerId: Maybe<Scalars['ID']>;
-  owner: Maybe<Scalars['ProfileIdentity']>;
-  productId: Scalars['ID'];
-  planId: Scalars['ID'];
-  regionId: Scalars['ID'];
-  configuredFeatures: Maybe<Array<ConfiguredFeatureInput>>;
+  label: Scalars['String'],
+  displayName: Maybe<Scalars['String']>,
+  ownerId: Maybe<Scalars['ID']>,
+  owner: Maybe<Scalars['ProfileIdentity']>,
+  productId: Scalars['ID'],
+  planId: Scalars['ID'],
+  regionId: Scalars['ID'],
+  configuredFeatures: Maybe<Array<ConfiguredFeatureInput>>,
 };
 
 export type CreateResourcePayload = {
-   __typename?: 'CreateResourcePayload';
-  data: Resource;
+   __typename?: 'CreateResourcePayload',
+  data: Resource,
+};
+
+export type CreateSubscriptionAgreementInput = {
+  owner: Maybe<Scalars['ProfileIdentity']>,
+  planId: Scalars['ID'],
+  configuredFeatures: Maybe<Array<ConfiguredFeatureInput>>,
+};
+
+export type CreateSubscriptionAgreementPayload = {
+   __typename?: 'CreateSubscriptionAgreementPayload',
+  data: SubscriptionAgreement,
 };
 
 export type Credential = {
-   __typename?: 'Credential';
-  key: Scalars['String'];
-  value: Scalars['String'];
+   __typename?: 'Credential',
+  key: Scalars['String'],
+  value: Scalars['String'],
 };
 
 export type CredentialConnection = {
-   __typename?: 'CredentialConnection';
-  pageInfo: PageInfo;
-  edges: Array<CredentialEdge>;
+   __typename?: 'CredentialConnection',
+  pageInfo: PageInfo,
+  edges: Array<CredentialEdge>,
 };
 
 export type CredentialEdge = {
-   __typename?: 'CredentialEdge';
-  cursor: Scalars['String'];
-  node: Maybe<Credential>;
+   __typename?: 'CredentialEdge',
+  cursor: Scalars['String'],
+  node: Maybe<Credential>,
 };
 
 export enum Currency {
@@ -141,13 +152,22 @@ export enum Currency {
 }
 
 export type DeleteResourceInput = {
-  resourceId: Scalars['ID'];
-  ownerId: Maybe<Scalars['ID']>;
+  resourceId: Scalars['ID'],
+  ownerId: Maybe<Scalars['ID']>,
 };
 
 export type DeleteResourcePayload = {
-   __typename?: 'DeleteResourcePayload';
-  data: Resource;
+   __typename?: 'DeleteResourcePayload',
+  data: Resource,
+};
+
+export type DeleteSubscriptionAgreementInput = {
+  id: Scalars['ID'],
+};
+
+export type DeleteSubscriptionAgreementPayload = {
+   __typename?: 'DeleteSubscriptionAgreementPayload',
+  data: SubscriptionAgreement,
 };
 
 export enum Duration {
@@ -155,8 +175,8 @@ export enum Duration {
 }
 
 export type FixedFeaturesOrderBy = {
-  field: FixedFeaturesOrderByField;
-  direction: OrderByDirection;
+  field: FixedFeaturesOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum FixedFeaturesOrderByField {
@@ -164,21 +184,21 @@ export enum FixedFeaturesOrderByField {
 }
 
 export type Invoice = Node & {
-   __typename?: 'Invoice';
-  id: Scalars['ID'];
-  cost: Scalars['Int'];
-  currency: Currency;
-  start: Scalars['Time'];
-  end: Scalars['Time'];
-  status: InvoiceStatus;
-  revenueShare: RevenueShare;
-  lineItems: Maybe<LineItemConnection>;
+   __typename?: 'Invoice',
+  id: Scalars['ID'],
+  cost: Scalars['Int'],
+  currency: Currency,
+  start: Scalars['Time'],
+  end: Scalars['Time'],
+  status: InvoiceStatus,
+  revenueShare: RevenueShare,
+  lineItems: Maybe<LineItemConnection>,
 };
 
 
 export type InvoiceLineItemsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>
 };
 
 export enum InvoiceAction {
@@ -187,20 +207,20 @@ export enum InvoiceAction {
 }
 
 export type InvoiceConnection = {
-   __typename?: 'InvoiceConnection';
-  pageInfo: PageInfo;
-  edges: Array<InvoiceEdge>;
+   __typename?: 'InvoiceConnection',
+  pageInfo: PageInfo,
+  edges: Array<InvoiceEdge>,
 };
 
 export type InvoiceEdge = {
-   __typename?: 'InvoiceEdge';
-  cursor: Scalars['String'];
-  node: Maybe<Invoice>;
+   __typename?: 'InvoiceEdge',
+  cursor: Scalars['String'],
+  node: Maybe<Invoice>,
 };
 
 export type InvoiceOrderBy = {
-  field: InvoiceOrderByField;
-  direction: OrderByDirection;
+  field: InvoiceOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum InvoiceOrderByField {
@@ -208,8 +228,8 @@ export enum InvoiceOrderByField {
 }
 
 export type InvoicePreviewOrderBy = {
-  field: InvoicePreviewOrderByField;
-  direction: OrderByDirection;
+  field: InvoicePreviewOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum InvoicePreviewOrderByField {
@@ -223,9 +243,9 @@ export enum InvoiceStatus {
 }
 
 export type InvoiceStatusInput = {
-  id: Scalars['ID'];
-  action: InvoiceAction;
-  reason: Maybe<Scalars['String']>;
+  id: Scalars['ID'],
+  action: InvoiceAction,
+  reason: Maybe<Scalars['String']>,
 };
 
 export enum IsDeleted {
@@ -235,39 +255,39 @@ export enum IsDeleted {
 }
 
 export type LineItem = Node & {
-   __typename?: 'LineItem';
-  id: Scalars['ID'];
-  cost: Scalars['Int'];
-  currency: Currency;
-  duration: Duration;
-  renewalPoint: RenewalPoint;
-  chargeTime: ChargeTime;
-  resource: Maybe<Resource>;
-  product: Maybe<Product>;
-  subLineItems: Maybe<SubLineItemConnection>;
+   __typename?: 'LineItem',
+  id: Scalars['ID'],
+  cost: Scalars['Int'],
+  currency: Currency,
+  duration: Duration,
+  renewalPoint: RenewalPoint,
+  chargeTime: ChargeTime,
+  resource: Maybe<Resource>,
+  product: Maybe<Product>,
+  subLineItems: Maybe<SubLineItemConnection>,
 };
 
 
 export type LineItemSubLineItemsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>
 };
 
 export type LineItemConnection = {
-   __typename?: 'LineItemConnection';
-  pageInfo: PageInfo;
-  edges: Array<LineItemEdge>;
+   __typename?: 'LineItemConnection',
+  pageInfo: PageInfo,
+  edges: Array<LineItemEdge>,
 };
 
 export type LineItemEdge = {
-   __typename?: 'LineItemEdge';
-  cursor: Scalars['String'];
-  node: Maybe<LineItem>;
+   __typename?: 'LineItemEdge',
+  cursor: Scalars['String'],
+  node: Maybe<LineItem>,
 };
 
 export type MeteredFeaturesOrderBy = {
-  field: MeteredFeaturesOrderByField;
-  direction: OrderByDirection;
+  field: MeteredFeaturesOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum MeteredFeaturesOrderByField {
@@ -276,65 +296,83 @@ export enum MeteredFeaturesOrderByField {
 }
 
 export type Mutation = {
-   __typename?: 'Mutation';
-  createResource: CreateResourcePayload;
-  updateResource: UpdateResourcePayload;
-  updateResourcePlan: UpdateResourcePlanPayload;
-  deleteResource: DeleteResourcePayload;
-  updateInvoiceStatus: Maybe<Invoice>;
-  createProfileAuthToken: CreateProfileAuthTokenPayload;
-  updateProfileSubject: UpdateProfileSubjectPayload;
-  updateProfileState: UpdateProfileStatePayload;
+   __typename?: 'Mutation',
+  createResource: CreateResourcePayload,
+  updateResource: UpdateResourcePayload,
+  updateResourcePlan: UpdateResourcePlanPayload,
+  deleteResource: DeleteResourcePayload,
+  updateInvoiceStatus: Maybe<Invoice>,
+  createProfileAuthToken: CreateProfileAuthTokenPayload,
+  updateProfileSubject: UpdateProfileSubjectPayload,
+  updateProfileState: UpdateProfileStatePayload,
+  createSubscription: CreateSubscriptionAgreementPayload,
+  updateSubscription: UpdateSubscriptionAgreementPayload,
+  deleteSubscription: DeleteSubscriptionAgreementPayload,
 };
 
 
 export type MutationCreateResourceArgs = {
-  input: CreateResourceInput;
+  input: CreateResourceInput
 };
 
 
 export type MutationUpdateResourceArgs = {
-  input: UpdateResourceInput;
+  input: UpdateResourceInput
 };
 
 
 export type MutationUpdateResourcePlanArgs = {
-  input: UpdateResourcePlanInput;
+  input: UpdateResourcePlanInput
 };
 
 
 export type MutationDeleteResourceArgs = {
-  input: DeleteResourceInput;
+  input: DeleteResourceInput
 };
 
 
 export type MutationUpdateInvoiceStatusArgs = {
-  input: InvoiceStatusInput;
+  input: InvoiceStatusInput
 };
 
 
 export type MutationCreateProfileAuthTokenArgs = {
-  input: CreateProfileAuthTokenInput;
+  input: CreateProfileAuthTokenInput
 };
 
 
 export type MutationUpdateProfileSubjectArgs = {
-  input: UpdateProfileSubjectInput;
+  input: UpdateProfileSubjectInput
 };
 
 
 export type MutationUpdateProfileStateArgs = {
-  input: UpdateProfileStateInput;
+  input: UpdateProfileStateInput
+};
+
+
+export type MutationCreateSubscriptionArgs = {
+  input: CreateSubscriptionAgreementInput
+};
+
+
+export type MutationUpdateSubscriptionArgs = {
+  input: UpdateSubscriptionAgreementInput
+};
+
+
+export type MutationDeleteSubscriptionArgs = {
+  input: DeleteSubscriptionAgreementInput
 };
 
 export type Node = {
-  id: Scalars['ID'];
+  id: Scalars['ID'],
 };
 
 export type NumberConfiguredFeature = ConfiguredFeature & {
-   __typename?: 'NumberConfiguredFeature';
-  label: Scalars['String'];
-  value: Scalars['Int'];
+   __typename?: 'NumberConfiguredFeature',
+  label: Scalars['String'],
+  value: Scalars['Int'],
 };
 
 export enum OrderByDirection {
@@ -343,122 +381,121 @@ export enum OrderByDirection {
 }
 
 export type PageInfo = {
-   __typename?: 'PageInfo';
-  startCursor: Maybe<Scalars['String']>;
-  endCursor: Maybe<Scalars['String']>;
-  hasNextPage: Scalars['Boolean'];
-  hasPreviousPage: Scalars['Boolean'];
+   __typename?: 'PageInfo',
+  startCursor: Maybe<Scalars['String']>,
+  endCursor: Maybe<Scalars['String']>,
+  hasNextPage: Scalars['Boolean'],
+  hasPreviousPage: Scalars['Boolean'],
 };
 
 export type Plan = Node & {
-   __typename?: 'Plan';
-  id: Scalars['ID'];
-  displayName: Scalars['String'];
-  label: Scalars['String'];
-  product: Maybe<Product>;
-  state: PlanState;
-  fixedFeatures: Maybe<PlanFixedFeatureConnection>;
-  meteredFeatures: Maybe<PlanMeteredFeatureConnection>;
-  configurableFeatures: Maybe<PlanConfigurableFeatureConnection>;
-  cost: Scalars['Int'];
-  free: Scalars['Boolean'];
-  regions: Maybe<RegionConnection>;
-  resizableTo: Maybe<PlanConnection>;
+   __typename?: 'Plan',
+  id: Scalars['ID'],
+  displayName: Scalars['String'],
+  label: Scalars['String'],
+  product: Maybe<Product>,
+  state: PlanState,
+  fixedFeatures: Maybe<PlanFixedFeatureConnection>,
+  meteredFeatures: Maybe<PlanMeteredFeatureConnection>,
+  configurableFeatures: Maybe<PlanConfigurableFeatureConnection>,
+  cost: Scalars['Int'],
+  free: Scalars['Boolean'],
+  regions: Maybe<RegionConnection>,
+  resizableTo: Maybe<PlanConnection>,
 };
 
 
 export type PlanFixedFeaturesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<FixedFeaturesOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<FixedFeaturesOrderBy>
 };
 
 
 export type PlanMeteredFeaturesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<MeteredFeaturesOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<MeteredFeaturesOrderBy>
 };
 
 
 export type PlanConfigurableFeaturesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<ConfigurableFeaturesOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<ConfigurableFeaturesOrderBy>
 };
 
 
 export type PlanRegionsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<RegionsOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<RegionsOrderBy>
 };
 
 
 export type PlanResizableToArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<PlanOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<PlanOrderBy>
 };
 
 export type PlanConfigurableFeature = Node & {
-   __typename?: 'PlanConfigurableFeature';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  upgradable: Scalars['Boolean'];
-  downgradable: Scalars['Boolean'];
-  type: PlanFeatureType;
-  /** @deprecated Deprecated in favor of plan.configurableFeatures.featureOptions */
-  options: Maybe<Array<PlanFixedFeature>>;
-  featureOptions: Maybe<Array<PlanConfigurableFeatureOption>>;
-  numericDetails: Maybe<PlanConfigurableFeatureNumericDetails>;
+   __typename?: 'PlanConfigurableFeature',
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  upgradable: Scalars['Boolean'],
+  downgradable: Scalars['Boolean'],
+  type: PlanFeatureType,
+  options: Maybe<Array<PlanFixedFeature>>,
+  featureOptions: Maybe<Array<PlanConfigurableFeatureOption>>,
+  numericDetails: Maybe<PlanConfigurableFeatureNumericDetails>,
 };
 
 export type PlanConfigurableFeatureConnection = {
-   __typename?: 'PlanConfigurableFeatureConnection';
-  pageInfo: PageInfo;
-  edges: Array<PlanConfigurableFeatureEdge>;
+   __typename?: 'PlanConfigurableFeatureConnection',
+  pageInfo: PageInfo,
+  edges: Array<PlanConfigurableFeatureEdge>,
 };
 
 export type PlanConfigurableFeatureEdge = {
-   __typename?: 'PlanConfigurableFeatureEdge';
-  cursor: Scalars['String'];
-  node: PlanConfigurableFeature;
+   __typename?: 'PlanConfigurableFeatureEdge',
+  cursor: Scalars['String'],
+  node: PlanConfigurableFeature,
 };
 
 export type PlanConfigurableFeatureNumericDetails = {
-   __typename?: 'PlanConfigurableFeatureNumericDetails';
-  increment: Scalars['Int'];
-  min: Scalars['Int'];
-  max: Scalars['Int'];
-  unit: Scalars['String'];
-  costTiers: Maybe<Array<PlanFeatureCostTier>>;
+   __typename?: 'PlanConfigurableFeatureNumericDetails',
+  increment: Scalars['Int'],
+  min: Scalars['Int'],
+  max: Scalars['Int'],
+  unit: Scalars['String'],
+  costTiers: Maybe<Array<PlanFeatureCostTier>>,
 };
 
 export type PlanConfigurableFeatureOption = {
-   __typename?: 'PlanConfigurableFeatureOption';
-  displayName: Scalars['String'];
-  value: Scalars['String'];
-  cost: Scalars['Int'];
+   __typename?: 'PlanConfigurableFeatureOption',
+  displayName: Scalars['String'],
+  value: Scalars['String'],
+  cost: Scalars['Int'],
 };
 
 export type PlanConnection = {
-   __typename?: 'PlanConnection';
-  edges: Array<PlanEdge>;
-  pageInfo: PageInfo;
+   __typename?: 'PlanConnection',
+  edges: Array<PlanEdge>,
+  pageInfo: PageInfo,
 };
 
 export type PlanEdge = {
-   __typename?: 'PlanEdge';
-  node: Plan;
-  cursor: Scalars['String'];
+   __typename?: 'PlanEdge',
+  node: Plan,
+  cursor: Scalars['String'],
 };
 
 export type PlanFeatureCostTier = {
-   __typename?: 'PlanFeatureCostTier';
-  limit: Scalars['Int'];
-  cost: Scalars['Int'];
+   __typename?: 'PlanFeatureCostTier',
+  limit: Scalars['Int'],
+  cost: Scalars['Int'],
 };
 
 export enum PlanFeatureType {
@@ -468,54 +505,54 @@ export enum PlanFeatureType {
 }
 
 export type PlanFixedFeature = Node & {
-   __typename?: 'PlanFixedFeature';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  displayValue: Scalars['String'];
+   __typename?: 'PlanFixedFeature',
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  displayValue: Scalars['String'],
 };
 
 export type PlanFixedFeatureConnection = {
-   __typename?: 'PlanFixedFeatureConnection';
-  pageInfo: PageInfo;
-  edges: Array<PlanFixedFeatureEdge>;
+   __typename?: 'PlanFixedFeatureConnection',
+  pageInfo: PageInfo,
+  edges: Array<PlanFixedFeatureEdge>,
 };
 
 export type PlanFixedFeatureEdge = {
-   __typename?: 'PlanFixedFeatureEdge';
-  cursor: Scalars['String'];
-  node: PlanFixedFeature;
+   __typename?: 'PlanFixedFeatureEdge',
+  cursor: Scalars['String'],
+  node: PlanFixedFeature,
 };
 
 export type PlanMeteredFeature = Node & {
-   __typename?: 'PlanMeteredFeature';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  numericDetails: PlanMeteredFeatureNumericDetails;
+   __typename?: 'PlanMeteredFeature',
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  numericDetails: PlanMeteredFeatureNumericDetails,
 };
 
 export type PlanMeteredFeatureConnection = {
-   __typename?: 'PlanMeteredFeatureConnection';
-  pageInfo: PageInfo;
-  edges: Array<PlanMeteredFeatureEdge>;
+   __typename?: 'PlanMeteredFeatureConnection',
+  pageInfo: PageInfo,
+  edges: Array<PlanMeteredFeatureEdge>,
 };
 
 export type PlanMeteredFeatureEdge = {
-   __typename?: 'PlanMeteredFeatureEdge';
-  cursor: Scalars['String'];
-  node: PlanMeteredFeature;
+   __typename?: 'PlanMeteredFeatureEdge',
+  cursor: Scalars['String'],
+  node: PlanMeteredFeature,
 };
 
 export type PlanMeteredFeatureNumericDetails = {
-   __typename?: 'PlanMeteredFeatureNumericDetails';
-  unit: Scalars['String'];
-  costTiers: Maybe<Array<PlanFeatureCostTier>>;
+   __typename?: 'PlanMeteredFeatureNumericDetails',
+  unit: Scalars['String'],
+  costTiers: Maybe<Array<PlanFeatureCostTier>>,
 };
 
 export type PlanOrderBy = {
-  field: PlanOrderByField;
-  direction: OrderByDirection;
+  field: PlanOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum PlanOrderByField {
@@ -532,130 +569,131 @@ export enum PlanState {
 }
 
 export type Platform = {
-   __typename?: 'Platform';
-  id: Scalars['ID'];
-  domain: Scalars['String'];
+   __typename?: 'Platform',
+  id: Scalars['ID'],
+  domain: Scalars['String'],
 };
 
 export type Product = Node & {
-   __typename?: 'Product';
-  id: Scalars['ID'];
-  displayName: Scalars['String'];
-  label: Scalars['String'];
-  logoUrl: Scalars['String'];
-  provider: Maybe<Provider>;
-  state: ProductState;
-  tagline: Scalars['String'];
-  supportEmail: Scalars['String'];
-  documentationUrl: Scalars['String'];
-  termsUrl: Scalars['String'];
-  /** @deprecated Deprecated in favor of images */
-  screenshots: Maybe<Array<ProductScreenshot>>;
-  images: Maybe<Array<Scalars['String']>>;
-  valueProps: Array<ValueProp>;
-  valuePropsHtml: Scalars['String'];
-  setupStepsHtml: Scalars['String'];
-  plans: Maybe<PlanConnection>;
-  /** @deprecated Categories are now their own types, moved the legacy categories into tags. See the Linked Categories for the product's catalog categories */
-  categories: Array<Category>;
-  tags: Array<Scalars['String']>;
-  linkedCategories: Maybe<CategoryConnection>;
-  settings: ProductSettings;
-  listing: ProductListing;
-  fixedFeatures: Maybe<ProductFixedFeatureConnection>;
-  meteredFeatures: Maybe<ProductMeteredFeatureConnection>;
-  configurableFeatures: Maybe<ProductConfigurableFeatureConnection>;
+   __typename?: 'Product',
+  id: Scalars['ID'],
+  displayName: Scalars['String'],
+  label: Scalars['String'],
+  logoUrl: Scalars['String'],
+  provider: Maybe<Provider>,
+  state: ProductState,
+  tagline: Scalars['String'],
+  supportEmail: Scalars['String'],
+  documentationUrl: Scalars['String'],
+  termsUrl: Scalars['String'],
+  screenshots: Maybe<Array<ProductScreenshot>>,
+  images: Maybe<Array<Scalars['String']>>,
+  valueProps: Array<ValueProp>,
+  valuePropsHtml: Scalars['String'],
+  setupStepsHtml: Scalars['String'],
+  plans: Maybe<PlanConnection>,
+  categories: Array<Category>,
+  tags: Array<Scalars['String']>,
+  linkedCategories: Maybe<CategoryConnection>,
+  settings: ProductSettings,
+  listing: ProductListing,
+  fixedFeatures: Maybe<ProductFixedFeatureConnection>,
+  meteredFeatures: Maybe<ProductMeteredFeatureConnection>,
+  configurableFeatures: Maybe<ProductConfigurableFeatureConnection>,
+  version: Maybe<Scalars['Int']>,
+  versionID: Maybe<Scalars['ID']>,
+  published: Maybe<Scalars['Boolean']>,
 };
 
 
 export type ProductPlansArgs = {
-  label: Maybe<Scalars['String']>;
-  free: Maybe<Scalars['Boolean']>;
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<PlanOrderBy>;
+  label: Maybe<Scalars['String']>,
+  free: Maybe<Scalars['Boolean']>,
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<PlanOrderBy>
 };
 
 
 export type ProductLinkedCategoriesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<CategoryOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<CategoryOrderBy>
 };
 
 
 export type ProductFixedFeaturesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<ProductFixedFeaturesOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<ProductFixedFeaturesOrderBy>
 };
 
 
 export type ProductMeteredFeaturesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<ProductMeteredFeaturesOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<ProductMeteredFeaturesOrderBy>
 };
 
 
 export type ProductConfigurableFeaturesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<ProductConfigurableFeaturesOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<ProductConfigurableFeaturesOrderBy>
 };
 
 export type ProductBooleanConfigurableFeature = ProductConfigurableFeature & {
-   __typename?: 'ProductBooleanConfigurableFeature';
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  type: ProductFeatureType;
-  featureOptions: Maybe<Array<ProductConfigurableFeatureOption>>;
+   __typename?: 'ProductBooleanConfigurableFeature',
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  type: ProductFeatureType,
+  featureOptions: Maybe<Array<ProductConfigurableFeatureOption>>,
 };
 
 export type ProductConfigurableFeature = {
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  type: ProductFeatureType;
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  type: ProductFeatureType,
 };
 
 export type ProductConfigurableFeatureConnection = {
-   __typename?: 'ProductConfigurableFeatureConnection';
-  pageInfo: PageInfo;
-  edges: Array<ProductConfigurableFeatureEdge>;
+   __typename?: 'ProductConfigurableFeatureConnection',
+  pageInfo: PageInfo,
+  edges: Array<ProductConfigurableFeatureEdge>,
 };
 
 export type ProductConfigurableFeatureEdge = {
-   __typename?: 'ProductConfigurableFeatureEdge';
-  cursor: Scalars['String'];
-  node: ProductConfigurableFeature;
+   __typename?: 'ProductConfigurableFeatureEdge',
+  cursor: Scalars['String'],
+  node: ProductConfigurableFeature,
 };
 
 export type ProductConfigurableFeatureNumericDetails = {
-   __typename?: 'ProductConfigurableFeatureNumericDetails';
-  increment: Scalars['Int'];
-  min: Scalars['Int'];
-  max: Scalars['Int'];
-  unit: Scalars['String'];
-  costTiers: Array<ProductFeatureCostTier>;
+   __typename?: 'ProductConfigurableFeatureNumericDetails',
+  increment: Scalars['Int'],
+  min: Scalars['Int'],
+  max: Scalars['Int'],
+  unit: Scalars['String'],
+  costTiers: Array<ProductFeatureCostTier>,
 };
 
 export type ProductConfigurableFeatureNumericOptions = {
-   __typename?: 'ProductConfigurableFeatureNumericOptions';
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  numericDetails: ProductConfigurableFeatureNumericDetails;
+   __typename?: 'ProductConfigurableFeatureNumericOptions',
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  numericDetails: ProductConfigurableFeatureNumericDetails,
 };
 
 export type ProductConfigurableFeatureOption = {
-   __typename?: 'ProductConfigurableFeatureOption';
-  value: Scalars['String'];
-  displayName: Scalars['String'];
-  cost: Scalars['Int'];
+   __typename?: 'ProductConfigurableFeatureOption',
+  value: Scalars['String'],
+  displayName: Scalars['String'],
+  cost: Scalars['Int'],
 };
 
 export type ProductConfigurableFeaturesOrderBy = {
-  field: ProductConfigurableFeaturesOrderByField;
-  direction: OrderByDirection;
+  field: ProductConfigurableFeaturesOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum ProductConfigurableFeaturesOrderByField {
@@ -663,9 +701,9 @@ export enum ProductConfigurableFeaturesOrderByField {
 }
 
 export type ProductConnection = {
-   __typename?: 'ProductConnection';
-  edges: Array<ProductEdge>;
-  pageInfo: PageInfo;
+   __typename?: 'ProductConnection',
+  edges: Array<ProductEdge>,
+  pageInfo: PageInfo,
 };
 
 export enum ProductCredentialsSupportType {
@@ -675,15 +713,15 @@ export enum ProductCredentialsSupportType {
 }
 
 export type ProductEdge = {
-   __typename?: 'ProductEdge';
-  node: Product;
-  cursor: Scalars['String'];
+   __typename?: 'ProductEdge',
+  node: Product,
+  cursor: Scalars['String'],
 };
 
 export type ProductFeatureCostTier = {
-   __typename?: 'ProductFeatureCostTier';
-  limit: Scalars['Int'];
-  cost: Scalars['Int'];
+   __typename?: 'ProductFeatureCostTier',
+  limit: Scalars['Int'],
+  cost: Scalars['Int'],
 };
 
 export enum ProductFeatureType {
@@ -693,34 +731,34 @@ export enum ProductFeatureType {
 }
 
 export type ProductFixedFeature = Node & {
-   __typename?: 'ProductFixedFeature';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  featureOptions: Maybe<Array<ProductFixedFeatureOption>>;
+   __typename?: 'ProductFixedFeature',
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  featureOptions: Maybe<Array<ProductFixedFeatureOption>>,
 };
 
 export type ProductFixedFeatureConnection = {
-   __typename?: 'ProductFixedFeatureConnection';
-  pageInfo: PageInfo;
-  edges: Array<ProductFixedFeatureEdge>;
+   __typename?: 'ProductFixedFeatureConnection',
+  pageInfo: PageInfo,
+  edges: Array<ProductFixedFeatureEdge>,
 };
 
 export type ProductFixedFeatureEdge = {
-   __typename?: 'ProductFixedFeatureEdge';
-  cursor: Scalars['String'];
-  node: ProductFixedFeature;
+   __typename?: 'ProductFixedFeatureEdge',
+  cursor: Scalars['String'],
+  node: ProductFixedFeature,
 };
 
 export type ProductFixedFeatureOption = {
-   __typename?: 'ProductFixedFeatureOption';
-  value: Scalars['String'];
-  displayName: Scalars['String'];
+   __typename?: 'ProductFixedFeatureOption',
+  value: Scalars['String'],
+  displayName: Scalars['String'],
 };
 
 export type ProductFixedFeaturesOrderBy = {
-  field: ProductFixedFeaturesOrderByField;
-  direction: OrderByDirection;
+  field: ProductFixedFeaturesOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum ProductFixedFeaturesOrderByField {
@@ -728,49 +766,49 @@ export enum ProductFixedFeaturesOrderByField {
 }
 
 export type ProductListing = {
-   __typename?: 'ProductListing';
-  beta: Scalars['Boolean'];
-  new: Scalars['Boolean'];
-  featured: Scalars['Boolean'];
-  comingSoon: Scalars['Boolean'];
+   __typename?: 'ProductListing',
+  beta: Scalars['Boolean'],
+  new: Scalars['Boolean'],
+  featured: Scalars['Boolean'],
+  comingSoon: Scalars['Boolean'],
 };
 
 export type ProductMeteredFeature = Node & {
-   __typename?: 'ProductMeteredFeature';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  numericOptions: Maybe<Array<ProductMeteredFeatureNumericOptions>>;
+   __typename?: 'ProductMeteredFeature',
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  numericOptions: Maybe<Array<ProductMeteredFeatureNumericOptions>>,
 };
 
 export type ProductMeteredFeatureConnection = {
-   __typename?: 'ProductMeteredFeatureConnection';
-  pageInfo: PageInfo;
-  edges: Array<ProductMeteredFeatureEdge>;
+   __typename?: 'ProductMeteredFeatureConnection',
+  pageInfo: PageInfo,
+  edges: Array<ProductMeteredFeatureEdge>,
 };
 
 export type ProductMeteredFeatureEdge = {
-   __typename?: 'ProductMeteredFeatureEdge';
-  cursor: Scalars['String'];
-  node: ProductMeteredFeature;
+   __typename?: 'ProductMeteredFeatureEdge',
+  cursor: Scalars['String'],
+  node: ProductMeteredFeature,
 };
 
 export type ProductMeteredFeatureNumericDetails = {
-   __typename?: 'ProductMeteredFeatureNumericDetails';
-  unit: Scalars['String'];
-  costTiers: Array<ProductFeatureCostTier>;
+   __typename?: 'ProductMeteredFeatureNumericDetails',
+  unit: Scalars['String'],
+  costTiers: Array<ProductFeatureCostTier>,
 };
 
 export type ProductMeteredFeatureNumericOptions = {
-   __typename?: 'ProductMeteredFeatureNumericOptions';
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  numericDetails: ProductMeteredFeatureNumericDetails;
+   __typename?: 'ProductMeteredFeatureNumericOptions',
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  numericDetails: ProductMeteredFeatureNumericDetails,
 };
 
 export type ProductMeteredFeaturesOrderBy = {
-  field: ProductMeteredFeaturesOrderByField;
-  direction: OrderByDirection;
+  field: ProductMeteredFeaturesOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum ProductMeteredFeaturesOrderByField {
@@ -778,16 +816,16 @@ export enum ProductMeteredFeaturesOrderByField {
 }
 
 export type ProductNumberConfigurableFeature = ProductConfigurableFeature & {
-   __typename?: 'ProductNumberConfigurableFeature';
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  type: ProductFeatureType;
-  numericOptions: Maybe<Array<ProductConfigurableFeatureNumericOptions>>;
+   __typename?: 'ProductNumberConfigurableFeature',
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  type: ProductFeatureType,
+  numericOptions: Maybe<Array<ProductConfigurableFeatureNumericOptions>>,
 };
 
 export type ProductOrderBy = {
-  field: ProductOrderByField;
-  direction: OrderByDirection;
+  field: ProductOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum ProductOrderByField {
@@ -795,15 +833,15 @@ export enum ProductOrderByField {
 }
 
 export type ProductScreenshot = {
-   __typename?: 'ProductScreenshot';
-  url: Scalars['String'];
-  order: Scalars['Int'];
+   __typename?: 'ProductScreenshot',
+  url: Scalars['String'],
+  order: Scalars['Int'],
 };
 
 export type ProductSettings = {
-   __typename?: 'ProductSettings';
-  ssoSupported: Scalars['Boolean'];
-  credentialsSupport: ProductCredentialsSupportType;
+   __typename?: 'ProductSettings',
+  ssoSupported: Scalars['Boolean'],
+  credentialsSupport: ProductCredentialsSupportType,
 };
 
 export enum ProductState {
@@ -815,46 +853,49 @@ export enum ProductState {
 }
 
 export type ProductStringConfigurableFeature = ProductConfigurableFeature & {
-   __typename?: 'ProductStringConfigurableFeature';
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  type: ProductFeatureType;
-  featureOptions: Maybe<Array<ProductConfigurableFeatureOption>>;
+   __typename?: 'ProductStringConfigurableFeature',
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  type: ProductFeatureType,
+  featureOptions: Maybe<Array<ProductConfigurableFeatureOption>>,
 };
 
 export type Profile = {
-   __typename?: 'Profile';
-  id: Scalars['ID'];
-  subject: Scalars['String'];
-  platform: Platform;
-  invoicePreview: Maybe<Invoice>;
-  invoices: Maybe<InvoiceConnection>;
-  state: ProfileState;
-  stateModifiedBy: ProfileStateModifier;
+   __typename?: 'Profile',
+  id: Scalars['ID'],
+  subject: Scalars['String'],
+  stripeAccountID: Maybe<Scalars['String']>,
+  stripeAccount: Maybe<StripeAccount>,
+  stripeSetupIntentSecret: Maybe<Scalars['String']>,
+  platform: Platform,
+  invoicePreview: Maybe<Invoice>,
+  invoices: Maybe<InvoiceConnection>,
+  state: ProfileState,
+  stateModifiedBy: ProfileStateModifier,
 };
 
 
 export type ProfileInvoicesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<InvoiceOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<InvoiceOrderBy>
 };
 
 export type ProfileAuthToken = {
-   __typename?: 'ProfileAuthToken';
-  token: Scalars['String'];
+   __typename?: 'ProfileAuthToken',
+  token: Scalars['String'],
 };
 
 export type ProfileConnection = {
-   __typename?: 'ProfileConnection';
-  pageInfo: PageInfo;
-  edges: Array<ProfileEdge>;
+   __typename?: 'ProfileConnection',
+  pageInfo: PageInfo,
+  edges: Array<ProfileEdge>,
 };
 
 export type ProfileEdge = {
-   __typename?: 'ProfileEdge';
-  cursor: Scalars['String'];
-  node: Profile;
+   __typename?: 'ProfileEdge',
+  cursor: Scalars['String'],
+  node: Profile,
 };
 
 
@@ -870,156 +911,171 @@ export enum ProfileStateModifier {
 }
 
 export type Provider = Node & {
-   __typename?: 'Provider';
-  id: Scalars['ID'];
-  label: Scalars['String'];
-  displayName: Scalars['String'];
-  logoUrl: Scalars['String'];
-  url: Scalars['String'];
-  supportEmail: Scalars['String'];
-  products: Maybe<ProductConnection>;
+   __typename?: 'Provider',
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  displayName: Scalars['String'],
+  logoUrl: Scalars['String'],
+  url: Scalars['String'],
+  supportEmail: Scalars['String'],
+  products: Maybe<ProductConnection>,
 };
 
 
 export type ProviderProductsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<ProductOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<ProductOrderBy>
 };
 
 export type Query = {
-   __typename?: 'Query';
-  provider: Maybe<Provider>;
-  plan: Maybe<Plan>;
-  product: Maybe<Product>;
-  categories: CategoryConnection;
-  category: Maybe<Category>;
-  products: Maybe<ProductConnection>;
-  profile: Profile;
-  node: Node;
-  resources: Maybe<ResourceConnection>;
-  resource: Maybe<Resource>;
-  profiles: Maybe<ProfileConnection>;
-  invoice: Maybe<Invoice>;
-  lineItem: Maybe<LineItem>;
-  region: Maybe<Region>;
-  regions: Maybe<RegionConnection>;
+   __typename?: 'Query',
+  provider: Maybe<Provider>,
+  plan: Maybe<Plan>,
+  product: Maybe<Product>,
+  categories: CategoryConnection,
+  category: Maybe<Category>,
+  products: Maybe<ProductConnection>,
+  profile: Profile,
+  node: Node,
+  resources: Maybe<ResourceConnection>,
+  resource: Maybe<Resource>,
+  profiles: Maybe<ProfileConnection>,
+  invoice: Maybe<Invoice>,
+  lineItem: Maybe<LineItem>,
+  region: Maybe<Region>,
+  regions: Maybe<RegionConnection>,
+  subscription: Maybe<SubscriptionAgreement>,
+  subscriptions: Maybe<SubscriptionAgreementConnection>,
 };
 
 
 export type QueryProviderArgs = {
-  id: Maybe<Scalars['ID']>;
-  label: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>,
+  label: Maybe<Scalars['String']>
 };
 
 
 export type QueryPlanArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']
 };
 
 
 export type QueryProductArgs = {
-  id: Maybe<Scalars['ID']>;
-  label: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>,
+  label: Maybe<Scalars['String']>,
+  latest: Maybe<Scalars['Boolean']>
 };
 
 
 export type QueryCategoriesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<CategoryOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<CategoryOrderBy>
 };
 
 
 export type QueryCategoryArgs = {
-  id: Maybe<Scalars['ID']>;
-  label: Maybe<Scalars['String']>;
+  id: Maybe<Scalars['ID']>,
+  label: Maybe<Scalars['String']>
 };
 
 
 export type QueryProductsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<ProductOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<ProductOrderBy>
 };
 
 
 export type QueryProfileArgs = {
-  id: Maybe<Scalars['ProfileIdentity']>;
+  id: Maybe<Scalars['ProfileIdentity']>
 };
 
 
 export type QueryNodeArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']
 };
 
 
 export type QueryResourcesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  owner: Maybe<Scalars['ProfileIdentity']>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  owner: Maybe<Scalars['ProfileIdentity']>
 };
 
 
 export type QueryResourceArgs = {
-  id: Maybe<Scalars['ID']>;
-  label: Maybe<Scalars['String']>;
-  owner: Maybe<Scalars['ProfileIdentity']>;
-  deleted: Maybe<IsDeleted>;
+  id: Maybe<Scalars['ID']>,
+  label: Maybe<Scalars['String']>,
+  owner: Maybe<Scalars['ProfileIdentity']>,
+  deleted: Maybe<IsDeleted>
 };
 
 
 export type QueryProfilesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  withUsage: Maybe<WithUsage>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  withUsage: Maybe<WithUsage>
 };
 
 
 export type QueryInvoiceArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']
 };
 
 
 export type QueryLineItemArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']
 };
 
 
 export type QueryRegionArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']
 };
 
 
 export type QueryRegionsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
-  orderBy: Maybe<RegionsOrderBy>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  orderBy: Maybe<RegionsOrderBy>
+};
+
+
+export type QuerySubscriptionArgs = {
+  id: Scalars['ID']
+};
+
+
+export type QuerySubscriptionsArgs = {
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>,
+  owner: Maybe<Scalars['ProfileIdentity']>
 };
 
 export type Region = Node & {
-   __typename?: 'Region';
-  id: Scalars['ID'];
-  displayName: Scalars['String'];
-  platform: Scalars['String'];
-  dataCenter: Scalars['String'];
+   __typename?: 'Region',
+  id: Scalars['ID'],
+  displayName: Scalars['String'],
+  platform: Scalars['String'],
+  dataCenter: Scalars['String'],
 };
 
 export type RegionConnection = {
-   __typename?: 'RegionConnection';
-  edges: Array<RegionEdge>;
-  pageInfo: PageInfo;
+   __typename?: 'RegionConnection',
+  edges: Array<RegionEdge>,
+  pageInfo: PageInfo,
 };
 
 export type RegionEdge = {
-   __typename?: 'RegionEdge';
-  node: Region;
-  cursor: Scalars['String'];
+   __typename?: 'RegionEdge',
+  node: Region,
+  cursor: Scalars['String'],
 };
 
 export type RegionsOrderBy = {
-  field: RegionsOrderByField;
-  direction: OrderByDirection;
+  field: RegionsOrderByField,
+  direction: OrderByDirection,
 };
 
 export enum RegionsOrderByField {
@@ -1033,51 +1089,50 @@ export enum RenewalPoint {
 }
 
 export type Resource = Node & {
-   __typename?: 'Resource';
-  id: Scalars['ID'];
-  displayName: Scalars['String'];
-  label: Scalars['String'];
-  /** @deprecated Deprecated in favor of plan.product.settings.ssoSupported */
-  ssoSupported: Scalars['Boolean'];
-  ssoUrl: Maybe<Scalars['String']>;
-  status: ResourceStatus;
-  plan: Maybe<Plan>;
-  region: Maybe<Region>;
-  owner: Maybe<Profile>;
-  createdAt: Maybe<Scalars['Time']>;
-  configuredFeatures: Maybe<ConfiguredFeatureConnection>;
-  credentials: Maybe<CredentialConnection>;
+   __typename?: 'Resource',
+  id: Scalars['ID'],
+  displayName: Scalars['String'],
+  label: Scalars['String'],
+  ssoSupported: Scalars['Boolean'],
+  ssoUrl: Maybe<Scalars['String']>,
+  status: ResourceStatus,
+  plan: Maybe<Plan>,
+  region: Maybe<Region>,
+  owner: Maybe<Profile>,
+  createdAt: Maybe<Scalars['Time']>,
+  configuredFeatures: Maybe<ConfiguredFeatureConnection>,
+  credentials: Maybe<CredentialConnection>,
 };
 
 
 export type ResourceConfiguredFeaturesArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>
 };
 
 
 export type ResourceCredentialsArgs = {
-  first: Scalars['Int'];
-  after: Maybe<Scalars['String']>;
+  first: Scalars['Int'],
+  after: Maybe<Scalars['String']>
 };
 
 export type ResourceConnection = {
-   __typename?: 'ResourceConnection';
-  pageInfo: PageInfo;
-  edges: Array<ResourceEdge>;
+   __typename?: 'ResourceConnection',
+  pageInfo: PageInfo,
+  edges: Array<ResourceEdge>,
 };
 
 export type ResourceEdge = {
-   __typename?: 'ResourceEdge';
-  cursor: Scalars['String'];
-  node: Maybe<Resource>;
+   __typename?: 'ResourceEdge',
+  cursor: Scalars['String'],
+  node: Maybe<Resource>,
 };
 
 export type ResourceStatus = {
-   __typename?: 'ResourceStatus';
-  label: ResourceStatusLabel;
-  percentDone: Scalars['Int'];
-  message: Scalars['String'];
+   __typename?: 'ResourceStatus',
+  label: ResourceStatusLabel,
+  percentDone: Scalars['Int'],
+  message: Scalars['String'],
 };
 
 export enum ResourceStatusLabel {
@@ -1092,100 +1147,180 @@ export enum ResourceStatusLabel {
 }
 
 export type RevenueShare = {
-   __typename?: 'RevenueShare';
-  providers: Scalars['Int'];
-  platform: Scalars['Int'];
-  manifold: Scalars['Int'];
-  fees: Scalars['Int'];
+   __typename?: 'RevenueShare',
+  providers: Scalars['Int'],
+  platform: Scalars['Int'],
+  manifold: Scalars['Int'],
+  fees: Scalars['Int'],
 };
 
 export type StringConfiguredFeature = ConfiguredFeature & {
-   __typename?: 'StringConfiguredFeature';
-  label: Scalars['String'];
-  value: Scalars['String'];
+   __typename?: 'StringConfiguredFeature',
+  label: Scalars['String'],
+  value: Scalars['String'],
 };
 
+export type StripeAccount = {
+   __typename?: 'StripeAccount',
+  id: Scalars['String'],
+  business_name: Scalars['String'],
+  business_type: StripeBusinessType,
+  capabilities: StripeCapabilities,
+  support_email: Scalars['String'],
+};
+
+export enum StripeBusinessType {
+  Unknown = 'UNKNOWN',
+  Individual = 'INDIVIDUAL',
+  Company = 'COMPANY',
+  NonProfit = 'NON_PROFIT',
+  GovernmentEntity = 'GOVERNMENT_ENTITY'
+}
+
+export type StripeCapabilities = {
+   __typename?: 'StripeCapabilities',
+  card_payments: StripeCapabilityStatus,
+  transfers: StripeCapabilityStatus,
+};
+
+export enum StripeCapabilityStatus {
+  Unknown = 'UNKNOWN',
+  Active = 'ACTIVE',
+  Inactive = 'INACTIVE',
+  Pending = 'PENDING'
+}
+
 export type SubLineItem = {
-   __typename?: 'SubLineItem';
-  cost: Scalars['Int'];
-  currency: Currency;
-  plan: Maybe<Plan>;
-  item: Scalars['String'];
-  description: Scalars['String'];
-  calculationType: CalculationType;
-  start: Scalars['Time'];
-  end: Scalars['Time'];
+   __typename?: 'SubLineItem',
+  cost: Scalars['Int'],
+  currency: Currency,
+  plan: Maybe<Plan>,
+  item: Scalars['String'],
+  description: Scalars['String'],
+  calculationType: CalculationType,
+  start: Scalars['Time'],
+  end: Scalars['Time'],
 };
 
 export type SubLineItemConnection = {
-   __typename?: 'SubLineItemConnection';
-  pageInfo: PageInfo;
-  edges: Array<SubLineItemEdge>;
+   __typename?: 'SubLineItemConnection',
+  pageInfo: PageInfo,
+  edges: Array<SubLineItemEdge>,
 };
 
 export type SubLineItemEdge = {
-   __typename?: 'SubLineItemEdge';
-  cursor: Scalars['String'];
-  node: Maybe<SubLineItem>;
+   __typename?: 'SubLineItemEdge',
+  cursor: Scalars['String'],
+  node: Maybe<SubLineItem>,
 };
+
+export type SubscriptionAgreement = Node & {
+   __typename?: 'SubscriptionAgreement',
+  id: Scalars['ID'],
+  plan: Maybe<Plan>,
+  status: SubscriptionAgreementStatus,
+  owner: Maybe<Profile>,
+};
+
+export type SubscriptionAgreementConnection = {
+   __typename?: 'SubscriptionAgreementConnection',
+  pageInfo: PageInfo,
+  edges: Array<SubscriptionAgreementEdge>,
+};
+
+export type SubscriptionAgreementEdge = {
+   __typename?: 'SubscriptionAgreementEdge',
+  cursor: Scalars['String'],
+  node: Maybe<SubscriptionAgreement>,
+};
+
+export type SubscriptionAgreementStatus = {
+   __typename?: 'SubscriptionAgreementStatus',
+  label: SubscriptionAgreementStatusLabel,
+  percentDone: Scalars['Int'],
+  message: Scalars['String'],
+};
+
+export enum SubscriptionAgreementStatusLabel {
+  Available = 'AVAILABLE',
+  Creating = 'CREATING',
+  Updating = 'UPDATING',
+  Deleting = 'DELETING',
+  Deleted = 'DELETED',
+  ErrorCreating = 'ERROR_CREATING',
+  ErrorUpdating = 'ERROR_UPDATING',
+  ErrorDeleting = 'ERROR_DELETING'
+}
 
 
 export type UpdateProfileStateInput = {
-  subject: Scalars['String'];
-  state: ProfileState;
+  subject: Scalars['String'],
+  state: ProfileState,
 };
 
 export type UpdateProfileStatePayload = {
-   __typename?: 'UpdateProfileStatePayload';
-  data: Profile;
+   __typename?: 'UpdateProfileStatePayload',
+  data: Profile,
 };
 
 export type UpdateProfileSubjectInput = {
-  subject: Scalars['String'];
-  id: Scalars['ProfileIdentity'];
+  subject: Scalars['String'],
+  id: Scalars['ProfileIdentity'],
 };
 
 export type UpdateProfileSubjectPayload = {
-   __typename?: 'UpdateProfileSubjectPayload';
-  data: Profile;
+   __typename?: 'UpdateProfileSubjectPayload',
+  data: Profile,
 };
 
 export type UpdateResourceInput = {
-  resourceId: Scalars['ID'];
-  newLabel: Maybe<Scalars['String']>;
-  newDisplayName: Maybe<Scalars['String']>;
+  resourceId: Scalars['ID'],
+  newLabel: Maybe<Scalars['String']>,
+  newDisplayName: Maybe<Scalars['String']>,
 };
 
 export type UpdateResourcePayload = {
-   __typename?: 'UpdateResourcePayload';
-  data: Resource;
+   __typename?: 'UpdateResourcePayload',
+  data: Resource,
 };
 
 export type UpdateResourcePlanInput = {
-  resourceId: Scalars['ID'];
-  newPlanID: Scalars['ID'];
-  ownerId: Maybe<Scalars['ID']>;
-  configuredFeatures: Maybe<Array<ConfiguredFeatureInput>>;
+  resourceId: Scalars['ID'],
+  newPlanID: Scalars['ID'],
+  ownerId: Maybe<Scalars['ID']>,
+  configuredFeatures: Maybe<Array<ConfiguredFeatureInput>>,
 };
 
 export type UpdateResourcePlanPayload = {
-   __typename?: 'UpdateResourcePlanPayload';
-  data: Resource;
+   __typename?: 'UpdateResourcePlanPayload',
+  data: Resource,
+};
+
+export type UpdateSubscriptionAgreementInput = {
+  id: Scalars['ID'],
+  newPlanID: Maybe<Scalars['ID']>,
+  configuredFeatures: Maybe<Array<ConfiguredFeatureInput>>,
+};
+
+export type UpdateSubscriptionAgreementPayload = {
+   __typename?: 'UpdateSubscriptionAgreementPayload',
+  data: SubscriptionAgreement,
 };
 
 export type ValueProp = {
-   __typename?: 'ValueProp';
-  header: Scalars['String'];
-  body: Scalars['String'];
+   __typename?: 'ValueProp',
+  header: Scalars['String'],
+  body: Scalars['String'],
 };
 
 export type WithUsage = {
-  start: Maybe<Scalars['Time']>;
-  end: Maybe<Scalars['Time']>;
+  start: Maybe<Scalars['Time']>,
+  end: Maybe<Scalars['Time']>,
 };
 
 export type ProductQueryVariables = {
-  id: Scalars['ID'];
+  id: Scalars['ID'],
+  latest: Maybe<Scalars['Boolean']>
 };
 
 
@@ -1233,6 +1368,13 @@ export type ProductQuery = (
       & { edges: Array<(
         { __typename?: 'ProductConfigurableFeatureEdge' }
         & { node: (
+          { __typename?: 'ProductStringConfigurableFeature' }
+          & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
+          & { featureOptions: Maybe<Array<(
+            { __typename?: 'ProductConfigurableFeatureOption' }
+            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
+          )>> }
+        ) | (
           { __typename?: 'ProductNumberConfigurableFeature' }
           & Pick<ProductNumberConfigurableFeature, 'label' | 'displayName'>
           & { numericOptions: Maybe<Array<(
@@ -1246,13 +1388,6 @@ export type ProductQuery = (
                 & Pick<ProductFeatureCostTier, 'cost' | 'limit'>
               )> }
             ) }
-          )>> }
-        ) | (
-          { __typename?: 'ProductStringConfigurableFeature' }
-          & Pick<ProductStringConfigurableFeature, 'label' | 'displayName'>
-          & { featureOptions: Maybe<Array<(
-            { __typename?: 'ProductConfigurableFeatureOption' }
-            & Pick<ProductConfigurableFeatureOption, 'cost' | 'displayName' | 'value'>
           )>> }
         ) | (
           { __typename?: 'ProductBooleanConfigurableFeature' }

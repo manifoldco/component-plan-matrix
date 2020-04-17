@@ -21,6 +21,8 @@ import PlanCost from './plan-cost';
 import SkeletonLoader from './skeleton';
 import query from './product.graphql';
 
+const LATEST_VERSION_FLAG = 'latest';
+
 // query types
 type ProductFixed = ProductQuery['product']['fixedFeatures']['edges'][0]['node'];
 type ProductMetered = ProductQuery['product']['meteredFeatures']['edges'][0]['node'];
@@ -64,6 +66,8 @@ export class ManifoldPlanTable {
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
   @Prop() env?: 'stage' | 'local' | 'prod' = 'stage';
+  // Version label for specifiying which verison of product to display.
+  @Prop() version?: string;
   // Product data
   @State() product?: ProductQuery['product'];
   // Product features
@@ -102,7 +106,10 @@ export class ManifoldPlanTable {
 
   // trying to move fetch out for testing.
   async setupProduct(productID: string) {
-    const variables: ProductQueryVariables = { id: productID };
+    const variables: ProductQueryVariables = {
+      id: productID,
+      latest: this.version === LATEST_VERSION_FLAG,
+    };
     const res = await this.connection.graphqlFetch<ProductQuery>({ query, variables });
     const { data } = res;
 

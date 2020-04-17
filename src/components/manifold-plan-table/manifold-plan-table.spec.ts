@@ -15,6 +15,7 @@ interface Props {
   clientId?: string;
   baseUrl?: string;
   ctaText?: string;
+  version?: string;
 }
 
 async function setup(props: Props) {
@@ -27,6 +28,7 @@ async function setup(props: Props) {
 
   component.productId = props.productId;
   component.clientId = props.clientId;
+  component.version = props.version;
 
   const root = page.root as HTMLDivElement;
   root.appendChild(component);
@@ -69,6 +71,20 @@ describe(ManifoldPlanTable.name, () => {
       fetchMock.mock(ANALYTICS_ENDPOINT, 200);
     });
     afterEach(fetchMock.restore);
+
+    it('[version]: when latest is provided it is a latest query', async () => {
+      fetchMock.mock(GRAPHQL_ENDPOINT, mockJawsDB);
+      await setup({ productId: 'product-id', clientId: 'client-id', version: 'latest' });
+      const options = fetchMock.lastOptions();
+      expect(options.body).toContain('"latest":true');
+    });
+
+    it('[version]: when version is provided it is not a latest query', async () => {
+      fetchMock.mock(GRAPHQL_ENDPOINT, mockJawsDB);
+      await setup({ productId: 'product-id', clientId: 'client-id', version: '1' });
+      const options = fetchMock.lastOptions();
+      expect(options.body).toContain('"latest":false');
+    });
 
     it('cta URL', async () => {
       // mock jawsDB endpoint

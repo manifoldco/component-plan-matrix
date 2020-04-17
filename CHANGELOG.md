@@ -10,6 +10,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 - Firing a CTAClick event when CTA is clicked
+- Add version attribute to get latest product and plan versions (currently only works with "latest" value).
 
 ## [0.2.0] - 2020-04-01
 
