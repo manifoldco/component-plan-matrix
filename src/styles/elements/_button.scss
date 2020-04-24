@@ -8,10 +8,13 @@ $name: '' !default;
 .#{$name}__Button {
   @include mercury.Manifold__Typography__Body;
 
+  appearance: none;
   background: mercury.$color-blue;
+  border: none;
   border-radius: 4px;
   box-sizing: border-box;
   color: mercury.$color-white;
+  cursor: pointer;
   flex: 1;
   font-style: normal;
   font-weight: 500;

@@ -48,20 +48,35 @@ interface PlanFeatures {
 
 // state
 type UserValue = string | number | boolean;
+type FeatureMap = { [featureLabel: string]: UserValue };
 interface UserSelection {
-  [planID: string]: { [featureLabel: string]: UserValue };
+  [planID: string]: FeatureMap;
+}
+
+// event
+
+interface PlanTableInit {
+  defaultSelections: UserSelection;
+}
+
+interface PlanTableEvent {
+  planID: string;
+  planDisplayName: string;
+  userSelection: FeatureMap;
 }
 
 @Component({ tag: 'manifold-plan-table' })
 export class ManifoldPlanTable {
   @Element() el: HTMLElement;
-  @Event() CTAClick: EventEmitter;
+  @Event({ bubbles: false }) ctaClick: EventEmitter<PlanTableEvent>;
+  @Event({ bubbles: false }) init: EventEmitter<PlanTableInit>;
+  @Event({ bubbles: false }) update: EventEmitter<PlanTableEvent>;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string;
   // Passed client ID header to the graphql calls
   @Prop() clientId?: string = '';
   // Base url for buttons
-  @Prop() baseUrl?: string = '/signup';
+  @Prop() baseUrl?: string;
   @Prop() gatewayUrl?: string;
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
@@ -102,6 +117,11 @@ export class ManifoldPlanTable {
       // Note: we could warn here if product-id is missing, but let’s not. In some front-end frameworks it may be set a half-second after it loads
       this.setupProduct(this.productId);
     }
+  }
+
+  // on component load, broadcast the configurable feature state
+  componentDidLoad() {
+    this.init.emit({ defaultSelections: this.userSelection });
   }
 
   // trying to move fetch out for testing.
@@ -223,39 +243,49 @@ export class ManifoldPlanTable {
     return `${this.baseUrl}?${search.toString()}`;
   }
 
-  handleCtaClick = (planId: string) => (e: MouseEvent) => {
+  handleCtaClick = (state: PlanTableEvent, navigate = false) => (e: MouseEvent) => {
     e.preventDefault();
-    this.CTAClick.emit({ id: `manifold-cta-plan-${planId}` });
+    this.ctaClick.emit(state);
 
     this.connection.analytics
       .track({
         description: 'Track pricing matrix cta clicks',
         name: 'click',
         type: 'component-analytics',
-        properties: {
-          planId,
-        },
+        properties: { planId: state.planID },
       })
       .finally(() => {
-        const anchor = e.srcElement as HTMLAnchorElement;
-        window.location.href = anchor.href;
+        if (navigate) {
+          const anchor = e.srcElement as HTMLAnchorElement;
+          window.location.href = anchor.href;
+        }
       });
   };
 
   setFeature({
-    planID,
+    plan,
     featureLabel,
     featureValue,
   }: {
-    planID: string;
+    plan: ProductPlan;
     featureLabel: string;
     featureValue: UserValue;
   }) {
-    this.userSelection = merge(this.userSelection, { [planID]: { [featureLabel]: featureValue } });
-    this.fetchCosts();
+    // don’t re-render or emit event if value didn’t actually change
+    if (featureValue !== this.userSelection[plan.id][featureLabel]) {
+      this.userSelection = merge(this.userSelection, {
+        [plan.id]: { [featureLabel]: featureValue },
+      });
+      this.update.emit({
+        planID: plan.id,
+        planDisplayName: plan.displayName,
+        userSelection: this.userSelection[plan.id],
+      });
+      this.fetchCosts();
+    }
   }
 
-  displayConfigurable({ planID, feature }: { planID: string; feature: PlanConfigurableFeature }) {
+  displayConfigurable({ plan, feature }: { plan: ProductPlan; feature: PlanConfigurableFeature }) {
     switch (feature.type) {
       case PlanFeatureType.String: {
         return (
@@ -265,7 +295,7 @@ export class ManifoldPlanTable {
                 class="ManifoldPlanTable__Select__Input"
                 onChange={(e) =>
                   this.setFeature({
-                    planID,
+                    plan,
                     featureLabel: feature.label,
                     featureValue: (e.target as HTMLInputElement).value,
                   })
@@ -290,7 +320,7 @@ export class ManifoldPlanTable {
         } = feature;
         const setFeature = (e: Event) =>
           this.setFeature({
-            planID,
+            plan,
             featureLabel: feature.label,
             featureValue: (e.target as HTMLInputElement).value,
           });
@@ -308,7 +338,7 @@ export class ManifoldPlanTable {
                 pattern="[0-9]*"
                 step={increment}
                 type="number"
-                value={(this.userSelection[planID][feature.label] as number) || min}
+                value={(this.userSelection[plan.id][feature.label] as number) || min}
               />
               <span class="ManifoldPlanTable__NumericRange__Desc">
                 {min} – {max} {unit}
@@ -326,7 +356,7 @@ export class ManifoldPlanTable {
                 type="checkbox"
                 onChange={(e) => {
                   this.setFeature({
-                    planID,
+                    plan,
                     featureLabel: feature.label,
                     featureValue: (e.target as HTMLInputElement).checked,
                   });
@@ -435,10 +465,7 @@ export class ManifoldPlanTable {
               // configurable
               if (feature && this.productFeatures.configurable[feature.label]) {
                 const configurableFeature = feature as PlanConfigurableFeature;
-                return this.displayConfigurable({
-                  planID: plan.id,
-                  feature: configurableFeature,
-                });
+                return this.displayConfigurable({ plan, feature: configurableFeature });
               }
 
               // undefined / disabled feature
@@ -453,15 +480,38 @@ export class ManifoldPlanTable {
               data-row-last
               data-column-last={lastColumn}
             >
-              <a
-                data-testid="cta"
-                class="ManifoldPlanTable__Button"
-                id={`manifold-cta-plan-${plan.id}`}
-                href={this.ctaHref(plan.id)}
-                onClick={this.handleCtaClick(plan.id)}
-              >
-                {this.ctaText}
-              </a>
+              {this.baseUrl ? (
+                <a
+                  data-testid="cta"
+                  class="ManifoldPlanTable__Button"
+                  id={`manifold-cta-plan-${plan.id}`}
+                  href={this.ctaHref(plan.id)}
+                  onClick={this.handleCtaClick(
+                    {
+                      planID: plan.id,
+                      planDisplayName: plan.displayName,
+                      userSelection: this.userSelection[plan.id],
+                    },
+                    true
+                  )}
+                >
+                  {this.ctaText}
+                </a>
+              ) : (
+                <button
+                  data-testid="cta"
+                  class="ManifoldPlanTable__Button"
+                  type="button"
+                  id={`manifold-cta-plan-${plan.id}`}
+                  onClick={this.handleCtaClick({
+                    planID: plan.id,
+                    planDisplayName: plan.displayName,
+                    userSelection: this.userSelection[plan.id],
+                  })}
+                >
+                  {this.ctaText}
+                </button>
+              )}
             </div>,
           ];
         })}

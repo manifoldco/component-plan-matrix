@@ -34,7 +34,9 @@ declare namespace LocalJSX {
         "ctaText"?: string;
         "env"?: "stage" | "local" | "prod";
         "gatewayUrl"?: string;
-        "onCTAClick"?: (event: CustomEvent<any>) => void;
+        "onCtaClick"?: (event: CustomEvent<PlanTableEvent>) => void;
+        "onInit"?: (event: CustomEvent<PlanTableInit>) => void;
+        "onUpdate"?: (event: CustomEvent<PlanTableEvent>) => void;
         "productId"?: string;
         "version"?: string;
     }

@@ -26,8 +26,9 @@ async function setup(props: Props) {
 
   const component = page.doc.createElement('manifold-plan-table');
 
-  component.productId = props.productId;
+  component.baseUrl = props.baseUrl;
   component.clientId = props.clientId;
+  component.productId = props.productId;
   component.version = props.version;
 
   const root = page.root as HTMLDivElement;
@@ -92,7 +93,11 @@ describe(ManifoldPlanTable.name, () => {
 
       const PLAN_ID = '235abe2ba8b39e941u2h70ayw5m9j';
       const PLAN_ID_CUSTOM = '235exy25wvzpxj52p87bh87gbnj4y'; // test custom to test features
-      const { page } = await setup({ productId: 'product-id', clientId: 'client-id' });
+      const { page } = await setup({
+        baseUrl: '/signup',
+        productId: 'product-id',
+        clientId: 'client-id',
+      });
       const cta = page.root && page.root.querySelector(`[id="manifold-cta-plan-${PLAN_ID}"]`);
       const ctaCustom =
         page.root && page.root.querySelector(`[id="manifold-cta-plan-${PLAN_ID_CUSTOM}"]`);

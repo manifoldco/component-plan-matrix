@@ -5,12 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Adds `click`, `update`, `init` custom events
+
 ## [0.3.0] - 2020-04-17
 
 ### Changed
 
 - Firing a CTAClick event when CTA is clicked
-- Add version attribute to get latest product and plan versions (currently only works with "latest" value).
+- Add version attribute to get latest product and plan versions (currently only works with "latest"
+  value).
 
 ## [0.2.0] - 2020-04-01
 
