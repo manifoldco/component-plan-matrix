@@ -7,8 +7,8 @@ $name: '' !default;
 
 .#{$name}__Check {
   & svg {
-    fill: mercury.$color-blue;
-    height: 1.5em;
     width: 1.5em;
+    height: 1.5em;
+    fill: mercury.$color-blue;
   }
 }

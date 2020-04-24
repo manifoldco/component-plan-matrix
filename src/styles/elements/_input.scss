@@ -1,0 +1,31 @@
+@use "node_modules/@manifoldco/mercury";
+$name: '' !default;
+
+// ----------
+//  Input
+// ----------
+
+.#{$name}__Input {
+  @include mercury.Input;
+
+  width: 100%;
+
+  // ----------
+  //  Elements
+  // ----------
+
+  input {
+    -moz-appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      display: none;
+    }
+  }
+
+  &__Desc {
+    margin-top: 0.75rem;
+    color: mercury.$color-gray;
+    font-size: 12px;
+  }
+}

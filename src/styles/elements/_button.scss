@@ -6,19 +6,19 @@ $name: '' !default;
 // ----------
 
 .#{$name}__Button {
-  @include mercury.Manifold__Typography__Body;
+  @include mercury.Typography--Body;
 
+  flex: 1;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px;
+  color: mercury.$color-white;
+  font-weight: 500;
+  font-style: normal;
+  text-decoration: none;
   background: mercury.$color-blue;
   border-radius: 4px;
-  box-sizing: border-box;
-  color: mercury.$color-white;
-  flex: 1;
-  font-style: normal;
-  font-weight: 500;
-  padding: 13px;
-  text-decoration: none;
   transition: background-color 0.3s ease;
-  width: 100%;
 
   &:visited {
     color: mercury.$color-white;

@@ -1,6 +1,9 @@
 module.exports = {
-  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
-  plugins: ['stylelint-order'],
+  extends: [
+    'stylelint-config-standard',
+    'stylelint-config-rational-order',
+    'stylelint-config-prettier',
+  ],
   rules: {
     'at-rule-no-unknown': [true, { ignoreAtRules: ['use', 'extend', 'include'] }], // allow Sass syntax
     'color-hex-length': null, // 6 digits is fine / coming from figma

@@ -5,78 +5,10 @@ $name: '' !default;
 //  Toggle
 // ----------
 
-$switch-size: 1rem;
-
 .#{$name}__Toggle {
-  align-items: center;
-  display: flex;
-  margin: -0.5rem;
-  overflow: hidden;
-  padding: 0.5rem;
+  @include mercury.Toggle;
 
-  &:focus-within {
-    color: mercury.$color-blue;
-  }
-
-  &__Toggle {
-    background-color: mercury.$color-grayLighter;
-    border-radius: 2rem;
-    height: calc(0.5rem + #{$switch-size});
-    min-width: calc(2.5 * #{$switch-size});
-    position: relative;
-    transition: background-color 150ms linear;
-    width: calc(2.5 * #{$switch-size});
-
-    &::before {
-      border: 2px solid transparent;
-      border-radius: 2rem;
-      bottom: -0.25rem;
-      content: '';
-      left: -0.25rem;
-      pointer-events: none;
-      position: absolute;
-      right: -0.25rem;
-      top: -0.25rem;
-      transition: border-color 150ms linear;
-    }
-
-    &::after {
-      background-color: mercury.$color-gray;
-      border-radius: 50%;
-      content: '';
-      height: $switch-size;
-      left: 0.25rem;
-      position: absolute;
-      top: 0.25rem;
-      transform: translateX(0);
-      transition: color 150ms linear, transform 150ms cubic-bezier(0, 0.5, 0.5, 1);
-      width: $switch-size;
-    }
-  }
-
-  // ----------
-  //  Elements
-  // ----------
-
-  &__Input {
-    position: absolute;
-    right: 100vw;
-
-    &:focus {
-      & ~ .#{$name}__Toggle__Toggle {
-        &::before {
-          border-color: mercury.$color-blue;
-        }
-      }
-    }
-
-    &:checked ~ .#{$name}__Toggle__Toggle {
-      background-color: mercury.$color-mutedBlue;
-
-      &::after {
-        background-color: mercury.$color-blue;
-        transform: translateX(100%);
-      }
-    }
+  label::before {
+    margin-left: 0;
   }
 }
