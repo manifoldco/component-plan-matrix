@@ -86,24 +86,6 @@ describe(ManifoldPlanTable.name, () => {
       expect(options.body).toContain('"latest":false');
     });
 
-    it('cta URL', async () => {
-      // mock jawsDB endpoint
-      fetchMock.mock(GRAPHQL_ENDPOINT, mockJawsDB);
-
-      const PLAN_ID = '235abe2ba8b39e941u2h70ayw5m9j';
-      const PLAN_ID_CUSTOM = '235exy25wvzpxj52p87bh87gbnj4y'; // test custom to test features
-      const { page } = await setup({ productId: 'product-id', clientId: 'client-id' });
-      const cta = page.root && page.root.querySelector(`[id="manifold-cta-plan-${PLAN_ID}"]`);
-      const ctaCustom =
-        page.root && page.root.querySelector(`[id="manifold-cta-plan-${PLAN_ID_CUSTOM}"]`);
-
-      expect(cta.getAttribute('href')).toBe(`/signup?planId=${PLAN_ID}`);
-      // note: this test shouldn’t flake, but if it does, find some way to ensure custom features are tested
-      expect(ctaCustom.getAttribute('href')).toBe(
-        `/signup?planId=${PLAN_ID_CUSTOM}&backups=1&instance_class=db.t2.micro&redundancy=false&storage=5`
-      );
-    });
-
     describe('analytics', () => {
       beforeEach(() => {
         fetchMock.mock(GRAPHQL_ENDPOINT, mockLogDna);
