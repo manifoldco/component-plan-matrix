@@ -406,7 +406,7 @@ export class ManifoldPlanTable {
             <form
               action={this.baseUrl}
               onSubmit={this.onSubmit(plan.id)}
-              style={{ display: 'contents' }}
+              class="ManifoldPlanTable__Plan__Form"
             >
               <input type="hidden" name="planId" value={plan.id} />
               {[
