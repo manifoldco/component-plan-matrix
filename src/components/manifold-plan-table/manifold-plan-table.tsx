@@ -261,6 +261,7 @@ export class ManifoldPlanTable {
           <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
             <div class="ManifoldPlanTable__Select">
               <select
+                name={feature.label}
                 aria-labelledby={`feature-${feature.label}`}
                 onChange={(e) =>
                   this.setFeature({
@@ -299,7 +300,7 @@ export class ManifoldPlanTable {
                 inputmode="numeric"
                 max={max}
                 min={min}
-                name="numericRange"
+                name={feature.label}
                 onChange={setFeature}
                 onKeyUp={setFeature}
                 pattern="[0-9]*"
@@ -319,6 +320,7 @@ export class ManifoldPlanTable {
           <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
             <div class="ManifoldPlanTable__Toggle">
               <input
+                name={feature.label}
                 id={`feature-${planID}-${feature.label}`}
                 aria-labelledby={`feature-${feature.label}`}
                 type="checkbox"
@@ -361,6 +363,23 @@ export class ManifoldPlanTable {
       ...Object.values(this.productFeatures.fixed).filter((f) => f.featureOptions.length === 2), // Checkbox
     ];
   }
+
+  onSubmit = (planId: string) => (e: Event) => {
+    if (!this.baseUrl) {
+      e.preventDefault();
+    }
+
+    this.CTAClick.emit({ planId, selection: this.userSelection });
+
+    this.connection.analytics.track({
+      description: 'Track pricing matrix cta clicks',
+      name: 'click',
+      type: 'component-analytics',
+      properties: {
+        planId,
+      },
+    });
+  };
 
   @logger()
   render() {
@@ -420,48 +439,57 @@ export class ManifoldPlanTable {
                 />
               </p>
             </div>,
-            Object.values(this.planFeatures[plan.id]).map((feature) => {
-              // fixed feature
-              if (feature && this.productFeatures.fixed[feature.label]) {
-                return <FixedFeature displayValue={(feature as PlanFixedFeature).displayValue} />;
-              }
-
-              // metered feature
-              if (feature && this.productFeatures.metered[feature.label]) {
-                return <MeteredFeature feature={feature as PlanMeteredFeature} />;
-              }
-
-              // configurable
-              if (feature && this.productFeatures.configurable[feature.label]) {
-                const configurableFeature = feature as PlanConfigurableFeature;
-                return this.displayConfigurable({
-                  planID: plan.id,
-                  feature: configurableFeature,
-                });
-              }
-
-              // undefined / disabled feature
-              return (
-                <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
-                  <span class="ManifoldPlanTable__Cell__Disabled">•</span>
-                </div>
-              );
-            }),
-            <div
-              class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body"
-              data-row-last
-              data-column-last={lastColumn}
+            <form
+              action={this.baseUrl}
+              onSubmit={this.onSubmit(plan.id)}
+              style={{ display: 'contents' }}
             >
-              <a
-                data-testid="cta"
-                class="ManifoldPlanTable__Button"
-                id={`manifold-cta-plan-${plan.id}`}
-                href={this.ctaHref(plan.id)}
-                onClick={this.handleCtaClick(plan.id)}
-              >
-                {this.ctaText}
-              </a>
-            </div>,
+              {[
+                Object.values(this.planFeatures[plan.id]).map((feature) => {
+                  // fixed feature
+                  if (feature && this.productFeatures.fixed[feature.label]) {
+                    return (
+                      <FixedFeature displayValue={(feature as PlanFixedFeature).displayValue} />
+                    );
+                  }
+
+                  // metered feature
+                  if (feature && this.productFeatures.metered[feature.label]) {
+                    return <MeteredFeature feature={feature as PlanMeteredFeature} />;
+                  }
+
+                  // configurable
+                  if (feature && this.productFeatures.configurable[feature.label]) {
+                    const configurableFeature = feature as PlanConfigurableFeature;
+                    return this.displayConfigurable({
+                      planID: plan.id,
+                      feature: configurableFeature,
+                    });
+                  }
+
+                  // undefined / disabled feature
+                  return (
+                    <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
+                      <span class="ManifoldPlanTable__Cell__Disabled">•</span>
+                    </div>
+                  );
+                }),
+                <div
+                  class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body"
+                  data-row-last
+                  data-column-last={lastColumn}
+                >
+                  <button
+                    type="submit"
+                    data-testid="cta"
+                    class="ManifoldPlanTable__Button"
+                    id={`manifold-cta-plan-${plan.id}`}
+                  >
+                    {this.ctaText}
+                  </button>
+                </div>,
+              ]}
+            </form>,
           ];
         })}
       </div>
