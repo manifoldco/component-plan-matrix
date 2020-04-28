@@ -408,7 +408,7 @@ export class ManifoldPlanTable {
               onSubmit={this.onSubmit(plan.id)}
               style={{ display: 'contents' }}
             >
-              <input hidden name="planId" value={plan.id} />
+              <input type="hidden" name="planId" value={plan.id} />
               {[
                 Object.values(this.planFeatures[plan.id]).map((feature) => {
                   // fixed feature
