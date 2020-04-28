@@ -7,8 +7,8 @@ $name: '' !default;
 
 @keyframes #{$name}__Animation__Load {
   50% {
-    opacity: 0.5;
     transform: translateY(-25%);
+    opacity: 0.5;
   }
 }
 
@@ -21,17 +21,17 @@ $name: '' !default;
   // ----------
 
   &__Dot {
-    animation-duration: 1.25s;
-    animation-iteration-count: 200;
-    animation-name: #{$name}__Animation__Load;
-    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.125rem;
+    margin-left: 0.125rem;
     background: mercury.$color-gray;
     border-radius: 4px;
-    height: 0.5rem;
-    margin-left: 0.125rem;
-    margin-right: 0.125rem;
     opacity: 0.2;
+    animation-name: #{$name}__Animation__Load;
+    animation-duration: 1.25s;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+    animation-iteration-count: 200;
     pointer-events: none;
-    width: 0.5rem;
   }
 }

@@ -1,6 +1,5 @@
 import { Component, h, State, Prop, Watch, Element, Event, EventEmitter } from '@stencil/core';
 import { Connection } from '@manifoldco/manifold-init-types/types/v0';
-import svgChevronUpDown from '@manifoldco/mercury/icons/chevron-up-down.svg';
 import merge from 'deepmerge';
 
 import {
@@ -260,9 +259,9 @@ export class ManifoldPlanTable {
       case PlanFeatureType.String: {
         return (
           <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
-            <label class="ManifoldPlanTable__Select">
+            <div class="ManifoldPlanTable__Select">
               <select
-                class="ManifoldPlanTable__Select__Input"
+                aria-labelledby={`feature-${feature.label}`}
                 onChange={(e) =>
                   this.setFeature({
                     planID,
@@ -278,9 +277,7 @@ export class ManifoldPlanTable {
                   </option>
                 ))}
               </select>
-              <div class="ManifoldPlanTable__Select__Chevron" innerHTML={svgChevronUpDown} />
-              <div class="ManifoldPlanTable__Select__Border"></div>
-            </label>
+            </div>
           </div>
         );
       }
@@ -296,9 +293,9 @@ export class ManifoldPlanTable {
           });
         return (
           <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
-            <label class="ManifoldPlanTable__NumericRange">
+            <div class="ManifoldPlanTable__Input">
               <input
-                class="ManifoldPlanTable__NumericRange__Input"
+                aria-labelledby={`feature-${feature.label}`}
                 inputmode="numeric"
                 max={max}
                 min={min}
@@ -310,19 +307,20 @@ export class ManifoldPlanTable {
                 type="number"
                 value={(this.userSelection[planID][feature.label] as number) || min}
               />
-              <span class="ManifoldPlanTable__NumericRange__Desc">
+              <span class="ManifoldPlanTable__Input__Desc">
                 {min} – {max} {unit}
               </span>
-            </label>
+            </div>
           </div>
         );
       }
       case PlanFeatureType.Boolean: {
         return (
           <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Body">
-            <label class="ManifoldPlanTable__Toggle">
+            <div class="ManifoldPlanTable__Toggle">
               <input
-                class="ManifoldPlanTable__Toggle__Input"
+                id={`feature-${planID}-${feature.label}`}
+                aria-labelledby={`feature-${feature.label}`}
                 type="checkbox"
                 onChange={(e) => {
                   this.setFeature({
@@ -333,8 +331,8 @@ export class ManifoldPlanTable {
                 }}
                 value="on"
               />
-              <div class="ManifoldPlanTable__Toggle__Toggle"></div>
-            </label>
+              <label htmlFor={`feature-${planID}-${feature.label}`}></label>
+            </div>
           </div>
         );
       }
@@ -395,6 +393,7 @@ export class ManifoldPlanTable {
           <div
             class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--FeatureName"
             data-column-first
+            id={`feature-${feature.label}`}
           >
             {feature.displayName}
           </div>

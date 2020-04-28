@@ -10,27 +10,27 @@ $table-solid-border: 1px solid mercury.$color-grayLight;
 $table-dashed-border: 1px dashed mercury.$color-grayLighter;
 
 .#{$name}__Cell {
-  align-items: center;
-  border-bottom: $table-dashed-border;
-  border-right: $table-solid-border;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
   min-height: 2rem;
   padding: 0.5rem 1rem;
   text-align: center;
-  width: 100%;
   word-wrap: break-word;
+  border-right: $table-solid-border;
+  border-bottom: $table-dashed-border;
 
   &[data-column-first] {
-    border-left: $table-solid-border;
+    position: sticky;
+    left: 0;
+    z-index: 1;
     flex-direction: row;
     justify-content: flex-start;
-    left: 0;
-    position: sticky;
     text-align: left;
-    z-index: 1;
+    border-left: $table-solid-border;
   }
 
   &[data-row-first] {
@@ -78,33 +78,33 @@ $table-dashed-border: 1px dashed mercury.$color-grayLighter;
   }
 
   &--Body {
+    box-sizing: border-box;
     background: mercury.$color-white;
     border-bottom: $table-dashed-border;
-    box-sizing: border-box;
   }
 
   &--FeatureName {
     align-items: flex-start;
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5;
+    word-wrap: break-word;
     background: mercury.$color-white;
     border-bottom: $table-dashed-border;
-    box-sizing: border-box;
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.5;
-    padding: 0.75rem 1rem;
-    word-wrap: break-word;
   }
 
   &--PlanName {
-    background: mercury.$color-grayLightest;
-    border-bottom: $table-solid-border;
-    font-size: mercury.$typography-headingLarge-fontSize;
-    font-weight: mercury.$typography-headingLarge-fontWeight;
     justify-content: flex-start;
-    letter-spacing: mercury.$typography-headingLarge-letterSpacing;
-    line-height: mercury.$typography-headingLarge-lineHeight;
     padding: 1.5rem 1rem;
+    font-weight: mercury.$typography-headingLarge-fontWeight;
+    font-size: mercury.$typography-headingLarge-fontSize;
+    line-height: mercury.$typography-headingLarge-lineHeight;
+    letter-spacing: mercury.$typography-headingLarge-letterSpacing;
     text-align: center;
     word-wrap: break-word;
+    background: mercury.$color-grayLightest;
+    border-bottom: $table-solid-border;
   }
 }

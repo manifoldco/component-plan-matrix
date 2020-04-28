@@ -30,8 +30,8 @@ $name: '' !default;
     line-height: 1.2;
 
     &__Cost {
-      border-top: 1px solid mercury.$color-grayLighter;
       padding: 0.375rem 0;
+      border-top: 1px solid mercury.$color-grayLighter;
     }
 
     &__Text {
@@ -39,9 +39,9 @@ $name: '' !default;
     }
 
     &__Range {
-      border-top: 1px solid mercury.$color-grayLighter;
-      white-space: nowrap;
       padding: 0.375rem 0;
+      white-space: nowrap;
+      border-top: 1px solid mercury.$color-grayLighter;
     }
 
     &[data-multitiered] {
