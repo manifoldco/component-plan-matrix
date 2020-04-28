@@ -205,42 +205,6 @@ export class ManifoldPlanTable {
     });
   }
 
-  ctaHref(planID: string) {
-    if (!this.baseUrl || this.baseUrl === '#') {
-      return this.baseUrl;
-    }
-
-    const search = new URLSearchParams();
-    // set plan ID
-    search.set('planId', planID);
-
-    // set configurable feature selection (or skip, if no configurable features);
-    Object.entries(this.userSelection[planID] || {}).forEach(([key, val]) => {
-      search.set(key, `${val}`);
-    });
-
-    return `${this.baseUrl}?${search.toString()}`;
-  }
-
-  handleCtaClick = (planId: string) => (e: MouseEvent) => {
-    e.preventDefault();
-    this.CTAClick.emit({ id: `manifold-cta-plan-${planId}` });
-
-    this.connection.analytics
-      .track({
-        description: 'Track pricing matrix cta clicks',
-        name: 'click',
-        type: 'component-analytics',
-        properties: {
-          planId,
-        },
-      })
-      .finally(() => {
-        const anchor = e.srcElement as HTMLAnchorElement;
-        window.location.href = anchor.href;
-      });
-  };
-
   setFeature({
     planID,
     featureLabel,
@@ -444,6 +408,7 @@ export class ManifoldPlanTable {
               onSubmit={this.onSubmit(plan.id)}
               style={{ display: 'contents' }}
             >
+              <input hidden name="planId" value={plan.id} />
               {[
                 Object.values(this.planFeatures[plan.id]).map((feature) => {
                   // fixed feature
