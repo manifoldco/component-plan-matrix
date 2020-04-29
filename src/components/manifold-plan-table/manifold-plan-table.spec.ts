@@ -100,15 +100,9 @@ describe(ManifoldPlanTable.name, () => {
           clientId,
         });
 
-        const cta =
-          page.root &&
-          (page.root.querySelector<HTMLAnchorElement>(`[data-testid="cta"]`) as HTMLAnchorElement);
+        const forms = page.root.querySelector<HTMLFormElement>('form');
 
-        if (!cta) {
-          throw new Error('cta not found in document');
-        }
-
-        cta.click();
+        forms.dispatchEvent(new Event('submit'));
 
         const [[, analyticsRes]] = fetchMock
           .calls()
