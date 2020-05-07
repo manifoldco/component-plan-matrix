@@ -75,7 +75,35 @@ Options are passed to the component in the form of HTML Attributes:
 | `client-id`  |    Y     | Your Account identifier (this helps us associate analytics to your account)                                     | `<manifold-plan-table client-id="284ablb7scfm8oxwz9wrxpt2q0jii">`  |
 | `base-url`   |          | The URL the buttons link to (plan ID & user selection will be appended to the end of the URL in a query string) | `<manifold-plan-table base-url="/checkout">`                       |
 | `cta-text`   |          | Change the ”Getting Started” default text.                                                                      | `<manifold-plan-table cta-text="Buy Now!">`                        |
-| `version`   |          | The version of your product (omit for latest published product). Use `version="latest"` for the latest draft.                                                                       | `<manifold-plan-table version="1">`                        |
+| `version`    |          | The version of your product (omit for latest published product). Use `version="latest"` for the latest draft.   | `<manifold-plan-table version="1">`                                |
+
+## Events
+
+This component emits [Custom JavaScript Events][custom-events] at key interaction points.
+
+### Setup
+
+To begin listening for events, add a listener like so (you’ll want to make sure that this component
+exists in the DOM):
+
+```js
+// your custom listener function
+function myFunc(evt) {
+  console.log(evt);
+}
+
+document.querySelector('manifold-plan-table').addEventListener('ctaClick', myFunc); // do something on CTA clicks
+document.querySelector('manifold-plan-table').addEventListener('init', myFunc); // do something on initial load
+document.querySelector('manifold-plan-table').addEventListener('update', myFunc); // do something on updates
+```
+
+### All Events
+
+| Event Name | Trigger                                                                                                               | Returns                                      |
+| :--------- | :-------------------------------------------------------------------------------------------------------------------- | :------------------------------------------- |
+| `ctaClick` | Fires when a user clicks the CTA                                                                                      | `planID`, `planDisplayName`, `userSelection` |
+| `init`     | Fires once when the component has loaded (broadcasts default options for all plans)                                   | `defaultSelections`                          |
+| `update`   | Fires when a user selects a feature option (if you don’t have user-selectable features, you probably don’t need this) | `planID`, `planDisplayName`, `userSelection` |
 
 ## TypeScript + JSX
 

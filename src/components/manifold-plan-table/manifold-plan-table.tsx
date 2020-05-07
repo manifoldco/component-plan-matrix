@@ -47,20 +47,35 @@ interface PlanFeatures {
 
 // state
 type UserValue = string | number | boolean;
+type FeatureMap = { [featureLabel: string]: UserValue };
 interface UserSelection {
-  [planID: string]: { [featureLabel: string]: UserValue };
+  [planID: string]: FeatureMap;
+}
+
+// event
+
+interface PlanTableInit {
+  defaultSelections: UserSelection;
+}
+
+interface PlanTableEvent {
+  planID: string;
+  planDisplayName: string;
+  userSelection: FeatureMap;
 }
 
 @Component({ tag: 'manifold-plan-table' })
 export class ManifoldPlanTable {
   @Element() el: HTMLElement;
-  @Event() CTAClick: EventEmitter;
+  @Event({ bubbles: false }) ctaClick: EventEmitter<PlanTableEvent>;
+  @Event({ bubbles: false }) init: EventEmitter<PlanTableInit>;
+  @Event({ bubbles: false }) update: EventEmitter<PlanTableEvent>;
   // Passed product ID to the graphql endpoint
   @Prop() productId?: string;
   // Passed client ID header to the graphql calls
   @Prop() clientId?: string = '';
   // Base url for buttons
-  @Prop() baseUrl?: string = '/signup';
+  @Prop() baseUrl?: string;
   @Prop() gatewayUrl?: string;
   // CTA Text for buttons
   @Prop() ctaText?: string = 'Get Started';
@@ -84,6 +99,11 @@ export class ManifoldPlanTable {
   }
 
   connection: Connection;
+
+  // on component load, broadcast the configurable feature state
+  componentDidLoad() {
+    this.init.emit({ defaultSelections: this.userSelection });
+  }
 
   @loadMark()
   async componentWillLoad() {
@@ -206,19 +226,29 @@ export class ManifoldPlanTable {
   }
 
   setFeature({
-    planID,
+    plan,
     featureLabel,
     featureValue,
   }: {
-    planID: string;
+    plan: ProductPlan;
     featureLabel: string;
     featureValue: UserValue;
   }) {
-    this.userSelection = merge(this.userSelection, { [planID]: { [featureLabel]: featureValue } });
-    this.fetchCosts();
+    // don’t re-render or emit event if value didn’t actually change
+    if (featureValue !== this.userSelection[plan.id][featureLabel]) {
+      this.userSelection = merge(this.userSelection, {
+        [plan.id]: { [featureLabel]: featureValue },
+      });
+      this.update.emit({
+        planID: plan.id,
+        planDisplayName: plan.displayName,
+        userSelection: this.userSelection[plan.id],
+      });
+      this.fetchCosts();
+    }
   }
 
-  displayConfigurable({ planID, feature }: { planID: string; feature: PlanConfigurableFeature }) {
+  displayConfigurable({ plan, feature }: { plan: ProductPlan; feature: PlanConfigurableFeature }) {
     switch (feature.type) {
       case PlanFeatureType.String: {
         return (
@@ -229,7 +259,7 @@ export class ManifoldPlanTable {
                 aria-labelledby={`feature-${feature.label}`}
                 onChange={(e) =>
                   this.setFeature({
-                    planID,
+                    plan,
                     featureLabel: feature.label,
                     featureValue: (e.target as HTMLInputElement).value,
                   })
@@ -252,7 +282,7 @@ export class ManifoldPlanTable {
         } = feature;
         const setFeature = (e: Event) =>
           this.setFeature({
-            planID,
+            plan,
             featureLabel: feature.label,
             featureValue: (e.target as HTMLInputElement).value,
           });
@@ -270,7 +300,7 @@ export class ManifoldPlanTable {
                 pattern="[0-9]*"
                 step={increment}
                 type="number"
-                value={(this.userSelection[planID][feature.label] as number) || min}
+                value={(this.userSelection[plan.id][feature.label] as number) || min}
               />
               <span class="ManifoldPlanTable__Input__Desc">
                 {min} – {max} {unit}
@@ -285,19 +315,19 @@ export class ManifoldPlanTable {
             <div class="ManifoldPlanTable__Toggle">
               <input
                 name={feature.label}
-                id={`feature-${planID}-${feature.label}`}
+                id={`feature-${plan.id}-${feature.label}`}
                 aria-labelledby={`feature-${feature.label}`}
                 type="checkbox"
                 onChange={(e) => {
                   this.setFeature({
-                    planID,
+                    plan,
                     featureLabel: feature.label,
                     featureValue: (e.target as HTMLInputElement).checked,
                   });
                 }}
                 value="on"
               />
-              <label htmlFor={`feature-${planID}-${feature.label}`}></label>
+              <label htmlFor={`feature-${plan.id}-${feature.label}`}></label>
             </div>
           </div>
         );
@@ -328,19 +358,19 @@ export class ManifoldPlanTable {
     ];
   }
 
-  onSubmit = (planId: string) => (e: Event) => {
-    if (!this.baseUrl) {
-      e.preventDefault();
-    }
+  onSubmit = (state: PlanTableEvent) => (e: Event) => {
+    e.preventDefault();
 
-    this.CTAClick.emit({ planId, selection: this.userSelection });
+    this.ctaClick.emit(state);
 
     this.connection.analytics.track({
       description: 'Track pricing matrix cta clicks',
       name: 'click',
       type: 'component-analytics',
       properties: {
-        planId,
+        planId: state.planID,
+        planDisplayName: state.planDisplayName,
+        userSelection: state.userSelection,
       },
     });
   };
@@ -405,7 +435,11 @@ export class ManifoldPlanTable {
             </div>,
             <form
               action={this.baseUrl}
-              onSubmit={this.onSubmit(plan.id)}
+              onSubmit={this.onSubmit({
+                planID: plan.id,
+                planDisplayName: plan.displayName,
+                userSelection: this.userSelection[plan.id],
+              })}
               class="ManifoldPlanTable__Plan__Form"
             >
               <input type="hidden" name="planId" value={plan.id} />
@@ -426,10 +460,7 @@ export class ManifoldPlanTable {
                   // configurable
                   if (feature && this.productFeatures.configurable[feature.label]) {
                     const configurableFeature = feature as PlanConfigurableFeature;
-                    return this.displayConfigurable({
-                      planID: plan.id,
-                      feature: configurableFeature,
-                    });
+                    return this.displayConfigurable({ plan, feature: configurableFeature });
                   }
 
                   // undefined / disabled feature
