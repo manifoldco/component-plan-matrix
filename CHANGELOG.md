@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- Adds `init` and `update` event hooks for users
+
 ### Changed
 
 - Updates Mercury design system
