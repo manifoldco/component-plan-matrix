@@ -13,15 +13,14 @@
   "unpkg": "dist/manifold-plan-table/manifold-plan-table.js",
   "license": "BSD 3-Clause",
   "scripts": {
-    "prebuild": "npm run version-from-git",
     "build": "stencil build",
-    "postbuild": "npm run format:changelog",
     "build:watch": "stencil build --watch",
+    "changelog:format": "npx keep-a-changelog",
+    "changelog:release": "node scripts/update-changelog",
     "clean-package-json": "node scripts/clean-package-json",
     "dev": "npm run build:watch & rm -rf dist loader && wait-on loader/index.cjs.js && npm run storybook",
-    "format:changelog": "npx keep-a-changelog && prettier CHANGELOG.md --write",
-    "generate:gql": "graphql-codegen --config codegen.yml",
     "generate": "stencil generate",
+    "generate:gql": "graphql-codegen --config codegen.yml",
     "happo": "npm run build && happo run",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint 'src/**/*.(css|scss)'",
@@ -32,7 +31,7 @@
     "test:watch": "stencil test --spec --watchAll",
     "test:debug": "node --inspect-brk node_modules/.bin/stencil test --spec --runInBand",
     "typecheck": "npm run generate:gql && tsc --noEmit",
-    "version-from-git": "node scripts/version-from-git"
+    "version": "node scripts/bump-version"
   },
   "dependencies": {},
   "devDependencies": {

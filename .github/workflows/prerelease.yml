@@ -7,16 +7,15 @@ on:
 
 jobs:
   npm:
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [13.x]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
       - run: npm install
+      - id: tag
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/v}
+      - run: npm run version -- ${{ steps.tag.outputs.TAG }}
+      - run: npm run changelog:release -- ${{ steps.tag.outputs.TAG }}
       - run: make package
       - run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc'
       - run: 'npm publish ./pkg --tag next'
