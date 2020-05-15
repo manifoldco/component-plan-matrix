@@ -51,17 +51,32 @@ const products = {
   Ziggeo: '234yycr3mf5f2hrw045vuxeatnd50',
 };
 
-storiesOf('Manifold Pricing', module)
+storiesOf('<manifold-plan-table>', module)
   .addDecorator(withKnobs)
   .addDecorator(withA11y)
-  .add('manifold-plan-table', () => {
-    const catalogProduct = select('Select from Catalog', products, products['JawsDB MySQL']);
-    const productId = text('Custom Product ID', ''); // Jaws DB
-    const clientId = text('Client ID', '234a33rd2pxfzq9qfk0v5qdrykhcp'); // ziggeo provider id
-    const cta = text('cta-text', 'Get Started');
-    const baseUrl = text('base-url', '/signup');
+  .add(
+    'loading',
+    () =>
+      `<manifold-init client-id="234a33rd2pxfzq9qfk0v5qdrykhcp"></manifold-init><manifold-plan-table product-id=""></manifold-plan-table>`
+  )
+  .add(
+    'mocked',
+    () =>
+      `<manifold-init client-id="234a33rd2pxfzq9qfk0v5qdrykhcp"></manifold-init><manifold-plan-table preview></manifold-plan-table>`
+  )
+  .add(
+    'live',
+    () => {
+      const catalogProduct = select('Select from Catalog', products, products['JawsDB MySQL']);
+      const productId = text('Custom Product ID', ''); // Jaws DB
+      const clientId = text('Client ID', '234a33rd2pxfzq9qfk0v5qdrykhcp'); // ziggeo provider id
+      const cta = text('cta-text', 'Get Started');
+      const baseUrl = text('base-url', '/signup');
 
-    return `<manifold-init client-id="${clientId}"></manifold-init>
-    <manifold-plan-table client-id="${clientId}" product-id="${productId ||
-      catalogProduct}" base-url="${baseUrl}" cta-text="${cta}"></manifold-plan-table>`;
-  });
+      return `<manifold-init client-id="${clientId}"></manifold-init>
+    <manifold-plan-table client-id="${clientId}" product-id="${
+        productId || catalogProduct
+      }" base-url="${baseUrl}" cta-text="${cta}"></manifold-plan-table>`;
+    },
+    { percy: { skip: true } } // skip from Percy screenshots
+  );

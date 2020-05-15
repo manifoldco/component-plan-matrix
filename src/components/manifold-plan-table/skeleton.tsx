@@ -19,7 +19,10 @@ const SkeletonLoader: FunctionalComponent = () => (
       data-row-first
     ></div>
     {Array.from(new Array(DEFAULT_FEATURES)).map(() => (
-      <div class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH">
+      <div
+        class="ManifoldPlanTable__Cell ManifoldPlanTable__Cell--Sticky ManifoldPlanTable__Cell--TH"
+        data-column-first
+      >
         <div class="ManifoldPlanTable__Skeleton">
                                                         
         </div>

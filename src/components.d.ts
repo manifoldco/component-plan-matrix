@@ -7,12 +7,31 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface ManifoldPlanTable {
+        /**
+          * Base url for buttons
+         */
         "baseUrl"?: string;
+        /**
+          * Passed client ID header to the graphql calls
+         */
         "clientId"?: string;
+        /**
+          * CTA Text for buttons
+         */
         "ctaText"?: string;
         "env"?: "stage" | "local" | "prod";
         "gatewayUrl"?: string;
+        /**
+          * Preview mode
+         */
+        "preview"?: boolean;
+        /**
+          * Passed product ID to the graphql endpoint
+         */
         "productId"?: string;
+        /**
+          * Version label for specifiying which verison of product to display.
+         */
         "version"?: string;
     }
 }
@@ -29,15 +48,34 @@ declare global {
 }
 declare namespace LocalJSX {
     interface ManifoldPlanTable {
+        /**
+          * Base url for buttons
+         */
         "baseUrl"?: string;
+        /**
+          * Passed client ID header to the graphql calls
+         */
         "clientId"?: string;
+        /**
+          * CTA Text for buttons
+         */
         "ctaText"?: string;
         "env"?: "stage" | "local" | "prod";
         "gatewayUrl"?: string;
         "onCtaClick"?: (event: CustomEvent<PlanTableEvent>) => void;
         "onInit"?: (event: CustomEvent<PlanTableInit>) => void;
         "onUpdate"?: (event: CustomEvent<PlanTableEvent>) => void;
+        /**
+          * Preview mode
+         */
+        "preview"?: boolean;
+        /**
+          * Passed product ID to the graphql endpoint
+         */
         "productId"?: string;
+        /**
+          * Version label for specifiying which verison of product to display.
+         */
         "version"?: string;
     }
     interface IntrinsicElements {
