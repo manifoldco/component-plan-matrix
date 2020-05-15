@@ -14,6 +14,7 @@
   "license": "BSD 3-Clause",
   "scripts": {
     "build": "stencil build",
+    "build-storybook": "npm run build && build-storybook",
     "build:watch": "stencil build --watch",
     "changelog:format": "changelog",
     "changelog:release": "node scripts/update-changelog",
@@ -32,9 +33,12 @@
     "test:watch": "stencil test --spec --watchAll",
     "test:debug": "node --inspect-brk node_modules/.bin/stencil test --spec --runInBand",
     "typecheck": "npm run generate:gql && tsc --noEmit",
-    "version": "node scripts/bump-version"
+    "version": "node scripts/bump-version",
+    "vrt": "npm run build-storybook && percy-storybook"
   },
-  "dependencies": {},
+  "dependencies": {
+    "deepmerge": "^4.2.2"
+  },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.13.1",
     "@graphql-codegen/typescript": "^1.13.1",
@@ -43,6 +47,7 @@
     "@manifoldco/manifold-init": "^0.7.5",
     "@manifoldco/manifold-init-types": "^0.7.5",
     "@manifoldco/mercury": "^0.2.2",
+    "@percy/storybook": "^3.3.0",
     "@rollup/plugin-replace": "^2.3.1",
     "@stencil/core": "^1.13.0",
     "@stencil/postcss": "^1.0.1",
@@ -54,9 +59,8 @@
     "@types/jest": "^25.2.2",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "cssnano": "^4.1.10",
-    "deepmerge": "^4.2.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.10.0",
@@ -65,8 +69,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "fetch-mock": "^9.1.1",
     "graphql": "^14.6.0",
-    "happo-plugin-typescript": "^1.0.0",
-    "happo.io": "^5.1.5",
     "jest": "^26.0.1",
     "jest-cli": "^26.0.1",
     "keep-a-changelog": "^0.10.1",
@@ -77,7 +79,6 @@
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^20.0.0",
-    "ts-loader": "^7.0.0",
     "wait-on": "^5.0.0"
   },
   "peerDependencies": {

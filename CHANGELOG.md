@@ -7,6 +7,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
+- `preview` mode for loading mocked data
+
+### Fixed
+- `deepmerge` dependency missing which caused errors
+- Default Button styling improved
+- Input width made consistent
+- Loading state styling improved
+
+## [0.4.0] - 2020-05-15
+### Added
 - Adds `init` and `update` event hooks for users
 
 ### Changed
@@ -38,7 +48,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/manifoldco/manifold-plan-table/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/manifoldco/manifold-plan-table/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/manifoldco/manifold-plan-table/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/manifoldco/manifold-plan-table/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/manifoldco/manifold-plan-table/compare/v0.0.16...v0.2.0
 [0.0.16]: https://github.com/manifoldco/manifold-plan-table/compare/v0.0.1...v0.0.16

@@ -70,31 +70,34 @@ export class ManifoldPlanTable {
   @Event({ bubbles: false }) ctaClick: EventEmitter<PlanTableEvent>;
   @Event({ bubbles: false }) init: EventEmitter<PlanTableInit>;
   @Event({ bubbles: false }) update: EventEmitter<PlanTableEvent>;
-  // Passed product ID to the graphql endpoint
+  /** Passed product ID to the graphql endpoint */
   @Prop() productId?: string;
-  // Passed client ID header to the graphql calls
+  /** Passed client ID header to the graphql calls */
   @Prop() clientId?: string = '';
-  // Base url for buttons
+  /** Base url for buttons */
   @Prop() baseUrl?: string;
   @Prop() gatewayUrl?: string;
-  // CTA Text for buttons
+  /** CTA Text for buttons */
   @Prop() ctaText?: string = 'Get Started';
   @Prop() env?: 'stage' | 'local' | 'prod' = 'stage';
-  // Version label for specifiying which verison of product to display.
+  /** Preview mode */
+  @Prop() preview?: boolean;
+  /** Version label for specifiying which verison of product to display. */
   @Prop() version?: string;
-  // Product data
+  /** Product data */
   @State() product?: ProductQuery['product'];
-  // Product features
+  /** Product features */
   @State() productFeatures: ProductFeatures = { fixed: {}, metered: {}, configurable: {} };
-  // Plan costs
+  /** Plan costs */
   @State() planCosts: { [planID: string]: number };
-  // Plan features
+  /** Plan features */
   @State() planFeatures: PlanFeatures = {};
-  // User selection
+  /** User selection */
   @State() userSelection: UserSelection = {};
-  @Watch('productId') refetchProduct(newVal?: string) {
-    if (newVal) {
-      this.setupProduct(newVal);
+
+  @Watch('productId') refetchProduct(newVal?: string, oldVal?: string) {
+    if (newVal && newVal !== oldVal) {
+      this.fetchProduct(newVal);
     }
   }
 
@@ -107,6 +110,16 @@ export class ManifoldPlanTable {
 
   @loadMark()
   async componentWillLoad() {
+    // preview mode
+    if (this.preview) {
+      // async import mock data so that we don’t load 7KB unnecessarily
+      const mockProduct = await import('./mock-jawsdbmysql');
+      if (mockProduct) {
+        this.setupProduct(JSON.parse(mockProduct.default));
+      }
+      return;
+    }
+
     await customElements.whenDefined('manifold-init');
     const core = document.querySelector('manifold-init') as HTMLManifoldInitElement;
     this.connection = await core.initialize({
@@ -119,12 +132,11 @@ export class ManifoldPlanTable {
     }
     if (this.productId) {
       // Note: we could warn here if product-id is missing, but let’s not. In some front-end frameworks it may be set a half-second after it loads
-      this.setupProduct(this.productId);
+      this.fetchProduct(this.productId);
     }
   }
 
-  // trying to move fetch out for testing.
-  async setupProduct(productID: string) {
+  async fetchProduct(productID: string): Promise<void> {
     const variables: ProductQueryVariables = {
       id: productID,
       latest: this.version === LATEST_VERSION_FLAG,
@@ -132,23 +144,29 @@ export class ManifoldPlanTable {
     const res = await this.connection.graphqlFetch<ProductQuery>({ query, variables });
     const { data } = res;
 
-    if (!data || !data.product) {
+    if (data && data.product) {
+      this.setupProduct(data.product);
+    }
+  }
+
+  setupProduct(product: ProductQuery['product'] | undefined) {
+    if (!product) {
       return;
     }
 
     // save result to state
-    this.product = data.product;
+    this.product = product;
 
     // create map of all product features in fixed / metered / configurable order
-    const fixed = data.product.fixedFeatures.edges.reduce(
+    const fixed = product.fixedFeatures.edges.reduce(
       (features, { node }) => ({ ...features, [node.label]: node }),
       {}
     );
-    const metered = data.product.meteredFeatures.edges.reduce(
+    const metered = product.meteredFeatures.edges.reduce(
       (features, { node }) => ({ ...features, [node.label]: node }),
       {}
     );
-    const configurable = data.product.configurableFeatures.edges.reduce(
+    const configurable = product.configurableFeatures.edges.reduce(
       (features, { node }) => ({ ...features, [node.label]: node }),
       {}
     );
@@ -161,7 +179,7 @@ export class ManifoldPlanTable {
     const userSelection: UserSelection = {};
 
     // iterate through plans to gather costs, features, and configurable feature defaults
-    data.product.plans.edges.forEach(({ node: plan }) => {
+    product.plans.edges.forEach(({ node: plan }) => {
       // add cost to map
       planCosts[plan.id] = plan.cost;
       // add features to map
