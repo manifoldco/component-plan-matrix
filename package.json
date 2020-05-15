@@ -1,6 +1,6 @@
 {
   "name": "@manifoldco/manifold-plan-table",
-  "version": "0.0.14",
+  "version": "0.3.0",
   "private": false,
   "description": "Stencil Component Starter",
   "main": "dist/index.js",
@@ -13,10 +13,10 @@
   "unpkg": "dist/manifold-plan-table/manifold-plan-table.js",
   "license": "BSD 3-Clause",
   "scripts": {
-    "prebuild": "npm run version-from-git",
     "build": "stencil build",
-    "postbuild": "npm run format:changelog",
     "build:watch": "stencil build --watch",
+    "changelog:format": "changelog",
+    "changelog:release": "node scripts/update-changelog",
     "clean-package-json": "node scripts/clean-package-json",
     "dev": "npm run build:watch & rm -rf dist loader && wait-on loader/index.cjs.js && npm run storybook",
     "format:changelog": "npx keep-a-changelog && prettier CHANGELOG.md --write",
@@ -32,7 +32,7 @@
     "test:watch": "stencil test --spec --watchAll",
     "test:debug": "node --inspect-brk node_modules/.bin/stencil test --spec --runInBand",
     "typecheck": "npm run generate:gql && tsc --noEmit",
-    "version-from-git": "node scripts/version-from-git"
+    "version": "node scripts/bump-version"
   },
   "dependencies": {},
   "devDependencies": {
@@ -69,6 +69,7 @@
     "happo.io": "^5.1.5",
     "jest": "24.9.0",
     "jest-cli": "24.9.0",
+    "keep-a-changelog": "^0.10.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.2",
     "rollup-pluginutils": "^2.8.2",
