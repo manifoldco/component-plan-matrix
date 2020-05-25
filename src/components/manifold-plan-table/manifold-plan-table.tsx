@@ -321,7 +321,7 @@ export class ManifoldPlanTable {
                 value={(this.userSelection[plan.id][feature.label] as number) || min}
               />
               <span class="ManifoldPlanTable__Input__Desc">
-                {min} – {max} {unit}
+                {min} – {max === -1 ? '∞' : max} {unit}
               </span>
             </div>
           </div>
