@@ -14,6 +14,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Default Button styling improved
 - Input width made consistent
 - Loading state styling improved
+- Redirect to `base-url` on CTA click if one is specified.
 
 ## [0.4.0] - 2020-05-15
 ### Added
