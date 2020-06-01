@@ -377,7 +377,9 @@ export class ManifoldPlanTable {
   }
 
   onSubmit = (state: PlanTableEvent) => (e: Event) => {
-    e.preventDefault();
+    if (!this.baseUrl || this.baseUrl === '#') {
+      e.preventDefault();
+    }
 
     this.ctaClick.emit(state);
 
