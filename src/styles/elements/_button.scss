@@ -30,4 +30,10 @@ $name: '' !default;
   &:hover {
     background: rgba(mercury.$color-blue, 0.85);
   }
+
+  &:disabled {
+    color: mercury.$color-gray;
+    background: mercury.$color-white;
+    border: 1px solid mercury.$color-gray;
+  }
 }
